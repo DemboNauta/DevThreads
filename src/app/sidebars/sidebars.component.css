@@ -1,0 +1,17 @@
+.nav-link{
+    color: white;
+    transition: all 0.2s linear;
+}
+.nav-link:hover{
+    transform: scale(1.1);
+}
+
+@media(max-width: 935px){
+    .nav-item a span{
+        display: none;
+    }
+}
+
+main{
+    background-color: #1d2124;
+}
