@@ -1,0 +1,11 @@
+<div class="text-white">
+  @for(tweet of tweetList; track tweet.tweet_id){
+    <div class="border border-white mb-4 p-5">
+      <h4>{{tweet.username}}</h4>
+      <p>{{tweet.tweet_text}}</p>
+      <span>Likes: {{tweet.num_likes}}</span> Retweets: <span>{{tweet.num_retweets}}</span>
+    </div>
+    
+  }
+    <hr>
+  </div>

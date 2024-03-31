@@ -1,12 +1,14 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import {ListaTweetsComponent} from './lista-tweets/lista-tweets.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
   templateUrl: './main.component.html',
+  imports: [ListaTweetsComponent],
   styleUrls: ['./main.component.css']
 })
-export class MainComponent {
+export class MainComponent{
   numCar: number = 0;
   estiloBorde:string = "";
   colorCar: string = "white";
