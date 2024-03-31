@@ -6,7 +6,7 @@ Este proyecto está siendo realizado con Angular17 como framework frontend
 
 Ejecuta `ng serve` para iniciar un servidor de desarrollo. Navega a http://localhost:4200/. La aplicación se recargará automáticamente si cambias alguno de los archivos fuente.
 
-AVISO IMPORTANTE: SI QUIERES REPRODUCIR EL PROYECTO TEN ENCUENTA QUE NECESITARÁS LEVANTAR UN SERVIDOR APACHE (O SIMILAR) CUYO DOCUMENTROOT SEA LA CARPETA [**backend**] DEL PROYECTO
+AVISO IMPORTANTE: SI QUIERES REPRODUCIR EL PROYECTO TEN ENCUENTA QUE NECESITARÁS LEVANTAR UN SERVIDOR APACHE (O SIMILAR) CUYO DOCUMENTROOT SEA LA CARPETA `[**BACKEND**]` DEL PROYECTO
 
 
 ## Code scaffolding
