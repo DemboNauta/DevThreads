@@ -64,6 +64,7 @@ export class TweetFormComponent {
          next: (tweet: any)=>{
            console.log('Tweet subido correctamente');
            this.tweetEventService.emitTweetAdded(tweet);
+           this.contenidoTweet= '';
          },
          error: (err)=>{
            console.log("Error al subir el tweet", err);
