@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TweetsService } from '../../../services/tweets.service';
+import { TweetsService } from '../../services/tweets.service';
 import { ListaInterface } from '../interfaces/lista.interface';
 
 @Component({
@@ -28,13 +28,5 @@ export class ListaTweetsComponent implements OnInit {
       }
     })
   }
-  // getTweets()({
-  //   this.tweetsService.getTweets().subscribe({
-  //   next: (tweets: any[]) => {
-  //     this.tweets = tweets;
-  //   },
-  //   error: (error) => {
-  //     console.error('Error al obtener los tweets:', error);
-  //   }
-  // });
+
 }

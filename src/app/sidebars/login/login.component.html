@@ -1,0 +1,24 @@
+<ng-template #loginModal let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Iniciar sesión en Twitter</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<!-- Formulario de inicio de sesión -->
+		<form action="#" method="POST">
+			<div class="form-group">
+				<label for="username">Nombre de usuario</label>
+				<input type="text" class="form-control" id="username" placeholder="Introduce tu nombre de usuario">
+			</div>
+			<div class="form-group">
+				<label for="password">Contraseña</label>
+				<input type="password" class="form-control" id="password" placeholder="Introduce tu contraseña">
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Iniciar sesión</button>
+	</div>
+</ng-template>
+
+<button class="btn btn-light" (click)="open(loginModal)">Iniciar sesión</button>

@@ -279,3 +279,37 @@ VALUES
 (2,17),
 (5,15);
 
+CREATE TABLE direct_messages (
+    message_id INT AUTO_INCREMENT,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    message_text VARCHAR(255) NOT NULL,
+    sent_at TIMESTAMP NOT NULL DEFAULT (NOW()),
+    FOREIGN KEY (sender_id) REFERENCES users(user_id),
+    FOREIGN KEY (receiver_id) REFERENCES users(user_id),
+    PRIMARY KEY (message_id)
+);
+
+CREATE TABLE retweet_relationships (
+    retweet_id INT AUTO_INCREMENT,
+    original_tweet_id INT NOT NULL,
+    retweeter_id INT NOT NULL,
+    FOREIGN KEY (original_tweet_id) REFERENCES tweets(tweet_id),
+    FOREIGN KEY (retweeter_id) REFERENCES users(user_id),
+    PRIMARY KEY (retweet_id)
+);
+
+CREATE TABLE tweet_reports (
+    report_id INT AUTO_INCREMENT,
+    tweet_id INT NOT NULL,
+    reporter_id INT NOT NULL,
+    report_reason VARCHAR(255) NOT NULL,
+    reported_at TIMESTAMP NOT NULL DEFAULT (NOW()),
+    FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id),
+    FOREIGN KEY (reporter_id) REFERENCES users(user_id),
+    PRIMARY KEY (report_id)
+);
+
+
+
+

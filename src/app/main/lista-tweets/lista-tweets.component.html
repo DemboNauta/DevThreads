@@ -1,11 +1,11 @@
-<div class="text-white">
+<div class="text-white" id="contenido">
   @for(tweet of tweetList; track tweet.tweet_id){
     <div class="border border-white mb-4 p-5">
       <h4>{{tweet.username}}</h4>
       <p>{{tweet.tweet_text}}</p>
-      <span>Likes: {{tweet.num_likes}}</span> Retweets: <span>{{tweet.num_retweets}}</span>
+      <span class="me-4"><a href="" class="text-white"><i class="bi bi-heart"></i></a> {{tweet.num_likes}}</span>  <span class="me-4"><a href="" class="text-white"><i class="bi bi-bug"></i></a> {{tweet.num_retweets}}</span> <span><a href="" class="text-white"><i class="bi bi-chat-dots"></i></a> {{tweet.comments}}</span> <span><a href="" class="text-white"><i class="bi bi-share ms-4"></i></a></span>
     </div>
     
   }
     <hr>
-  </div>
+</div>

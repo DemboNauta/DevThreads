@@ -1,0 +1,43 @@
+
+#userPost {
+    resize: none;
+    background-color: #1a1d1f;
+    color: white;
+    border-radius: 4px;
+    padding: 5px;
+    border: none;
+    width: 100%;
+    height: 150px;
+}
+
+#contenedorTextArea {
+    background-color: #1a1d1f;
+    border-radius: 4px;
+    padding: 5px;
+    border: 1px solid transparent;
+    width: 50%;
+}
+
+#userPost:focus-visible {
+    outline: none;
+    
+}
+#userPost:focus-visible #contenedorTextArea{
+        color: red;
+} 
+
+
+::placeholder{
+    color: rgba(255, 255, 255, 0.651);
+}
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+ }
+
+#caracteres{
+    display: inline-block;
+    width: 116px;
+}

@@ -1,0 +1,22 @@
+<div id="userdata" class=" d-flex justify-content-center align-items-center mt-4">
+    <img [src]="'/assets/img/Default.webp'" alt="userAvatar" class="avatar me-2">
+    <span id="nombreUsuario" class="text-white">NombreUsuario</span>
+</div>
+
+<div>
+    <form action="#" method="POST" class="w-100">
+        <div class="w-100 d-flex justify-content-center">
+            <div id="contenedorTextArea" class="mt-4" [style.border]="estiloBorde">
+                <textarea name="userPost" id="userPost"  class="mt-4 mb-2 border-0" placeholder="¡¡ Angular > React !!"(keyup)="actualizaNumCar($event)" (focus)="focusTextArea()" (blur)="blurTextArea()" maxlength="219" minlength="0" [(ngModel)]="contenidoTweet"></textarea>
+                <br>
+                <div class="d-flex justify-content-end">
+                    <span id="caracteres" class="me-2 pe-2" [style.color]="colorCar">Caracteres: <span id="numCar">{{ numCar }}</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-2">
+            <input type="submit" value="Enviar!!" class="btn btn-dark border-white" (click)="postTweet($event)">
+        </div>
+    </form>
+
+</div>

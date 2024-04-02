@@ -1,6 +1,7 @@
 <?php
 
-// Conexión a la base de datos
+
+
 $mysqli = new mysqli("localhost", "root", "1234", "devthreads_db");
 
 // Verificar la conexión
@@ -11,7 +12,7 @@ if ($mysqli->connect_errno) {
 
 // Consulta para obtener los tweets
 $query = "SELECT tweets.*, users.user_name AS username, tweets.num_likes AS likes, 
-          tweets.num_retweets AS retweets, tweets.created_at AS creacion
+          tweets.num_retweets AS retweets, tweets.created_at AS creacion, tweets.num_comments as comments
           FROM tweets
           JOIN users ON tweets.user_id = users.user_id
           GROUP BY tweets.tweet_id
@@ -32,4 +33,4 @@ echo json_encode($tweets);
 // Cerrar la conexión
 $mysqli->close();
 
-?>
+

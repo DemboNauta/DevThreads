@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MainComponent } from '../main/main.component';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -7,7 +8,7 @@ import { MainComponent } from '../main/main.component';
   selector: 'app-sidebars',
   standalone: true,
   templateUrl: './sidebars.component.html',
-  imports: [MainComponent],
+  imports: [MainComponent, LoginComponent],
   styleUrl: './sidebars.component.css'
 })
 export class SidebarsComponent {

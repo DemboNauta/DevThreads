@@ -9,5 +9,6 @@ export interface ListaInterface {
     username: string; 
     likes: string;
     retweets: string;
+    comments: string;
     creacion: string;
 }
