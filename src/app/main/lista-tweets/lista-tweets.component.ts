@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { TweetsService } from '../../services/tweets.service';
+import { TweetEventService } from '../../services/tweet-event.service';
 import { ListaInterface } from '../interfaces/lista.interface';
 
 @Component({
@@ -9,13 +11,15 @@ import { ListaInterface } from '../interfaces/lista.interface';
   templateUrl: './lista-tweets.component.html',
   styleUrl: './lista-tweets.component.css'
 })
-export class ListaTweetsComponent implements OnInit {
+export class ListaTweetsComponent implements OnInit, OnDestroy {
   tweetList: ListaInterface[] = [];
+  private tweetAddedSubscription: Subscription= new Subscription;
 
-  constructor(private tweetsService: TweetsService) {}
+  constructor(private tweetsService: TweetsService, private tweetEventService: TweetEventService) {}
 
   ngOnInit(): void {
     this.getTweets();
+    this.subscribeToTweetAdded();
   }
 
   getTweets(){
@@ -28,5 +32,17 @@ export class ListaTweetsComponent implements OnInit {
       }
     })
   }
+
+  private subscribeToTweetAdded() {
+    this.tweetAddedSubscription = this.tweetEventService.tweetAdded$.subscribe(tweet => {
+      // Agregar el nuevo tweet a la lista de tweets
+      this.getTweets();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.tweetAddedSubscription.unsubscribe();
+  }
+  
 
 }

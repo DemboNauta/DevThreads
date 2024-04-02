@@ -1,6 +1,9 @@
 import { Component} from '@angular/core';
 import { TweetsUploadService } from '../../services/tweet-upload.service';
 import { FormsModule } from '@angular/forms';
+import { TweetEventService } from '../../services/tweet-event.service';
+import { ListaInterface } from '../interfaces/lista.interface';
+
 
 
 @Component({
@@ -15,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 
 export class TweetFormComponent {
   
-  constructor(private tweetsUploadService: TweetsUploadService) { }
+  constructor(private tweetsUploadService: TweetsUploadService, private tweetEventService: TweetEventService) { }
 
   numCar: number = 0;
   estiloBorde:string = "";
@@ -53,16 +56,20 @@ export class TweetFormComponent {
 
   postTweet(ev:Event){
     ev.preventDefault();
-    const tweetData = { nuevoTweet: this.contenidoTweet }; // Formato correcto de los datos
+    if(this.contenidoTweet!=''){
+      const tweetData = { nuevoTweet: this.contenidoTweet };
 
-    console.log(tweetData);
-     this.tweetsUploadService.postTweet(tweetData).subscribe({
-       next: ()=>{
-         console.log('Tweet subido correctamente');
-       },
-       error: (err)=>{
-         console.log("Error al subir el tweet", err);
-       }
-     });
+      console.log(tweetData);
+       this.tweetsUploadService.postTweet(tweetData).subscribe({
+         next: (tweet: any)=>{
+           console.log('Tweet subido correctamente');
+           this.tweetEventService.emitTweetAdded(tweet);
+         },
+         error: (err)=>{
+           console.log("Error al subir el tweet", err);
+         }
+       });
+    }
+    
   }
 }
