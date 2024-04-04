@@ -3,7 +3,7 @@ CREATE DATABASE devthreads_db;
 USE devthreads_db;
 
 CREATE TABLE IF NOT EXISTS users (
-	user_id INT AUTO_INCREMENT,
+    user_id INT AUTO_INCREMENT,
     user_name VARCHAR(50) NOT NULL UNIQUE,
     email_address VARCHAR(50) NOT NULL UNIQUE,
     first_name VARCHAR(100) NOT NULL,
@@ -11,19 +11,24 @@ CREATE TABLE IF NOT EXISTS users (
     phonenumber CHAR(10) UNIQUE,
     follower_count INT NOT NULL DEFAULT 0,
     following_count INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP NOT NULL DEFAULT (NOW()),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    password VARCHAR(255) NOT NULL, 
     PRIMARY KEY(user_id)
 );
-INSERT INTO users (user_name, email_address, first_name, last_name, phonenumber)
-VALUES
-('edgarKNG', 'edgarmila_10@outlook.com', 'Edgar', 'Milá', '677127402'),
-('mariaL', 'marialopez@gmail.com', 'Maria', 'Lopez', '555123456'),
-('juanP', 'juanperez@yahoo.com', 'Juan', 'Perez', '555987654'),
-('lauraM', 'lauramartinez@hotmail.com', 'Laura', 'Martinez', '555246813'),
-('carlaroyuela21', 'carlacruzz03@hotmail.com', 'Carla', 'de la Cruz', '6193245781'),
-('anaS', 'anasanchez@outlook.com', 'Ana', 'Sanchez', '555135790'),
-('joseA', 'josealvarez@gmail.com', 'Jose', 'Alvarez', '555777888'),
-('luisG', 'luisgarcia@yahoo.com', 'Luis', 'Garcia', '555666999');
+
+
+INSERT INTO users (user_name, email_address, first_name, last_name, phonenumber, password)
+VALUES 
+    ('edgarKNG', 'edgarmila_10@outlook.com', 'Edgar', 'Milá', '677127402',  MD5('1234')),
+    ('mariaL', 'marialopez@gmail.com', 'Maria', 'Lopez', '555123456', MD5('password456')),
+    ('juanP', 'juanperez@yahoo.com', 'Juan', 'Perez', '555987654', MD5('password789')),
+    ('lauraM', 'lauramartinez@hotmail.com', 'Laura', 'Martinez', '555246813', MD5('passwordabc')),
+    ('carlaroyuela21', 'carlacruzz03@hotmail.com', 'Carla', 'de la Cruz', '6193245781', MD5('passworddef')),
+    ('anaS', 'anasanchez@outlook.com', 'Ana', 'Sanchez', '555135790', MD5('passwordghi')),
+    ('joseA', 'josealvarez@gmail.com', 'Jose', 'Alvarez', '555777888', MD5('passwordjkl')),
+    ('luisG', 'luisgarcia@yahoo.com', 'Luis', 'Garcia', '555666999', MD5('passwordmno'));
+
+
 
 
 CREATE TABLE IF NOT EXISTS followers (

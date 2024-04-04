@@ -1,8 +1,11 @@
-import { Component} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { TweetsUploadService } from '../../services/tweet-upload.service';
 import { FormsModule } from '@angular/forms';
 import { TweetEventService } from '../../services/tweet-event.service';
-import { ListaInterface } from '../interfaces/lista.interface';
+import { DataService } from '../../services/user-data.service';
+import {User} from '../interfaces/user.interface'
+
+
 
 
 
@@ -16,9 +19,15 @@ import { ListaInterface } from '../interfaces/lista.interface';
 
 
 
-export class TweetFormComponent {
+export class TweetFormComponent implements OnInit{
+
+  @Input() loggedInUser: User = {};
+
   
-  constructor(private tweetsUploadService: TweetsUploadService, private tweetEventService: TweetEventService) { }
+
+  username:string='UsuarioNoRegistrado';
+  
+  constructor(private tweetsUploadService: TweetsUploadService, private tweetEventService: TweetEventService, private dataService: DataService) { }
 
   numCar: number = 0;
   estiloBorde:string = "";
@@ -28,7 +37,6 @@ export class TweetFormComponent {
     if(this.numCar<=0){
       this.numCar=1;
     }
-
     const target = e.target as HTMLTextAreaElement;
     this.numCar = target.value.length;
 
@@ -57,7 +65,7 @@ export class TweetFormComponent {
   postTweet(ev:Event){
     ev.preventDefault();
     if(this.contenidoTweet!=''){
-      const tweetData = { nuevoTweet: this.contenidoTweet };
+      const tweetData = { nuevoTweet: this.contenidoTweet, userID: this.loggedInUser.user_id};
 
       console.log(tweetData);
        this.tweetsUploadService.postTweet(tweetData).subscribe({
@@ -65,6 +73,7 @@ export class TweetFormComponent {
            console.log('Tweet subido correctamente');
            this.tweetEventService.emitTweetAdded(tweet);
            this.contenidoTweet= '';
+           this.numCar=0;
          },
          error: (err)=>{
            console.log("Error al subir el tweet", err);
@@ -73,4 +82,20 @@ export class TweetFormComponent {
     }
     
   }
-}
+  ngOnInit(): void {
+    this.dataService.loggedInUser$.subscribe(user => {
+      if (user) {
+        this.setLoggedInUser(user);
+      }
+    });
+  }
+
+  setLoggedInUser(user: User): void {
+    this.loggedInUser = user;
+    this.username = user.user_name ?? 'UsuarioNoRegistrado';
+
+  }
+      
+    
+  }
+

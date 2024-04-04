@@ -16,7 +16,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 if(isset($data['nuevoTweet'])) {
     
     $tweetText = $data['nuevoTweet'];
-    $userID = 1; // Cambiar esto por el ID real del usuario
+    $userID = $data['userID']; 
 
     try {
         $stmt = $mysqli->prepare("INSERT INTO tweets (user_id, tweet_text) VALUES (?, ?)");
