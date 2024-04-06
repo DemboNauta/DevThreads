@@ -17,7 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Realizamos la consulta para obtener los datos del usuario
 
-    $query = "SELECT * FROM users WHERE user_name = ?";
+    $query = "SELECT users.*, userImages.image AS user_image
+              FROM users 
+              LEFT JOIN userImages ON users.user_id = userImages.user_id 
+              WHERE users.user_name = ?";
     $stmt = $mysqli->prepare($query);
     $stmt->bind_param("s", $username);
     $stmt->execute();

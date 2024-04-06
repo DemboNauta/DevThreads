@@ -17,7 +17,6 @@ export class MainComponent  {
 
   constructor(private dataService: DataService) {}
   ngOnInit() {
-    
     this.dataService.loggedInUser$.subscribe(user => {
       this.loggedInUser = user;
       if (this.loggedInUser && this.loggedInUser.user_name) {
@@ -25,11 +24,6 @@ export class MainComponent  {
       }
 
     });
-    
-
-      
-      
-    
   }
 
 }

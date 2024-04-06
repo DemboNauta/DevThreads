@@ -62,7 +62,16 @@ export class LoginComponent {
 		});
 	}
 
-	
+	imageToBlob(blob:any): Promise<string>{
+		return new Promise((resolve, reject) =>{
+			const reader = new FileReader();
+			reader.readAsDataURL(blob);
+			reader.onloadend= () =>{
+				let resultado= reader.result as string;
+				resolve(resultado.split(',')[1] as string);
+			};
+		})
+	}
 	register(ev: Event): void {
 		ev.preventDefault();
 		const userNameRegister = (document.getElementById('userNameRegister') as HTMLInputElement).value;
@@ -72,8 +81,8 @@ export class LoginComponent {
 		const phoneNumber = (document.getElementById('phoneNumber') as HTMLInputElement).value;
 		const passwordRegister = (document.getElementById('passwordRegister') as HTMLInputElement).value;
 		const confirmPassword = (document.getElementById('confirmPassword') as HTMLInputElement).value;
-		const profileImage = (document.getElementById('profileImage') as HTMLInputElement).value;
-
+		const profileImage = (document.getElementById('profileImage') as HTMLInputElement);
+	
 		const registerData = new FormData();
 		registerData.append('userName', userNameRegister);
 		registerData.append('email', email);
@@ -82,26 +91,33 @@ export class LoginComponent {
 		registerData.append('phoneNumber', phoneNumber);
 		registerData.append('password', passwordRegister);
 		registerData.append('confirmPassword', confirmPassword);
-		registerData.append('profileImage', profileImage);
-
-		console.log('Datos de registro:', registerData);
-		this.registerService.registerUser(registerData).subscribe({
-			next: (response) => {
-			  console.log('Validación de registro:', response);
-			  if(response.success){
-				  console.log("Usuario registrado correctamente")
-				  this.modalService.dismissAll();
-			  }
-			},
-			error: (error) => {
-			  console.error('Error en el registro de usuario', error);
-			}
-		  });
-		
-	  }
+		const imageFile = profileImage?.files ? profileImage.files[0] : null;
+		if (imageFile) {
+			this.imageToBlob(imageFile)
+				.then((blob) => {
+					console.log(blob);
+					registerData.append('profileImage', blob);
 	
-	  handleFileInput(event: any): void {
-		// Aquí puedes implementar la lógica para manejar la selección de archivos
-		console.log('Archivo seleccionado:', event.target.files[0]);
-	  }
+					// Aquí va la lógica de registro dentro del then
+					console.log('Datos de registro:', registerData);
+					this.registerService.registerUser(registerData).subscribe({
+						next: (response) => {
+							console.log('Validación de registro:', response);
+							if (response.success) {
+								console.log("Usuario registrado correctamente");
+								this.modalService.dismissAll();
+							}
+						},
+						error: (error) => {
+							console.error('Error en el registro de usuario', error);
+						}
+					});
+				})
+				.catch((error) => {
+					console.error('Error al convertir la imagen en Blob:', error);
+				});
+		} else {
+			console.warn('No se seleccionó ninguna imagen.');
+		}
+	}
 }

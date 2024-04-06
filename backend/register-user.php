@@ -17,30 +17,9 @@ $email = $_POST['email'];
 $firstName = $_POST['firstName'];
 $lastName = $_POST['lastName'];
 $phoneNumber = $_POST['phoneNumber'];
-$password = md5($_POST['password']); // Recuerda siempre cifrar la contraseña
+$password = md5($_POST['password']);
 
-// Procesar el archivo de imagen de perfil
-// $profileImage = $_POST['profileImage'];
-// $profileImagePath = ''; // Aquí almacenarás la ruta del archivo de imagen en tu servidor
 
-// Si se cargó un archivo de imagen
-// if ($profileImage['error'] === UPLOAD_ERR_OK) {
-//     $uploadDir = 'uploads/'; // Directorio donde se guardarán las imágenes
-//     $uploadPath = $uploadDir . basename($profileImage['name']);
-
-//     // Mover el archivo al directorio de subida
-//     if (move_uploaded_file($profileImage['tmp_name'], $uploadPath)) {
-//         $profileImagePath = $uploadPath;
-//     } else {
-//         // Error al mover el archivo
-//         echo "Error al subir el archivo.";
-//         exit();
-//     }
-// } else {
-//     // Error al cargar el archivo
-//     echo "Error al cargar la imagen.";
-//     exit();
-// }
 
 // Preparar la consulta SQL para insertar un nuevo usuario
 $query = "INSERT INTO users (user_name, email_address, first_name, last_name, phonenumber, password) 
@@ -52,13 +31,11 @@ $stmt->bind_param("ssssss", $username, $email, $firstName, $lastName, $phoneNumb
 if ($stmt->execute()) {
     // Obtener el user_id del usuario recién registrado
     $userId = $mysqli->insert_id;
-
+    $profileImage = $_POST['profileImage'];
     // Preparar la consulta SQL para insertar la imagen en la tabla userImages
     $queryImage = "INSERT INTO userImages (user_id, image) VALUES (?, ?)";
     $stmtImage = $mysqli->prepare($queryImage);
-    $null = NULL;
-    $stmtImage->bind_param("ib", $userId, $null);
-    $stmtImage->send_long_data(1, file_get_contents($profileImagePath));
+    $stmtImage->bind_param("is", $userId, $profileImage);
 
     // Ejecutar la consulta para insertar la imagen
     if ($stmtImage->execute()) {

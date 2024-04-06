@@ -8,4 +8,5 @@ export interface User {
     follower_count?: number;
     following_count?: number;
     created_at?: string;
+    user_image?:string;
   }

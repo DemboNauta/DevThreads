@@ -11,4 +11,5 @@ export interface ListaInterface {
     retweets: string;
     comments: string;
     creacion: string;
+    user_image: string;
 }

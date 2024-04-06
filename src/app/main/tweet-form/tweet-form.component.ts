@@ -26,6 +26,7 @@ export class TweetFormComponent implements OnInit{
 
 
   username:string='UsuarioNoRegistrado';
+  user_image: any;
   
   constructor(private tweetsUploadService: TweetsUploadService, private tweetEventService: TweetEventService, private dataService: DataService) { }
 
@@ -99,6 +100,8 @@ export class TweetFormComponent implements OnInit{
   setLoggedInUser(user: User): void {
     this.loggedInUser = user;
     this.username = user.user_name ?? 'UsuarioNoRegistrado';
+    console.log(user);
+    this.user_image=user.user_image;
     this.logged="";
 
   }

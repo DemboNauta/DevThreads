@@ -13,10 +13,12 @@ if ($mysqli->connect_errno) {
 }
 
 // Consulta para obtener los tweets
-$query = "SELECT tweets.*, users.user_name AS username, tweets.num_likes AS likes, 
-          tweets.num_retweets AS retweets, tweets.created_at AS creacion, tweets.num_comments as comments
+$query = "SELECT tweets.*, users.user_name AS username, userImages.image AS user_image, 
+          tweets.num_likes AS likes, tweets.num_retweets AS retweets, 
+          tweets.created_at AS creacion, tweets.num_comments as comments
           FROM tweets
           JOIN users ON tweets.user_id = users.user_id
+          LEFT JOIN userImages ON users.user_id = userImages.user_id
           GROUP BY tweets.tweet_id
           ORDER BY tweets.tweet_id DESC";
 
