@@ -1,3 +1,8 @@
 #contenido{
     min-height: 2500px;
 }
+
+.avatar{
+    width: 50px;
+    height: 50px;
+}

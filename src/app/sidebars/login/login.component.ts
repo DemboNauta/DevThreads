@@ -62,16 +62,49 @@ export class LoginComponent {
 		});
 	}
 
-	imageToBlob(blob:any): Promise<string>{
-		return new Promise((resolve, reject) =>{
+	imageToBlob(blob: any, maxWidth: number, maxHeight: number): Promise<string> {
+		return new Promise((resolve, reject) => {
 			const reader = new FileReader();
 			reader.readAsDataURL(blob);
-			reader.onloadend= () =>{
-				let resultado= reader.result as string;
-				resolve(resultado.split(',')[1] as string);
+			reader.onload = () => {
+				const img = new Image();
+				img.src = reader.result as string;
+				img.onload = () => {
+					const canvas = document.createElement('canvas');
+					const context = canvas.getContext('2d');
+					let width = img.width;
+					let height = img.height;
+	
+					
+					if (width > height) {
+						if (width > maxWidth) {
+							height *= maxWidth / width;
+							width = maxWidth;
+						}
+					} else {
+						if (height > maxHeight) {
+							width *= maxHeight / height;
+							height = maxHeight;
+						}
+					}
+	
+					canvas.width = width;
+					canvas.height = height;
+					if (context) {
+						context.drawImage(img, 0, 0, width, height);
+						const base64String = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+						resolve(base64String);
+					} else {
+						reject(new Error('Error al obtener el contexto del lienzo'));
+					}
+				};
 			};
-		})
+			reader.onerror = (error) => {
+				reject(error);
+			};
+		});
 	}
+	
 	register(ev: Event): void {
 		ev.preventDefault();
 		const userNameRegister = (document.getElementById('userNameRegister') as HTMLInputElement).value;
@@ -93,7 +126,7 @@ export class LoginComponent {
 		registerData.append('confirmPassword', confirmPassword);
 		const imageFile = profileImage?.files ? profileImage.files[0] : null;
 		if (imageFile) {
-			this.imageToBlob(imageFile)
+			this.imageToBlob(imageFile, 50, 50)
 				.then((blob) => {
 					console.log(blob);
 					registerData.append('profileImage', blob);
