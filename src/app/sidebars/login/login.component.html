@@ -1,3 +1,9 @@
+<div class="notification-container" >
+    @if (notificacionVisible) {
+        <div class="notification-message">{{ notificationMessage }}</div>
+    }
+</div>
+
 <ng-template #loginModal let-c="close" let-d="dismiss">
 	<div class="modal-header">
 		<h4 class="modal-title" id="modal-basic-title">Bienvenido a Devthreads!!</h4>
@@ -18,7 +24,55 @@
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-outline-dark" (click)="login()">Iniciar sesión</button>
+		<button id="btnRegistro" class="btn btn-outline-dark" (click)="open(registerModal)">Regístrate</button>
 	</div>
+</ng-template>
+
+<ng-template #registerModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Regístrate en Devthreads</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <!-- Formulario de registro -->
+        <form (submit)="register($event)">
+            <div class="mb-3">
+                <label for="userName" class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-control" id="userNameRegister" name="userNameRegister" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="firstName" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" required >
+                </div>
+                <div class="col">
+                    <label for="lastName" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" required >
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Número de teléfono</label>
+                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" pattern="[0-9]{9}">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="passwordRegister" name="passwordRegister" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="mb-3">
+                <label for="profileImage" class="form-label">Foto de perfil</label>
+                <input type="file" class="form-control" id="profileImage" name="profileImage" accept="image/*" (change)="handleFileInput($event)">
+            </div>
+            <input type="submit" class="btn btn-outline-dark" value="Registrarse"/>
+        </form>
+    </div>
 </ng-template>
 
 <button id="btnIniciarSesion" class="btn" (click)="open(loginModal)">Iniciar sesión</button>

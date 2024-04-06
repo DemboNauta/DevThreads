@@ -23,7 +23,7 @@ export class TweetFormComponent implements OnInit{
 
   @Input() loggedInUser: User = {};
 
-  
+
 
   username:string='UsuarioNoRegistrado';
   
@@ -32,6 +32,7 @@ export class TweetFormComponent implements OnInit{
   numCar: number = 0;
   estiloBorde:string = "";
   colorCar: string = "white";
+  logged:string= "nada";
 
   actualizaNumCar(e: Event): void {
     if(this.numCar<=0){
@@ -83,6 +84,11 @@ export class TweetFormComponent implements OnInit{
     
   }
   ngOnInit(): void {
+    if(!this.loggedInUser){
+      this.logged="disabled";
+    }
+      
+    
     this.dataService.loggedInUser$.subscribe(user => {
       if (user) {
         this.setLoggedInUser(user);
@@ -93,6 +99,7 @@ export class TweetFormComponent implements OnInit{
   setLoggedInUser(user: User): void {
     this.loggedInUser = user;
     this.username = user.user_name ?? 'UsuarioNoRegistrado';
+    this.logged="";
 
   }
       

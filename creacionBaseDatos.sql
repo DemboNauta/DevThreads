@@ -1,5 +1,4 @@
-DROP DATABASE IF EXISTS devthreads_db;
-CREATE DATABASE devthreads_db;
+CREATE DATABASE IF NOT EXISTS devthreads_db;
 USE devthreads_db;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -16,17 +15,18 @@ CREATE TABLE IF NOT EXISTS users (
     PRIMARY KEY(user_id)
 );
 
-
+/*
 INSERT INTO users (user_name, email_address, first_name, last_name, phonenumber, password)
 VALUES 
     ('edgarKNG', 'edgarmila_10@outlook.com', 'Edgar', 'Milá', '677127402',  MD5('1234')),
     ('mariaL', 'marialopez@gmail.com', 'Maria', 'Lopez', '555123456', MD5('password456')),
     ('juanP', 'juanperez@yahoo.com', 'Juan', 'Perez', '555987654', MD5('password789')),
     ('lauraM', 'lauramartinez@hotmail.com', 'Laura', 'Martinez', '555246813', MD5('passwordabc')),
-    ('carlaroyuela21', 'carlacruzz03@hotmail.com', 'Carla', 'de la Cruz', '6193245781', MD5('passworddef')),
+    ('carlaroyuela21', 'carlacruzz03@hotmail.com', 'Carla', 'de la Cruz', '6193245781', MD5('1234')),
     ('anaS', 'anasanchez@outlook.com', 'Ana', 'Sanchez', '555135790', MD5('passwordghi')),
     ('joseA', 'josealvarez@gmail.com', 'Jose', 'Alvarez', '555777888', MD5('passwordjkl')),
     ('luisG', 'luisgarcia@yahoo.com', 'Luis', 'Garcia', '555666999', MD5('passwordmno'));
+*/
 
 
 
@@ -39,7 +39,12 @@ CREATE TABLE IF NOT EXISTS followers (
     CONSTRAINT check_follower_id CHECK (follower_id != following_id),
 	PRIMARY KEY(follower_id, following_id)
 );
-
+CREATE TABLE IF NOT EXISTS UserProfileImages (
+    user_id INT NOT NULL,
+    image BLOB,
+    PRIMARY KEY (user_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
 /*
 SELECT follower_id, following_id FROM followers;
 SELECT COUNT(follower_id) FROM followers WHERE following_id = (SELECT user_id  FROM users WHERE user_name= 'edgarKNG');
@@ -68,7 +73,7 @@ CREATE TABLE tweets(
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     PRIMARY KEY(tweet_id)
 );
-
+/*
 INSERT INTO tweets (user_id, tweet_text)
 VALUES
 (5, '¡Estoy hypeado por aprender un nuevo lenguaje de programación este mes! #coding'),
@@ -90,7 +95,7 @@ VALUES
 (2, '¡Acabo de lanzar mi primera app en la tienda! #indiedev'),
 (5, 'Investigando sobre blockchain y crypto, ¡la movida del futuro!'),
 (3, 'Contando algunas anécdotas sobre el trabajo remoto en la industria tech. #remotework');
-
+*/
 /*
 -- CUANTOS TWEETS HA HECHO UN USUARIO
 SELECT user_id, COUNT(*) AS tweet_count
@@ -131,12 +136,12 @@ CREATE TABLE tweet_comments(
     PRIMARY KEY (user_id, tweet_id)
 );
 
-
+/*
 -- Obtener el número de likes para cada tuit
 SELECT tweets.tweet_id, tweets.tweet_text, COUNT(*) as like_count
 FROM tweet_likes JOIN tweets ON tweets.tweet_id = tweet_likes.tweet_id
 GROUP BY tweet_id
-
+*/
 /* TRIGGERS */
 DELIMITER $$
 CREATE TRIGGER aumentar_numero_seguidores
@@ -224,7 +229,7 @@ BEGIN
         tweet_id = OLD.tweet_id;
 END $$
 DELIMITER ;
-
+/*
 INSERT INTO tweet_likes(user_id, tweet_id)
 VALUES
 (1,1),
@@ -283,7 +288,7 @@ VALUES
 (3,18),
 (2,17),
 (5,15);
-
+*/
 CREATE TABLE direct_messages (
     message_id INT AUTO_INCREMENT,
     sender_id INT NOT NULL,
