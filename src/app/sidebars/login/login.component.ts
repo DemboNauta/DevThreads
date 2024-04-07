@@ -20,7 +20,7 @@ export class LoginComponent {
 	notificationMessage: string = '';
 	notificacionVisible: boolean = false;
 	loggedIn:boolean=false;
-
+	errorLogin: string= " ";
 
 
   constructor(
@@ -36,10 +36,21 @@ export class LoginComponent {
 
 	open(content: any) {
 		this.modalService.dismissAll();
-		this.modalService.open(content);
-	}
+		const modalRef = this.modalService.open(content);
+		modalRef.result.then(
+		  () => {
+			
+			this.errorLogin = '';
+		  },
+		  () => {
+	
+			this.errorLogin = ''; 
+		  }
+		);
+	  }
 
-	login(): void {
+	login(ev: Event): void {
+		ev.preventDefault();
 		const username = (document.getElementById('username') as HTMLInputElement).value;
 		const password = (document.getElementById('password') as HTMLInputElement).value;
 
@@ -57,9 +68,8 @@ export class LoginComponent {
 
 				let notificacion=document.getElementById("notificacion");
 
-				
-				
-
+			}else{
+				this.errorLogin=response.message;
 			}
 		  },
 		  error: (error) => {

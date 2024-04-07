@@ -6,13 +6,12 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 $mysqli = new mysqli("localhost", "root", "1234", "devthreads_db");
 
-// Verificar la conexión
+
 if ($mysqli->connect_errno) {
     echo "Falló la conexión a MySQL: " . $mysqli->connect_error;
     exit();
 }
 
-// Consulta para obtener los tweets
 $query = "SELECT tweets.*, users.user_name AS username, userImages.image AS user_image, 
           tweets.num_likes AS likes, tweets.num_retweets AS retweets, 
           tweets.created_at AS creacion, tweets.num_comments as comments
@@ -24,17 +23,17 @@ $query = "SELECT tweets.*, users.user_name AS username, userImages.image AS user
 
 $result = $mysqli->query($query);
 
-// Convertir los resultados a un array asociativo
+// Convertimos los resultados a un array asociativo
 $tweets = [];
 while ($row = $result->fetch_assoc()) {
     $tweets[] = $row;
 }
 
-// Devolver los tweets como JSON
+// Devolvemos los tweets en un json
 header('Content-Type: application/json');
 echo json_encode($tweets);
 
-// Cerrar la conexión
+
 $mysqli->close();
 
 
