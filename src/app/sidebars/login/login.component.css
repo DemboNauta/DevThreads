@@ -26,10 +26,14 @@
   
   @keyframes fadeInOut {
     0% {
+      transform: translateY(-20px);
       opacity: 0;
     }
     10% {
       opacity: 1;
+    }
+    30%{
+      transform: translateY(0);
     }
     90% {
       opacity: 1;
