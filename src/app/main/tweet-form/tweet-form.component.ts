@@ -33,7 +33,7 @@ export class TweetFormComponent implements OnInit{
   numCar: number = 0;
   estiloBorde:string = "";
   colorCar: string = "white";
-  logged:string= "nada";
+  logged:string= "";
 
   actualizaNumCar(e: Event): void {
     if(this.numCar<=0){
@@ -66,21 +66,24 @@ export class TweetFormComponent implements OnInit{
 
   postTweet(ev:Event){
     ev.preventDefault();
-    if(this.contenidoTweet!=''){
-      const tweetData = { nuevoTweet: this.contenidoTweet, userID: this.loggedInUser.user_id};
 
-      console.log(tweetData);
-       this.tweetsUploadService.postTweet(tweetData).subscribe({
-         next: (tweet: any)=>{
-           console.log('Tweet subido correctamente');
-           this.tweetEventService.emitTweetAdded(tweet);
-           this.contenidoTweet= '';
-           this.numCar=0;
-         },
-         error: (err)=>{
-           console.log("Error al subir el tweet", err);
-         }
-       });
+    if(this.loggedInUser){
+      if(this.contenidoTweet!=''){
+        const tweetData = { nuevoTweet: this.contenidoTweet, userID: this.loggedInUser.user_id};
+  
+        console.log(tweetData);
+         this.tweetsUploadService.postTweet(tweetData).subscribe({
+           next: (tweet: any)=>{
+             console.log('Tweet subido correctamente');
+             this.tweetEventService.emitTweetAdded(tweet);
+             this.contenidoTweet= '';
+             this.numCar=0;
+           },
+           error: (err)=>{
+             console.log("Error al subir el tweet", err);
+           }
+         });
+      }
     }
     
   }
@@ -93,6 +96,10 @@ export class TweetFormComponent implements OnInit{
     this.dataService.loggedInUser$.subscribe(user => {
       if (user) {
         this.setLoggedInUser(user);
+      }
+
+      if(!this.loggedInUser){
+        this.logged="disabled";
       }
     });
   }

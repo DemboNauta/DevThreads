@@ -19,6 +19,7 @@ export class LoginComponent {
 	user: User = {};
 	notificationMessage: string = '';
 	notificacionVisible: boolean = false;
+	loggedIn:boolean=false;
 
 
 
@@ -49,9 +50,14 @@ export class LoginComponent {
 				this.user=response.user;
 				this.dataService.setLoggedInUser(this.user);
 				this.notificacionVisible= true;
+				this.loggedIn=true;
 				this.notificationMessage = `Holaa ${this.user.user_name}!!`;
 
 				this.modalService.dismissAll();
+
+				let notificacion=document.getElementById("notificacion");
+
+				
 				
 
 			}
@@ -60,6 +66,18 @@ export class LoginComponent {
 			console.error('Error en el inicio de sesión', error);
 		  }
 		});
+	}
+	eliminarNotificacion():void{
+		this.notificacionVisible=false;
+		console.log("hola")
+	}
+	cerrarSesion():void{
+		this.notificationMessage= `Vuelve prontoo ${this.user.user_name}`;
+		this.notificacionVisible=true;
+		this.user={};
+		this.dataService.setLoggedInUser(this.user);
+		this.loggedIn=false;
+		
 	}
 
 	imageToBlob(blob: any, maxWidth: number, maxHeight: number): Promise<string> {

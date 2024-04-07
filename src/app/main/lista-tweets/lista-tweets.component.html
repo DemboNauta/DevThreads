@@ -1,7 +1,7 @@
 <div class="text-white" id="contenido">
   @for(tweet of tweetList; track tweet.tweet_id){
     @defer (on viewport) {
-      <div class="border border-white mb-4 p-5">
+      <div class="border border-white mb-4 p-5 w-75 mx-auto">
         <h4><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle">{{ tweet.username }}</h4><p>{{tweet.tweet_text}}</p>
         <span class="me-4"><a href="" class="text-white"><i class="bi bi-heart"></i></a> {{tweet.num_likes}}</span>  <span class="me-4"><a href="" class="text-white"><i class="bi bi-bug"></i></a> {{tweet.num_retweets}}</span> <span><a href="" class="text-white"><i class="bi bi-chat-dots"></i></a> {{tweet.comments}}</span> <span><a href="" class="text-white"><i class="bi bi-share ms-4"></i></a></span>
       </div>

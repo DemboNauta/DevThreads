@@ -1,6 +1,6 @@
 <div class="notification-container" >
     @if (notificacionVisible) {
-        <div class="notification-message">{{ notificationMessage }}</div>
+        <div class="notification-message" id="notificacion" (animationend)="eliminarNotificacion()">{{ notificationMessage }}</div>
     }
 </div>
 
@@ -75,4 +75,8 @@
     </div>
 </ng-template>
 
-<button id="btnIniciarSesion" class="btn" (click)="open(loginModal)">Iniciar sesión</button>
+@if (!loggedIn) {
+    <button id="btnIniciarSesion" class="btn" (click)="open(loginModal)">Iniciar sesión</button>
+} @else {
+    <button id="btnCerrarSesion" class="btn" (click)="cerrarSesion()">Cerrar sesión</button>
+}
