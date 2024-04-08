@@ -71,10 +71,8 @@ export class TweetFormComponent implements OnInit{
       if(this.contenidoTweet!=''){
         const tweetData = { nuevoTweet: this.contenidoTweet, userID: this.loggedInUser.user_id};
   
-        console.log(tweetData);
          this.tweetsUploadService.postTweet(tweetData).subscribe({
            next: (tweet: any)=>{
-             console.log('Tweet subido correctamente');
              this.tweetEventService.emitTweetAdded(tweet);
              this.contenidoTweet= '';
              this.numCar=0;
@@ -110,7 +108,6 @@ export class TweetFormComponent implements OnInit{
 
     if(this.loggedInUser.user_id === undefined){
       this.logged="disabled";
-      console.log(this.logged)
     }
 
   }

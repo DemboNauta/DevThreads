@@ -56,7 +56,6 @@ export class LoginComponent {
 
 		this.authService.login(username, password).subscribe({
 		  next: (response) => {
-			console.log('Validación de inicio de sesión:', response);
 			if(response.success){
 				this.user=response.user;
 				this.dataService.setLoggedInUser(this.user);
@@ -157,16 +156,16 @@ export class LoginComponent {
 		if (imageFile) {
 			this.imageToBlob(imageFile, 50, 50)
 				.then((blob) => {
-					console.log(blob);
+					
 					registerData.append('profileImage', blob);
 	
 					// Aquí va la lógica de registro dentro del then
-					console.log('Datos de registro:', registerData);
+					
 					this.registerService.registerUser(registerData).subscribe({
 						next: (response) => {
-							console.log('Validación de registro:', response);
+							
 							if (response.success) {
-								console.log("Usuario registrado correctamente");
+								
 								this.modalService.dismissAll();
 							}
 						},
