@@ -1,4 +1,5 @@
 # DevThreads
+![image](https://github.com/DemboNauta/DevThreads/assets/126664376/f4b0d63b-239e-4af6-90b9-634a02a07012)
 
 Este proyecto está siendo realizado con Angular17 como framework frontend
 
