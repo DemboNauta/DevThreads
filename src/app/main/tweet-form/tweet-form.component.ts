@@ -21,7 +21,7 @@ import {User} from '../interfaces/user.interface'
 
 export class TweetFormComponent implements OnInit{
 
-  @Input() loggedInUser: User = {};
+  @Input() loggedInUser: User | null = {};
 
 
 
@@ -97,19 +97,21 @@ export class TweetFormComponent implements OnInit{
       if (user) {
         this.setLoggedInUser(user);
       }
-
-      if(!this.loggedInUser){
-        this.logged="disabled";
-      }
+      
     });
   }
 
   setLoggedInUser(user: User): void {
     this.loggedInUser = user;
     this.username = user.user_name ?? 'UsuarioNoRegistrado';
-    console.log(user);
     this.user_image=user.user_image;
     this.logged="";
+
+
+    if(this.loggedInUser.user_id === undefined){
+      this.logged="disabled";
+      console.log(this.logged)
+    }
 
   }
       

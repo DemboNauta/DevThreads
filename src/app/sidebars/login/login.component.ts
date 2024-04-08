@@ -80,7 +80,7 @@ export class LoginComponent {
 	}
 	eliminarNotificacion():void{
 		this.notificacionVisible=false;
-		console.log("hola")
+
 	}
 	cerrarSesion():void{
 		this.notificationMessage= `Vuelve prontoo ${this.user.user_name}`;
