@@ -60,9 +60,10 @@ export class LoginComponent {
 			if(response.success){
 				this.user=response.user;
 				this.dataService.setLoggedInUser(this.user);
+				this.notificationMessage = `Holaa ${this.user.user_name}!!`;
 				this.notificacionVisible= true;
 				this.loggedIn=true;
-				this.notificationMessage = `Holaa ${this.user.user_name}!!`;
+				
 
 				this.modalService.dismissAll();
 
@@ -87,7 +88,7 @@ export class LoginComponent {
 		this.user={};
 		this.dataService.setLoggedInUser(this.user);
 		this.loggedIn=false;
-		
+
 	}
 
 	imageToBlob(blob: any, maxWidth: number, maxHeight: number): Promise<string> {
