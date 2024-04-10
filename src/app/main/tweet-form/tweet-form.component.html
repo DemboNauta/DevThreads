@@ -1,8 +1,13 @@
 
 
 <div id="userdata" class=" d-flex justify-content-center align-items-center mt-4">
-    <img [src]="user_image ? 'data:image/png;base64,' + user_image : '../../../assets/img/Default.webp'" alt="userAvatar" class="avatar me-2 rounded-circle">
-    <span id="nombreUsuario" class="text-white">{{username}}</span>
+    @if(this.loggedInUser){
+        <img [src]="'data:image/png;base64,' + user_image" alt="userAvatar" class="avatar me-2 rounded-circle">
+        <span id="nombreUsuario" class="text-white">{{username}}</span>
+    }@else{
+        <img [src]="'../../../assets/img/Default.webp'" alt="userAvatar" class="avatar me-2 rounded-circle">
+        <span id="nombreUsuario" class="text-white">{{username}}</span>
+    }
 </div>
 
 <div>

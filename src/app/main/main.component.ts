@@ -13,9 +13,12 @@ import { User } from './interfaces/user.interface';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent  {
-  loggedInUser: User = {};
+  
+  loggedInUser: User;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) {
+
+  }
   ngOnInit() {
     this.dataService.loggedInUser$.subscribe(user => {
       this.loggedInUser = user;

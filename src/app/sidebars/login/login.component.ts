@@ -7,6 +7,7 @@ import { RegisterUserService } from '../../services/register-user.service';
 
 
 
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -16,7 +17,9 @@ import { RegisterUserService } from '../../services/register-user.service';
   providers: [NgbModalConfig, NgbModal],
 })
 export class LoginComponent {
-	user: User = {};
+
+	@Output() logedUserEmitter = new EventEmitter<User>();
+	user: User;
 	notificationMessage: string = '';
 	notificacionVisible: boolean = false;
 	loggedIn:boolean=false;
@@ -65,7 +68,7 @@ export class LoginComponent {
 				
 
 				this.modalService.dismissAll();
-
+				this.logedUserEmitter.emit(this.user);
 				let notificacion=document.getElementById("notificacion");
 
 			}else{
@@ -84,8 +87,9 @@ export class LoginComponent {
 	cerrarSesion():void{
 		this.notificationMessage= `Vuelve prontoo ${this.user.user_name}`;
 		this.notificacionVisible=true;
-		this.user={};
+		this.user=null;
 		this.dataService.setLoggedInUser(this.user);
+		this.logedUserEmitter.emit(this.user);
 		this.loggedIn=false;
 
 	}
@@ -154,7 +158,7 @@ export class LoginComponent {
 		registerData.append('confirmPassword', confirmPassword);
 		const imageFile = profileImage?.files ? profileImage.files[0] : null;
 		if (imageFile) {
-			this.imageToBlob(imageFile, 50, 50)
+			this.imageToBlob(imageFile, 200, 200)
 				.then((blob) => {
 					
 					registerData.append('profileImage', blob);
