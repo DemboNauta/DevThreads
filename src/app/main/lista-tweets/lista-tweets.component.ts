@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { TweetsService } from '../../services/tweets.service';
 import { TweetEventService } from '../../services/tweet-event.service';
 import { ListaInterface } from '../interfaces/lista.interface';
+import { UserProfileService } from '../../services/user-profile.service';
 
 @Component({
   selector: 'app-lista-tweets',
@@ -13,24 +14,26 @@ import { ListaInterface } from '../interfaces/lista.interface';
 })
 export class ListaTweetsComponent implements OnInit, OnDestroy {
   tweetList: ListaInterface[] = [];
-  private tweetAddedSubscription: Subscription= new Subscription;
+  private tweetAddedSubscription: Subscription = new Subscription;
 
-  constructor(private tweetsService: TweetsService, private tweetEventService: TweetEventService) {}
+  constructor(private tweetsService: TweetsService, private tweetEventService: TweetEventService, private userProfileService : UserProfileService) {}
 
   ngOnInit(): void {
     this.getTweets();
     this.subscribeToTweetAdded();
+    this.subscribeToUserIdChanges()
   }
 
-  getTweets(){
-    this.tweetsService.getTweets().subscribe({
-      next: (result)=>{
+  getTweets(userId?: number){
+    this.tweetsService.getTweets(userId).subscribe({
+      next: (result) => {
+        console.log(result)
         this.tweetList = result;
       },
-      error: (err)=>{
+      error: (err) => {
         console.error('Error al obtener los tweets:', err);
       }
-    })
+    });
   }
 
   private subscribeToTweetAdded() {
@@ -40,9 +43,18 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     });
   }
 
+  private subscribeToUserIdChanges() {
+    this.userProfileService.userId$.subscribe(userId => {
+      if (userId) {
+        console.log("prueba")
+        this.getTweets(userId);
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     this.tweetAddedSubscription.unsubscribe();
   }
-  
+
 
 }

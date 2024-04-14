@@ -3,10 +3,17 @@
         <div class="col-2">
             <img [src]="'data:image/png;base64,' + this.loggedInUser.user_image" alt="" width="200px" class="rounded-circle">
         </div>
-        <div class="col-3 d-flex justify-content-center align-items-center ">
-            <div class="">
-                <p>&#64;{{ this.loggedInUser.user_name }}</p>
-                <p>Se unió el: {{this.loggedInUser.created_at}}</p>
+        <div class="col-3 d-flex justify-content-center align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-4">&#64;{{ this.loggedInUser.user_name }}</h3>
+                    <p>Se unió el: {{this.fechaUnion}}</p>
+                </div>
+                <div class="col-12">
+                    <p><span>Seguidores: {{ this.loggedInUser.follower_count }}</span> <span class="ms-2">Siguiendo: {{ this.loggedInUser.following_count }}</span></p>
+
+
+                </div>
             </div>
         </div>
     </div>
