@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Output, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../services/authentication.service';
-import { DataService } from '../../services/user-data.service';
+import { UserDataService } from '../../services/user-data.service';
 import { User } from '../../main/interfaces/user.interface';
 import { RegisterUserService } from '../../services/register-user.service';
 
@@ -17,8 +17,6 @@ import { RegisterUserService } from '../../services/register-user.service';
   providers: [NgbModalConfig, NgbModal],
 })
 export class LoginComponent {
-
-	@Output() logedUserEmitter = new EventEmitter<User>();
 	user: User;
 	notificationMessage: string = '';
 	notificacionVisible: boolean = false;
@@ -30,7 +28,7 @@ export class LoginComponent {
 		config: NgbModalConfig,
 		private modalService: NgbModal,
 		private authService: AuthService,
-		private dataService: DataService,
+		private userDataService: UserDataService,
 		private registerService: RegisterUserService
 	) {
 		config.backdrop = 'static';
@@ -61,14 +59,13 @@ export class LoginComponent {
 		  next: (response) => {
 			if(response.success){
 				this.user=response.user;
-				this.dataService.setLoggedInUser(this.user);
+				this.userDataService.setLoggedInUser(this.user);
 				this.notificationMessage = `Holaa ${this.user.user_name}!!`;
 				this.notificacionVisible= true;
 				this.loggedIn=true;
 				
-
 				this.modalService.dismissAll();
-				this.logedUserEmitter.emit(this.user);
+				
 				let notificacion=document.getElementById("notificacion");
 
 			}else{
@@ -88,8 +85,7 @@ export class LoginComponent {
 		this.notificationMessage= `Vuelve prontoo ${this.user.user_name}`;
 		this.notificacionVisible=true;
 		this.user=null;
-		this.dataService.setLoggedInUser(this.user);
-		this.logedUserEmitter.emit(this.user);
+		this.userDataService.setLoggedInUser(this.user)
 		this.loggedIn=false;
 
 	}

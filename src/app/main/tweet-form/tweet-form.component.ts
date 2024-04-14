@@ -1,9 +1,11 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { TweetsUploadService } from '../../services/tweet-upload.service';
 import { FormsModule } from '@angular/forms';
 import { TweetEventService } from '../../services/tweet-event.service';
-import { DataService } from '../../services/user-data.service';
+import { UserDataService } from '../../services/user-data.service';
 import {User} from '../interfaces/user.interface'
+import { Data } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 
 
@@ -19,21 +21,22 @@ import {User} from '../interfaces/user.interface'
 
 
 
-export class TweetFormComponent implements OnInit{
+export class TweetFormComponent implements OnInit, OnDestroy{
 
-  @Input() loggedInUser: User;
+  loggedInUser: User;
 
 
 
-  username:string='UsuarioNoRegistrado';
-  user_image: any;
+
   
-  constructor(private tweetsUploadService: TweetsUploadService, private tweetEventService: TweetEventService, private dataService: DataService) { }
+  constructor(private tweetsUploadService: TweetsUploadService, private tweetEventService: TweetEventService, private userDataService: UserDataService) { }
 
   numCar: number = 0;
   estiloBorde:string = "";
   colorCar: string = "white";
   logged:string= "";
+  userDataSubscription: Subscription;
+
 
   actualizaNumCar(e: Event): void {
     if(this.numCar<=0){
@@ -89,31 +92,23 @@ export class TweetFormComponent implements OnInit{
     if(!this.loggedInUser){
       this.logged="disabled";
     }
-      
     
-    this.dataService.loggedInUser$.subscribe(user => {
-        this.setLoggedInUser(user);
-      
-    });
+    this.userDataSubscription= this.userDataService.loggedInUser.subscribe(
+      (user: User) =>{
+        this.loggedInUser=user;
+
+        if(this.loggedInUser){
+          this.logged="";
+        }
+      }
+    )
+
   }
 
-  setLoggedInUser(user: User): void {
-    if(user){
-      this.loggedInUser = user;
-      this.username = user.user_name;
-      this.user_image=user.user_image;
-      this.logged="";
-    }else{
-      this.username = 'UsuarioNoRegistrado';
-    }
-
-
-    if(!this.loggedInUser){
-      this.logged="disabled";
-    }
-
-  }
-      
+  ngOnDestroy(): void {
     
+    this.userDataSubscription.unsubscribe();
+  }
+
   }
 

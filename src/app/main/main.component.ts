@@ -1,8 +1,9 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import {ListaTweetsComponent} from './lista-tweets/lista-tweets.component';
 import {TweetFormComponent} from './tweet-form/tweet-form.component';
-import { DataService } from "../services/user-data.service";
+import { UserDataService } from "../services/user-data.service";
 import { User } from './interfaces/user.interface';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,21 +13,23 @@ import { User } from './interfaces/user.interface';
   imports: [ListaTweetsComponent,TweetFormComponent],
   styleUrls: ['./main.component.css']
 })
-export class MainComponent  {
+export class MainComponent implements OnInit, OnDestroy{
   
   loggedInUser: User;
+  userDataSubscription: Subscription;
 
-  constructor(private dataService: DataService) {
+  constructor(private userDataService: UserDataService) {
 
   }
   ngOnInit() {
-    this.dataService.loggedInUser$.subscribe(user => {
-      this.loggedInUser = user;
-      if (this.loggedInUser && this.loggedInUser.user_name) {
-        this.dataService.changeMessage(this.loggedInUser.user_name);
+    this.userDataSubscription= this.userDataService.loggedInUser.subscribe(
+      (user: User) =>{
+        this.loggedInUser=user;
       }
-
-    });
+    )
+  }
+  ngOnDestroy(): void {
+      this.userDataSubscription.unsubscribe();
   }
 
 }

@@ -1,30 +1,31 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../main/interfaces/user.interface';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class UserDataService {
 
-  private loggedInUserSource = new BehaviorSubject<any>(null);
-  private messageSource = new BehaviorSubject<string>('UsuarioNoRegistrado');
-  private userSource = new BehaviorSubject<User | null>(null);
+  private messageSource = new Observable<string>();
 
-  loggedInUser$ = this.loggedInUserSource.asObservable();
-  userChange$ = this.userSource.asObservable();
-  currentMessage = this.messageSource.asObservable();
+  private userDataSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+
+  loggedInUser: Observable<User> = this.userDataSubject.asObservable();
+
 
 
   constructor() { }
 
   setLoggedInUser(user: User) {
-    this.loggedInUserSource.next(user);
+    this.userDataSubject.next(user);
+
   }
 
-  changeMessage(message: string) {
-    this.messageSource.next(message);
+  getLoggedInUser(){
+    return this.loggedInUser;
   }
+
   
 }

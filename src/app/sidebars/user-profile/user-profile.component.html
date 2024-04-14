@@ -1,12 +1,12 @@
 <div class="text-white">
     <div class="row justify-content-center">
         <div class="col-2">
-            <img [src]="'data:image/png;base64,' + this.user.user_image" alt="" width="200px" class="rounded-circle">
+            <img [src]="'data:image/png;base64,' + this.loggedInUser.user_image" alt="" width="200px" class="rounded-circle">
         </div>
         <div class="col-3 d-flex justify-content-center align-items-center ">
             <div class="">
-                <p>&#64;{{ this.user.user_name }}</p>
-                <p>Se unió el: {{this.user.created_at}}</p>
+                <p>&#64;{{ this.loggedInUser.user_name }}</p>
+                <p>Se unió el: {{this.loggedInUser.created_at}}</p>
             </div>
         </div>
     </div>
