@@ -16,39 +16,42 @@ import { TweetsService } from '../../services/tweets.service';
 })
 export class UserProfileComponent implements  OnDestroy{
 
-loggedInUser : User;
-userDataSubscription: Subscription;
+user : User;
+userSubscription: Subscription;
 fechaUnion: string;
 username: string;
 
-constructor(private userDataService: UserDataService, private router : Router, private userProfileService: UserProfileService, private activatedRoute: ActivatedRoute, private tweetsService: TweetsService){}
+constructor(
+  private router: Router,
+  private userProfileService: UserProfileService,
+  private activatedRoute: ActivatedRoute,
+  private tweetsService: TweetsService
+) {}
 
-  ngOnInit(): void {
-    this.username=this.activatedRoute.snapshot.params['username'];
-    this.tweetsService.username=this.username;
-    this.userDataSubscription= this.userDataService.loggedInUser.subscribe(
-      (user: User) =>{
-        this.loggedInUser=user;
-        
-        
-        this.userProfileService.setUserId(this.loggedInUser.user_id);
-      }
-    )
-    
-    const dateString: string = this.loggedInUser.created_at;
-    const dateObject: Date = new Date(dateString);
+ngOnInit(): void {
+  this.username = this.activatedRoute.snapshot.params['username'];
+  this.tweetsService.username = this.username;
+  this.userProfileService.getUserByUsername(this.username).subscribe(
+    (user: User) => {
+      this.user = user;
+      const dateString: string = this.user.created_at;
+      const dateObject: Date = new Date(dateString);
 
-    const mes= ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    this.fechaUnion= `${dateObject.getDate()} de ${mes[dateObject.getMonth()]} del ${dateObject.getFullYear()}`;
-    
-  }
+      const mes = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ];
+      this.fechaUnion = `${dateObject.getDate()} de ${mes[dateObject.getMonth()]} del ${dateObject.getFullYear()}`;
+    },
+    (error) => {
+      console.error('Error al obtener los datos del usuario:', error);
+    }
+  );
 
+  
+}
 
-  ngOnDestroy(): void {
-      this.userDataSubscription.unsubscribe();
-      this.tweetsService.username=null;
-
-  }
-
-
+ngOnDestroy(): void {
+  this.tweetsService.username = null;
+}
 }
