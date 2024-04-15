@@ -4,11 +4,12 @@ import { TweetsService } from '../../services/tweets.service';
 import { TweetEventService } from '../../services/tweet-event.service';
 import { ListaInterface } from '../interfaces/lista.interface';
 import { UserProfileService } from '../../services/user-profile.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-lista-tweets',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './lista-tweets.component.html',
   styleUrl: './lista-tweets.component.css'
 })
@@ -21,14 +22,15 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getTweets();
     this.subscribeToTweetAdded();
-    this.subscribeToUserIdChanges()
+
   }
 
-  getTweets(userId?: number){
-    this.tweetsService.getTweets(userId).subscribe({
+  getTweets(){
+    this.tweetsService.getTweets().subscribe({
       next: (result) => {
-        console.log(result)
+        
         this.tweetList = result;
+        
       },
       error: (err) => {
         console.error('Error al obtener los tweets:', err);
@@ -43,14 +45,14 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private subscribeToUserIdChanges() {
-    this.userProfileService.userId$.subscribe(userId => {
-      if (userId) {
-        console.log("prueba")
-        this.getTweets(userId);
-      }
-    });
-  }
+  // private subscribeToUserIdChanges(): boolean{
+  //   this.userProfileService.userId$.subscribe(userId => {
+  //     if (userId) {
+  //       this.getTweets(userId);
+  //     }
+  //   });
+  //   return true;
+  // }
 
   ngOnDestroy(): void {
     this.tweetAddedSubscription.unsubscribe();

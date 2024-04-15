@@ -5,5 +5,6 @@ import { UserProfileComponent } from './sidebars/user-profile/user-profile.compo
 export const routes: Routes = [
     { path: '', redirectTo: 'main', pathMatch: 'full'},
     { path: 'main', component: MainComponent},
+    { path: 'profile/:username', component: UserProfileComponent},
     { path: 'profile', component: UserProfileComponent}
 ];

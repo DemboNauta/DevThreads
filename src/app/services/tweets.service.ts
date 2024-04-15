@@ -8,10 +8,12 @@ import { Observable } from 'rxjs';
 export class TweetsService {
   constructor(private http: HttpClient) {}
 
-  getTweets(userId?: number): Observable<any> {
+  username: string;
+
+  getTweets(): Observable<any> {
     let url = 'http://localhost/tweets-api.php';
-    if (userId) {
-      url += `?userId=${userId}`;
+    if (this.username) {
+      url += `?username=${this.username}`;
     }
     return this.http.get(url);
   }
