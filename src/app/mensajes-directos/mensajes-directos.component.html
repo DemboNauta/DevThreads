@@ -1,0 +1,39 @@
+@if (loggedInUser) {
+    <div id="mensajes" style="right: 20px;">
+        <button id="boton-mensajes" class="text-white" (click)="mostrarMensajes()" type="button">Mensajes directos</button>
+    
+        <div id="mensajes-directos" [ngStyle]="{'display': mostrar ? 'block' : 'none'}">
+            @if (!conversationDetail) {
+                <ul>
+                    @for (user of userMessageConversations; track $index) {
+                        <li class="text-white"><a (click)="onLoadConversation(user.sender_id, user.sender_name, user.sender_image)" class="text-white text-decoration-none" style="cursor: pointer;"><img [src]="'data:image/png;base64,'+ user.sender_image" alt="" width="50px"  class="rounded-circle" style="height: 50px;"> <span> {{user.sender_name}}</span></a></li>
+                    }
+                </ul>
+            }@else {
+                    <div class="py-2">
+                        <span><i class="bi bi-arrow-left text-white fs-4 px-3" (click)="this.conversationDetail=false" style="cursor: pointer;"></i> <img [src]="'data:image/png;base64,'+ this.userConversationDetail.user_image" alt="" width="50px"  class="rounded-circle" style="height: 50px;"> <span class="text-white"> {{this.userConversationDetail.user_name}}</span>                    </span>
+                    </div>
+
+                    <div class="conversationContainer pt-3" #scroll [scrollTop]="scroll.scrollHeight">
+                            @for (message of usersConversations; track $index) {
+                                @if (message.sender_id == this.loggedInUser.user_id) {
+                                    <p class="text-white text-end "><span class="bg-user p-2 mb-1">{{message.message_text}}</span></p>
+                                }@else{
+                                    <p class="text-white text-start "><span class="bg-other p-2 mb-1">{{message.message_text}}</span></p>
+
+                                }
+                            }
+                            
+                    </div>
+                    <div class="newMessage">
+                        <input type="text" name="mensajeInput" id="mensajeInput" placeholder="Escribe un mensaje" class="bg-transparent text-white p-3 mensajeInput" [(ngModel)]="value"><i class="bi bi-send" (click)="onSentMessage()"></i>
+                    </div>
+                        
+                    
+                
+            }
+            
+        </div>
+    </div>
+    
+}

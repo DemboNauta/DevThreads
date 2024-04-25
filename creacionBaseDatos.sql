@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS followers (
     CONSTRAINT check_follower_id CHECK (follower_id != following_id),
 	PRIMARY KEY(follower_id, following_id)
 );
-CREATE TABLE IF NOT EXISTS UserProfileImages (
+
+CREATE TABLE IF NOT EXISTS userImages (
     user_id INT NOT NULL,
     image BLOB,
     PRIMARY KEY (user_id),
@@ -62,7 +63,7 @@ GROUP BY following_id
 ORDER BY followers DESC;
 */
 
-CREATE TABLE tweets(
+CREATE TABLE IF NOT EXISTS tweets(
 	tweet_id INT AUTO_INCREMENT,
     user_id INT NOT NULL,
     tweet_text VARCHAR(220) NOT NULL,
@@ -113,7 +114,7 @@ WHERE user_id = (SELECT user_id FROM users WHERE user_name = 'edgarKNG');
 
 */
 
-CREATE TABLE tweet_likes(
+CREATE TABLE IF NOT EXISTS tweet_likes(
 	user_id INT NOT NULL,
     tweet_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
@@ -121,14 +122,14 @@ CREATE TABLE tweet_likes(
     PRIMARY KEY (user_id, tweet_id)
 );
 
-CREATE TABLE tweet_retweets(
+CREATE TABLE IF NOT EXISTS tweet_retweets(
 	user_id INT NOT NULL,
     tweet_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id),
     PRIMARY KEY (user_id, tweet_id)
 );
-CREATE TABLE tweet_comments(
+CREATE TABLE IF NOT EXISTS tweet_comments(
 	user_id INT NOT NULL,
     tweet_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
@@ -143,8 +144,9 @@ FROM tweet_likes JOIN tweets ON tweets.tweet_id = tweet_likes.tweet_id
 GROUP BY tweet_id
 */
 /* TRIGGERS */
+/*
 DELIMITER $$
-CREATE TRIGGER aumentar_numero_seguidores
+CREATE TRIGGER  aumentar_numero_seguidores
 	AFTER INSERT ON followers
     FOR EACH ROW
     BEGIN
@@ -289,7 +291,7 @@ VALUES
 (2,17),
 (5,15);
 */
-CREATE TABLE direct_messages (
+CREATE TABLE IF NOT EXISTS direct_messages (
     message_id INT AUTO_INCREMENT,
     sender_id INT NOT NULL,
     receiver_id INT NOT NULL,
@@ -300,7 +302,7 @@ CREATE TABLE direct_messages (
     PRIMARY KEY (message_id)
 );
 
-CREATE TABLE retweet_relationships (
+CREATE TABLE IF NOT EXISTS retweet_relationships (
     retweet_id INT AUTO_INCREMENT,
     original_tweet_id INT NOT NULL,
     retweeter_id INT NOT NULL,
@@ -309,7 +311,7 @@ CREATE TABLE retweet_relationships (
     PRIMARY KEY (retweet_id)
 );
 
-CREATE TABLE tweet_reports (
+CREATE TABLE IF NOT EXISTS tweet_reports (
     report_id INT AUTO_INCREMENT,
     tweet_id INT NOT NULL,
     reporter_id INT NOT NULL,
@@ -319,6 +321,44 @@ CREATE TABLE tweet_reports (
     FOREIGN KEY (reporter_id) REFERENCES users(user_id),
     PRIMARY KEY (report_id)
 );
+
+-- Eliminar un usuario y todos sus datos asociados
+/*
+DELIMITER $$
+CREATE PROCEDURE delete_user_and_related_data(IN user_id_to_delete INT)
+BEGIN
+    -- Eliminar los likes de los tweets del usuario
+    DELETE FROM tweet_likes WHERE tweet_id IN (SELECT tweet_id FROM tweets WHERE user_id = user_id_to_delete);
+
+    -- Eliminar los retweets del usuario
+    DELETE FROM tweet_retweets WHERE tweet_id IN (SELECT tweet_id FROM tweets WHERE user_id = user_id_to_delete);
+
+    -- Eliminar los comentarios del usuario
+    DELETE FROM tweet_comments WHERE tweet_id IN (SELECT tweet_id FROM tweets WHERE user_id = user_id_to_delete);
+
+    -- Eliminar los tweets del usuario
+    DELETE FROM tweets WHERE user_id = user_id_to_delete;
+
+    -- Eliminar la relación de seguidores y seguidos del usuario
+    DELETE FROM followers WHERE follower_id = user_id_to_delete OR following_id = user_id_to_delete;
+
+    -- Eliminar la imagen de perfil del usuario
+    DELETE FROM userImages WHERE user_id = user_id_to_delete;
+
+    -- Eliminar los mensajes directos enviados por el usuario
+    DELETE FROM direct_messages WHERE sender_id = user_id_to_delete;
+
+    -- Eliminar los mensajes directos recibidos por el usuario
+    DELETE FROM direct_messages WHERE receiver_id = user_id_to_delete;
+
+    -- Eliminar el usuario
+    DELETE FROM users WHERE user_id = user_id_to_delete;
+END $$
+
+DELIMITER ;
+*/
+SET SQL_SAFE_UPDATES = 0;
+CALL delete_user_and_related_data(17);
 
 
 

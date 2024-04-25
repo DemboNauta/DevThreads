@@ -20,6 +20,7 @@ user : User;
 userSubscription: Subscription;
 fechaUnion: string;
 username: string;
+cargado=false;
 
 constructor(
   private router: Router,
@@ -42,6 +43,7 @@ ngOnInit(): void {
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
       ];
       this.fechaUnion = `${dateObject.getDate()} de ${mes[dateObject.getMonth()]} del ${dateObject.getFullYear()}`;
+      this.cargado=true;
     },
     (error) => {
       console.error('Error al obtener los datos del usuario:', error);

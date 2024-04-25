@@ -1,0 +1,84 @@
+#mensajes{
+    position: fixed;
+    width: 20%;
+    min-width: 400px;
+    bottom: 0px;
+    z-index: -2;
+    
+
+}
+
+#boton-mensajes{
+    background-color: #131617;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 8px 8px 0px 0px;
+    -webkit-box-shadow: 0px -1px 5px 0px rgba(255,255,255,1);
+    -moz-box-shadow: 0px -1px 5px 0px rgba(255,255,255,1);
+    box-shadow: 0px -1px 5px 0px rgba(255,255,255,1);
+    cursor: pointer;
+    border: none;
+}
+
+#mensajes-directos{
+    display: none;
+    background-color: #131617;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+    box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+    border: none;
+}
+
+#mensajes-directos ul{
+    border: none;
+    list-style: none;
+    margin-bottom: 0px;
+    max-height: 430px;
+    overflow-y: scroll;
+}
+
+#mensajes-directos li{
+    padding: 10px;
+}
+
+.bg-user{
+    background-color: #cc4c92;
+    border-radius: 4px;
+    margin-right: 3px;
+
+}
+
+.bg-other{
+    background-color: #402f48;
+    border-radius: 4px;
+    margin-left: 3px;
+
+    
+}
+
+.conversationContainer{
+    overflow-y: scroll;
+    max-height: 450px;
+}
+.conversationContainer::-webkit-scrollbar {
+    display: none;
+  }
+.newMessage{
+    border: 1px solid white;
+}
+.mensajeInput{
+    width: 90%;
+    border: none;
+    outline: none;
+}
+
+.bi-send{
+    cursor: pointer;
+    color: #696969;
+    transition: all 0.1s linear;
+}
+.bi-send:hover{
+    color: white;
+
+}
+
