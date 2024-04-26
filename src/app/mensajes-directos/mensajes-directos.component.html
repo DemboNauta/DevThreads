@@ -11,7 +11,7 @@
                 </ul>
             }@else {
                     <div class="py-2">
-                        <span><i class="bi bi-arrow-left text-white fs-4 px-3" (click)="this.conversationDetail=false" style="cursor: pointer;"></i> <img [src]="'data:image/png;base64,'+ this.userConversationDetail.user_image" alt="" width="50px"  class="rounded-circle" style="height: 50px;"> <span class="text-white"> {{this.userConversationDetail.user_name}}</span>                    </span>
+                        <span><i class="bi bi-arrow-left text-white fs-4 px-3" (click)="onOutOfConversation()" style="cursor: pointer;"></i> <img [src]="'data:image/png;base64,'+ this.userConversationDetail.user_image" alt="" width="50px"  class="rounded-circle" style="height: 50px;"> <span class="text-white"> {{this.userConversationDetail.user_name}}</span>                    </span>
                     </div>
 
                     <div class="conversationContainer pt-3" #scroll [scrollTop]="scroll.scrollHeight">

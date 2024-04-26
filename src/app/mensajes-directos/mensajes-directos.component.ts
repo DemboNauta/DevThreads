@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserDataService } from '../services/user-data.service';
 import { User } from '../main/interfaces/user.interface';
@@ -16,16 +16,19 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './mensajes-directos.component.html',
   styleUrl: './mensajes-directos.component.css'
 })
-export class MensajesDirectosComponent implements OnInit{
+export class MensajesDirectosComponent implements OnInit, AfterContentChecked{
 
-  constructor(private userDataService: UserDataService, private directMessageService: DirectMessagesService){}
+  constructor(private userDataService: UserDataService, private directMessageService: DirectMessagesService, private cdr: ChangeDetectorRef){}
   loggedInUser: User;
   userMessageConversations: DirectMessageUser[] = [];
   usersConversations: DirectMessage[] = [];
   userConversationDetail: UserSmall={};
   mostrar: boolean = false;
   value: string=""
+  interval: any;
   conversationDetail: boolean= false
+
+
 
   ngOnInit(): void {
     this.userDataService.loggedInUser.subscribe(
@@ -38,9 +41,15 @@ export class MensajesDirectosComponent implements OnInit{
 
     
   }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges()
+    
+  }
   mostrarMensajes(): void{
     this.conversationDetail=false
     this.mostrar = !this.mostrar;
+    clearInterval(this.interval);
     this.directMessageService.getDirectMessages(this.loggedInUser.user_id).subscribe(
       (response)=>{
         this.userMessageConversations=response
@@ -54,17 +63,25 @@ export class MensajesDirectosComponent implements OnInit{
     this.userConversationDetail.user_name= sender_name;
     this.userConversationDetail.user_image= sender_image;
     this.userConversationDetail.user_id=sender_id
-
+    
     this.directMessageService.getConversation(this.loggedInUser.user_id, sender_id).subscribe(
       (response)=>{        
         this.usersConversations=response
         this.conversationDetail= true;
+    
+        this.interval=setInterval(()=>{
+          this.directMessageService.getConversation(this.loggedInUser.user_id, sender_id).subscribe(
+            (response)=>{        
+              this.usersConversations=response
+              this.conversationDetail= true;
+            }
+          );
+        }, 1000)
         
         
       }
     )
-
-  }
+    }
 
   onSentMessage(){
     if(this.value != ""){
@@ -79,4 +96,13 @@ export class MensajesDirectosComponent implements OnInit{
       })
     }
   }
+
+  onOutOfConversation(){
+    clearInterval(this.interval);
+    this.conversationDetail=false;
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
+    }
 }

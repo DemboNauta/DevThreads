@@ -50,38 +50,61 @@ export class LoginComponent {
 		);
 	  }
 
-	login(ev: Event): void {
-		ev.preventDefault();
-		const username = (document.getElementById('username') as HTMLInputElement).value;
-		const password = (document.getElementById('password') as HTMLInputElement).value;
-
-		this.authService.login(username, password).subscribe({
-		  next: (response) => {
-			if(response.success){
-				this.user=response.user;
-				this.userDataService.setLoggedInUser(this.user);
-				this.notificationMessage = `Holaa ${this.user.user_name}!!`;
-				this.notificacionVisible= true;
-				this.loggedIn=true;
-				
-				this.modalService.dismissAll();
-				
-				let notificacion=document.getElementById("notificacion");
-
+	  ngOnInit(): void {
+		this.autoLogin()
+		
+		}
+		
+		autoLogin(){
+			if(localStorage){
+				const userData: User=JSON.parse(localStorage.getItem('userData'));
+			if(!userData){
+				return;
 			}else{
-				this.errorLogin=response.message;
+				this.user=userData;
+				this.userDataService.setLoggedInUser(this.user)
+				this.loggedIn=true;
 			}
-		  },
-		  error: (error) => {
-			console.error('Error en el inicio de sesión', error);
-		  }
-		});
-	}
+
+			}
+			
+		}
+		login(ev: Event): void {
+			ev.preventDefault();
+			const username = (document.getElementById('username') as HTMLInputElement).value;
+			const password = (document.getElementById('password') as HTMLInputElement).value;
+			
+			this.authService.login(username, password).subscribe({
+			next: (response) => {
+				if(response.success){
+					this.user=response.user;
+			
+					localStorage.setItem('userData', JSON.stringify(this.user))
+					
+					this.userDataService.setLoggedInUser(this.user);
+					this.notificationMessage = `Holaa ${this.user.user_name}!!`;
+					this.notificacionVisible= true;
+					this.loggedIn=true;
+					
+					this.modalService.dismissAll();
+					
+					let notificacion=document.getElementById("notificacion");
+			
+				}else{
+					this.errorLogin=response.message;
+				}
+			},
+			error: (error) => {
+				console.error('Error en el inicio de sesión', error);
+			}
+			});
+		}
 	eliminarNotificacion():void{
 		this.notificacionVisible=false;
 
 	}
 	cerrarSesion():void{
+		localStorage.removeItem('userData')
 		this.notificationMessage= `Vuelve prontoo ${this.user.user_name}`;
 		this.notificacionVisible=true;
 		this.user=null;
