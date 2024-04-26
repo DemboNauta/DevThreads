@@ -6,6 +6,10 @@
     color: white;
     transform: scale(1.1);
 }
+.nav-link:focus{
+    color: white;
+    transform: scale(1.1);
+}
 
 @media(max-width: 935px){
     .nav-item a span{
