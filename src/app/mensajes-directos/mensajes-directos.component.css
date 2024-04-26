@@ -37,23 +37,38 @@
     overflow-y: scroll;
 }
 
-#mensajes-directos li{
-    padding: 10px;
-}
+
 
 .bg-user{
-    background-color: #cc4c92;
     border-radius: 4px;
     margin-right: 3px;
+    justify-content: flex-end;
 
 }
+.bg-user p{
+    background-color: #cc4c92;
+    padding: 5px;
 
-.bg-other{
+}
+.bg-other p{
     background-color: #402f48;
+    padding: 5px;
+
+
+}
+.bg-other{
     border-radius: 4px;
     margin-left: 3px;
-
+    justify-content: flex-start;
     
+}
+
+.bg-other span{
+    width: 32px;
+    height: 32px;
+    align-self: flex-end;
+    text-align: center;
+    line-height: 32px;
 }
 
 .conversationContainer{
@@ -64,13 +79,18 @@
     display: none;
   }
 .newMessage{
-    border: 1px solid white;
+    -webkit-box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
+    -moz-box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
+    box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
 }
 .mensajeInput{
     width: 90%;
     border: none;
     outline: none;
+
 }
+
+
 
 .bi-send{
     cursor: pointer;
@@ -82,3 +102,27 @@
 
 }
 
+
+
+.chatbox::-webkit-scrollbar {
+    display: none;
+  }
+.chatbox{
+    overflow: hidden;
+    padding: 10px 20px 10px;
+}
+.chatbox .chat{
+    display: flex;
+    list-style: none;
+    margin: 2.5px 0;
+
+}
+.chatbox p{
+    white-space: pre-wrap;
+    color: white;
+    max-width: 75%;
+    padding: 6px 8px;
+    word-wrap:break-word;
+    border-radius: 5px;
+    margin-bottom: 2px !important;
+}

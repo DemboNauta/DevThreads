@@ -7,3 +7,7 @@
     height: 50px;
 }
 
+.tweetText{
+    word-wrap:break-word
+}
+
