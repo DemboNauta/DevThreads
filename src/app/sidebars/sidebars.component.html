@@ -7,12 +7,9 @@
             <a class="nav-link" routerLink="main"><i class="bi bi-house fs-4 me-2"></i><span>Para mí</span></a>
           </li>
           <li class="nav-item mb-4">
-            <a class="nav-link" ><i class="bi bi-search fs-4 me-2"></i><span>Explorar</span></a>
+            <a class="nav-link" (click)="onSearchModal(loginModal)" style="cursor: pointer;"><i class="bi bi-search fs-4 me-2"></i><span>Explorar</span></a>
           </li>
           @if (this.loggedInUser) {
-            <li class="nav-item mb-4">
-              <a class="nav-link" ><i class="bi bi-chat-left-dots fs-4 me-2"></i><span>Mensajes</span></a>
-            </li>
             <li class="nav-item mb-4">
               <a class="nav-link" routerLink="profile/{{this.loggedInUser.user_name}}"><i class="bi bi-person fs-4 me-2"></i><span>Perfil</span></a>
             </li>
@@ -27,11 +24,7 @@
     <main role="main" class="col-md-8 ml-sm-auto col-lg-8 px-md-4">
       <router-outlet></router-outlet>
       
-      <!-- @if (contenidoMostrado == 'main') {
-        <app-main></app-main>
-      }@else if(contenidoMostrado == 'profile'){
-        <app-user-profile [user]="this.loggedInUser"></app-user-profile>
-      } -->
+      
     </main>
 
     <aside class="col-md-2 d-none d-md-block bg-dark vh-100 pt-5 sticky-top">
@@ -39,3 +32,20 @@
     </aside>
   </div>
 </div>
+
+
+
+<ng-template #loginModal let-c="close" let-d="dismiss">
+	<div class="modal-header">
+        
+		<h4 class="modal-title" id="modal-basic-title" class="text-white ">Buscar</h4>
+		<button type="button" class="btn-Cerrar" (click)="closeModal()"><i class="bi bi-x-lg text-white "></i></button>
+	</div>
+	<div class="modal-body">
+			<div class="form-group">
+				<input type="text" class="form-control" id="searchInput" placeholder="Escribe tu búsqueda" required  autocomplete="on" class="p-3">
+        <i class="bi bi-search text-white ps-3"></i>
+			</div>
+		
+	</div>
+</ng-template>

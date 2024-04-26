@@ -3,6 +3,7 @@
     transition: all 0.2s linear;
 }
 .nav-link:hover{
+    color: white;
     transform: scale(1.1);
 }
 
@@ -14,4 +15,51 @@
 
 main{
     background-color: #1d2124;
+}
+
+#searchModal{
+    background-color: transparent !important;
+}
+
+.searchModal .modal-content{    
+    background-color: #000000bd !important;
+    border: 1px solid white;
+    backdrop-filter: blur(0.2px);
+    
+    
+}
+
+.searchModal .modal-content .modal-header{
+    justify-content: space-between;
+}
+.btn-close {
+    border: none;
+    outline: none;
+    color: white;
+}
+::ng-deep .btn-close:active #searchModal  {
+    border: none;
+    outline: none;
+}
+
+#searchInput{
+    background-color: transparent;
+    color: white;
+    outline: none;
+    border: 1px solid white;
+    border-radius: 0.3rem;
+    width: 90%;
+}
+
+#searchInput::placeholder{
+    color: white;
+}
+
+.bi-search{
+    font-size: x-large;
+}
+
+.btn-Cerrar{
+    background-color: transparent;
+    border: none;
 }
