@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MainComponent } from '../main/main.component';
 import { LoginComponent } from './login/login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -21,9 +21,11 @@ import { ListaInterface } from '../main/interfaces/lista.interface';
   imports: [MainComponent, LoginComponent, UserProfileComponent, RouterOutlet, RouterLink, CommonModule, FormsModule],
   styleUrl: './sidebars.component.css'
 })
-export class SidebarsComponent {
+export class SidebarsComponent implements AfterViewInit{
   contenidoMostrado: string = 'main';
   loggedInUser: User;
+  @ViewChild('inputSearchRef') inputSearchRef: ElementRef;
+
 
   constructor(private userDataService: UserDataService, private modalService: NgbModal, private tweetsService: TweetsService){
 
@@ -35,6 +37,9 @@ export class SidebarsComponent {
     this.modalService.dismissAll()
   }
 
+  ngAfterViewInit() {
+    this.inputSearchRef.nativeElement.focus();
+  }
 
 
   ngOnInit(): void {
@@ -50,6 +55,7 @@ export class SidebarsComponent {
 
   onSearchModal(content: any) {
     this.modalService.dismissAll();
+    
     this.modalService.open(content, {windowClass: "searchModal"});
     
   }
