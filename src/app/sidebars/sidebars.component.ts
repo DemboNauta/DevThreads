@@ -6,6 +6,10 @@ import { User } from '../main/interfaces/user.interface';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { UserDataService } from '../services/user-data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TweetsService } from '../services/tweets.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ListaInterface } from '../main/interfaces/lista.interface';
 
 
 
@@ -14,15 +18,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   standalone: true,
   templateUrl: './sidebars.component.html',
   encapsulation: ViewEncapsulation.None,
-  imports: [MainComponent, LoginComponent, UserProfileComponent, RouterOutlet, RouterLink],
+  imports: [MainComponent, LoginComponent, UserProfileComponent, RouterOutlet, RouterLink, CommonModule, FormsModule],
   styleUrl: './sidebars.component.css'
 })
 export class SidebarsComponent {
   contenidoMostrado: string = 'main';
   loggedInUser: User;
 
-
-  constructor(private userDataService: UserDataService, private modalService: NgbModal){
+  constructor(private userDataService: UserDataService, private modalService: NgbModal, private tweetsService: TweetsService){
 
   }
   onNavigate(feature: string){
@@ -32,21 +35,35 @@ export class SidebarsComponent {
     this.modalService.dismissAll()
   }
 
-ngOnInit(): void {
-  this.userDataService.loggedInUser.subscribe(
-    (user: User) =>{
-      this.loggedInUser=user;
+
+
+  ngOnInit(): void {
+    this.userDataService.loggedInUser.subscribe(
+      (user: User) =>{
+        this.loggedInUser=user;
+      }
+    )
+    
+  }
+
+
+
+  onSearchModal(content: any) {
+    this.modalService.dismissAll();
+    this.modalService.open(content, {windowClass: "searchModal"});
+    
+  }
+
+  reloadTweets(){
+    this.tweetsService.getTweets()
+  }
+
+  onSearchClick(search: string){
+    if(search != ''){
+      this.tweetsService.getSearch(search)
+      this.modalService.dismissAll();
     }
-  )
-  
-}
-
-
-
-onSearchModal(content: any) {
-  this.modalService.dismissAll();
-  this.modalService.open(content, {windowClass: "searchModal"});
-  
-}
+    
+  }
   
 }

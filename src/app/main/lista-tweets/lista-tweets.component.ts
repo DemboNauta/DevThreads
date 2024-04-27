@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input  } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TweetsService } from '../../services/tweets.service';
 import { TweetEventService } from '../../services/tweet-event.service';
@@ -15,47 +15,39 @@ import { RouterLink } from '@angular/router';
 })
 export class ListaTweetsComponent implements OnInit, OnDestroy {
   tweetList: ListaInterface[] = [];
+
   private tweetAddedSubscription: Subscription = new Subscription;
+
+  private tweetListSubscription: Subscription;
+
 
   constructor(private tweetsService: TweetsService, private tweetEventService: TweetEventService, private userProfileService : UserProfileService) {}
 
   ngOnInit(): void {
-    this.getTweets();
-    this.subscribeToTweetAdded();
+    this.subscribeToTweetListChanges();
+    this.getTweets(); 
 
+  }
+
+  subscribeToTweetListChanges(): void {
+    this.tweetListSubscription = this.tweetsService.getTweetListObservable().subscribe(
+      (tweets: ListaInterface[]) => {
+        this.tweetList = tweets;
+      }
+    );
   }
 
   getTweets(){
-    this.tweetsService.getTweets().subscribe({
-      next: (result) => {
-        
-        this.tweetList = result;
-        
-      },
-      error: (err) => {
-        console.error('Error al obtener los tweets:', err);
-      }
-    });
+    this.tweetsService.getTweets()
+    
+    
   }
 
-  private subscribeToTweetAdded() {
-    this.tweetAddedSubscription = this.tweetEventService.tweetAdded$.subscribe(tweet => {
-      // Agregar el nuevo tweet a la lista de tweets
-      this.getTweets();
-    });
-  }
-
-  // private subscribeToUserIdChanges(): boolean{
-  //   this.userProfileService.userId$.subscribe(userId => {
-  //     if (userId) {
-  //       this.getTweets(userId);
-  //     }
-  //   });
-  //   return true;
-  // }
 
   ngOnDestroy(): void {
-    this.tweetAddedSubscription.unsubscribe();
+    if (this.tweetListSubscription) {
+      this.tweetListSubscription.unsubscribe();
+    }
   }
 
 
