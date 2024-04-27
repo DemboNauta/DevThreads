@@ -43,7 +43,7 @@
 	</div>
 	<div class="modal-body">
 			<div class="form-group">
-				<input type="text" class="form-control" id="searchInput" data-autofocus placeholder="Escribe tu búsqueda" required autocomplete="on" class="p-3" #inputSearchRef>
+				<input type="text" class="form-control" id="searchInput" data-autofocus placeholder="Escribe tu búsqueda" required autocomplete="on" class="p-3" #inputSearchRef (keyup.enter)="onSearchClick(inputSearchRef.value)">
         <i (click)="onSearchClick(inputSearchRef.value)" class="bi bi-search text-white ps-3" style="cursor: pointer;"></i>
 			</div>
 		

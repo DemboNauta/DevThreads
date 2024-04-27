@@ -22,7 +22,6 @@ import { ListaInterface } from '../main/interfaces/lista.interface';
   styleUrl: './sidebars.component.css'
 })
 export class SidebarsComponent implements AfterViewInit{
-  contenidoMostrado: string = 'main';
   loggedInUser: User;
   @ViewChild('inputSearchRef') inputSearchRef: ElementRef;
 
@@ -30,9 +29,7 @@ export class SidebarsComponent implements AfterViewInit{
   constructor(private userDataService: UserDataService, private modalService: NgbModal, private tweetsService: TweetsService){
 
   }
-  onNavigate(feature: string){
-    this.contenidoMostrado=feature;
-  }
+  
   closeModal(){
     this.modalService.dismissAll()
   }

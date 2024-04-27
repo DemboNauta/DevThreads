@@ -11,3 +11,7 @@
     word-wrap:break-word;
 }
 
+.bi{
+    cursor: pointer !important;
+}
+

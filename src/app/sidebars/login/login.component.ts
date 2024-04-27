@@ -69,6 +69,7 @@ export class LoginComponent {
 			}
 			
 		}
+		
 		login(ev: Event): void {
 			ev.preventDefault();
 			const username = (document.getElementById('username') as HTMLInputElement).value;

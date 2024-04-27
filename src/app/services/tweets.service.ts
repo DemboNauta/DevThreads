@@ -13,6 +13,9 @@ export class TweetsService {
   tweetList: ListaInterface[] = [];
   tweetListSubject: Subject<ListaInterface[]> = new Subject<ListaInterface[]>();
 
+  favoriteTweetList: any = [];
+  favoriteTweetListSubject: Subject<any> = new Subject<any>();
+
   getTweets(): void{
     let url = 'http://localhost/tweets-api.php';
     if (this.username) {
@@ -38,5 +41,32 @@ export class TweetsService {
 
   getTweetListObservable(): Observable<ListaInterface[]> {
     return this.tweetListSubject.asObservable();
+  }
+
+  getFavoriteTweets(userId: number): void {
+    const url = `http://localhost/favorite-tweets.php?user_id=${userId}`;
+    this.http.get<ListaInterface[]>(url).subscribe((res) => {
+      this.favoriteTweetList = res;
+      this.emitFavoriteTweetListChange(); 
+    });
+  }
+
+  setFavoriteTweet(userId: number, tweetId: string){
+    const url = `http://localhost/favorite-tweets.php?user_id=${userId}&tweet_id=${tweetId}`;
+    this.http.get<ListaInterface[]>(url).subscribe((res) => {
+      this.favoriteTweetList = res;
+      this.emitFavoriteTweetListChange(); 
+      this.getTweets()
+      this.emitTweetListChange()
+    });
+
+  }
+
+  private emitFavoriteTweetListChange(): void {
+    this.favoriteTweetListSubject.next([...this.favoriteTweetList]); 
+  }
+
+  getFavoriteTweetListObservable(): Observable<any> {
+    return this.favoriteTweetListSubject.asObservable();
   }
 }
