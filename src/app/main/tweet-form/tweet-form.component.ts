@@ -1,11 +1,9 @@
-import { Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { TweetsUploadService } from '../../services/tweet-upload.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TweetEventService } from '../../services/tweet-event.service';
 import { UserDataService } from '../../services/user-data.service';
-import {User} from '../interfaces/user.interface'
-import { Data } from '@angular/router';
+import { User } from '../interfaces/user.interface'
 import { Subscription } from 'rxjs';
+import { TweetsService } from '../../services/tweets.service';
 
 
 
@@ -21,84 +19,78 @@ import { Subscription } from 'rxjs';
 
 
 
-export class TweetFormComponent implements OnInit, OnDestroy{
+export class TweetFormComponent implements OnInit, OnDestroy {
 
   loggedInUser: User;
 
 
 
 
-  
-  constructor(private tweetsUploadService: TweetsUploadService, private tweetEventService: TweetEventService, private userDataService: UserDataService) { }
+
+  constructor(private tweetsService: TweetsService, private userDataService: UserDataService) { }
 
   numCar: number = 0;
-  estiloBorde:string = "";
+  estiloBorde: string = "";
   colorCar: string = "white";
-  logged:string= "";
+  logged: string = "";
   userDataSubscription: Subscription;
 
 
   actualizaNumCar(e: Event): void {
-    if(this.numCar<=0){
-      this.numCar=1;
+    if (this.numCar <= 0) {
+      this.numCar = 1;
     }
     const target = e.target as HTMLTextAreaElement;
     this.numCar = target.value.length;
 
-    if(this.numCar>=200){
-      this.colorCar="red";
-    }else if(this.numCar>=100){
-      this.colorCar="rgb(254, 201, 201)";
-    }else{
-      this.colorCar="white";
+    if (this.numCar >= 200) {
+      this.colorCar = "red";
+    } else if (this.numCar >= 100) {
+      this.colorCar = "rgb(254, 201, 201)";
+    } else {
+      this.colorCar = "white";
     }
-    
+
   }
 
-  focusTextArea(){
+  focusTextArea() {
     this.estiloBorde = "1px solid white";
   }
-  blurTextArea(){
-    this.estiloBorde= "1px solid transparent";
+  blurTextArea() {
+    this.estiloBorde = "1px solid transparent";
   }
 
-  nuevoTweet: any = {}; // Modelo para almacenar los datos del nuevo tweet
-  contenidoTweet: string = ''; // Propiedad para almacenar el contenido del textarea
+  nuevoTweet: any = {};
+  contenidoTweet: string = '';
 
 
 
-  postTweet(ev:Event){
+  postTweet(ev: Event) {
     ev.preventDefault();
 
-    if(this.loggedInUser){
-      if(this.contenidoTweet!=''){
-        const tweetData = { nuevoTweet: this.contenidoTweet, userID: this.loggedInUser.user_id};
-  
-         this.tweetsUploadService.postTweet(tweetData).subscribe({
-           next: (tweet: any)=>{
-             this.tweetEventService.emitTweetAdded(tweet);
-             this.contenidoTweet= '';
-             this.numCar=0;
-           },
-           error: (err)=>{
-             console.log("Error al subir el tweet", err);
-           }
-         });
+    if (this.loggedInUser) {
+      if (this.contenidoTweet != '') {
+        const tweetData = { nuevoTweet: this.contenidoTweet, userID: this.loggedInUser.user_id };
+
+        this.tweetsService.postTweet(tweetData)
+        this.contenidoTweet = '';
+        this.numCar = 0;
+
       }
     }
-    
+
   }
   ngOnInit(): void {
-    if(!this.loggedInUser){
-      this.logged="disabled";
+    if (!this.loggedInUser) {
+      this.logged = "disabled";
     }
-    
-    this.userDataSubscription= this.userDataService.loggedInUser.subscribe(
-      (user: User) =>{
-        this.loggedInUser=user;
 
-        if(this.loggedInUser){
-          this.logged="";
+    this.userDataSubscription = this.userDataService.loggedInUser.subscribe(
+      (user: User) => {
+        this.loggedInUser = user;
+
+        if (this.loggedInUser) {
+          this.logged = "";
         }
       }
     )
@@ -106,9 +98,9 @@ export class TweetFormComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    
+
     this.userDataSubscription.unsubscribe();
   }
 
-  }
+}
 

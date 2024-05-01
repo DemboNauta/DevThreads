@@ -8,6 +8,31 @@
 
 }
 
+.conversation-list {
+    position: relative;
+}
+
+#new-message-btn {
+    margin-top: 10px;
+    position: absolute;
+    right: 30px;
+    background-color: #1c2122;
+    border: 2px solid #1d2124;
+    width: 50px;
+    height: 50px;
+    -webkit-box-shadow: 0px 0px 5px -2px rgba(240,223,240,1);
+    -moz-box-shadow: 0px 0px 5px -2px rgba(240,223,240,1);
+    box-shadow: 0px 0px 5px -2px rgba(240,223,240,1);
+    transition: all 0.3s ease;
+}
+
+#new-message-btn:hover{
+    background-color: #23292a;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(240,223,240,1);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(240,223,240,1);
+    box-shadow: 0px 0px 5px 2px rgba(240,223,240,1);
+}
+
 #boton-mensajes{
     background-color: #131617;
     padding: 10px 20px;
@@ -75,9 +100,18 @@
     overflow-y: scroll;
     max-height: 450px;
 }
+
 .conversationContainer::-webkit-scrollbar {
     display: none;
-  }
+}
+.usersList::-webkit-scrollbar {
+    display: none;
+}
+.usersList{
+    min-height: 70px;
+}
+
+
 .newMessage{
     -webkit-box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
     -moz-box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);

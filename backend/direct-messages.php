@@ -47,14 +47,27 @@ if(isset($_GET['sender_id'])){
 
 }else{
     
-    $query = "SELECT DISTINCT dm.sender_id, u.user_name AS sender_name, ui.image AS sender_image, MAX(dm.sent_at) AS sent_at
+    $query = "SELECT sender_id, sender_name, sender_image, MAX(sent_at) AS sent_at
+    FROM (
+        SELECT dm.sender_id, u.user_name AS sender_name, ui.image AS sender_image, dm.sent_at
         FROM direct_messages AS dm
         INNER JOIN users AS u ON dm.sender_id = u.user_id
         LEFT JOIN userImages AS ui ON dm.sender_id = ui.user_id
-        WHERE dm.receiver_id = '$user_id' 
-        GROUP BY dm.sender_id
-        ORDER BY MAX(dm.sent_at) DESC;
-        ";
+        WHERE dm.receiver_id = '$user_id'
+        UNION
+        SELECT dm.receiver_id, u.user_name AS sender_name, ui.image AS sender_image, dm.sent_at
+        FROM direct_messages AS dm
+        INNER JOIN users AS u ON dm.receiver_id = u.user_id
+        LEFT JOIN userImages AS ui ON dm.receiver_id = ui.user_id
+        WHERE dm.sender_id = '$user_id'
+    ) AS conversations
+    GROUP BY sender_id, sender_name, sender_image
+    ORDER BY MAX(sent_at) DESC";
+
+
+
+
+
 
     $result = $mysqli->query($query);
 

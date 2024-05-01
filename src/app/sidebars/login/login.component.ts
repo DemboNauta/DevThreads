@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../services/authentication.service';
 import { UserDataService } from '../../services/user-data.service';
@@ -16,7 +16,7 @@ import { RegisterUserService } from '../../services/register-user.service';
   styleUrl: './login.component.css',
   providers: [NgbModalConfig, NgbModal],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 	user: User;
 	notificationMessage: string = '';
 	notificacionVisible: boolean = false;
@@ -56,8 +56,8 @@ export class LoginComponent {
 		}
 		
 		autoLogin(){
-			if(localStorage){
-				const userData: User=JSON.parse(localStorage.getItem('userData'));
+			if(sessionStorage){
+				const userData: User=JSON.parse(sessionStorage.getItem('userData'));
 			if(!userData){
 				return;
 			}else{
@@ -80,7 +80,7 @@ export class LoginComponent {
 				if(response.success){
 					this.user=response.user;
 			
-					localStorage.setItem('userData', JSON.stringify(this.user))
+					sessionStorage.setItem('userData', JSON.stringify(this.user))
 					
 					this.userDataService.setLoggedInUser(this.user);
 					this.notificationMessage = `Holaa ${this.user.user_name}!!`;
@@ -105,14 +105,17 @@ export class LoginComponent {
 
 	}
 	cerrarSesion():void{
-		localStorage.removeItem('userData')
+		sessionStorage.removeItem('userData')
 		this.notificationMessage= `Vuelve prontoo ${this.user.user_name}`;
 		this.notificacionVisible=true;
 		this.user=null;
 		this.userDataService.setLoggedInUser(this.user)
 		this.loggedIn=false;
-
+		window.location.reload()
 	}
+
+
+
 
 	imageToBlob(blob: any, maxWidth: number, maxHeight: number): Promise<string> {
 		return new Promise((resolve, reject) => {

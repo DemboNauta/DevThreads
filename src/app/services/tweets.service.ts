@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { ListaInterface } from '../main/interfaces/lista.interface';
 
@@ -68,5 +68,19 @@ export class TweetsService {
 
   getFavoriteTweetListObservable(): Observable<any> {
     return this.favoriteTweetListSubject.asObservable();
+  }
+
+  postTweet(tweetData: any): void {
+    const apiUrl= "http://localhost/tweet-upload-api.php";
+
+    const headers = new HttpHeaders().set('Content-Type', 'text/html');
+
+    this.http.post<string>(apiUrl, tweetData, { headers }).subscribe(()=>{
+      this.emitTweetListChange()
+      this.getTweets()
+
+    });
+
+    
   }
 }

@@ -48,7 +48,6 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     this.tweetListSubscription = this.tweetsService.getFavoriteTweetListObservable().subscribe(
       (tweetLikes: string[]) => {
         this.likedTweets = tweetLikes;
-        console.log(this.likedTweets)
       }
     );
   }
@@ -57,8 +56,11 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     this.tweetsService.getTweets()
     this.userDataService.loggedInUser.subscribe(
       (user)=>{
-        this.tweetsService.getFavoriteTweets(user.user_id)
-        this.userId=user.user_id
+        if(user){
+          this.tweetsService.getFavoriteTweets(user.user_id)
+          this.userId=user.user_id
+        }
+        
 
       }
     )

@@ -18,8 +18,6 @@ if (isset($_GET['username'])) {
           FROM users 
           LEFT JOIN userImages ON users.user_id = userImages.user_id
           WHERE users.user_name = '$username'";
-
-    
     $result = $mysqli->query($query);
 
     if ($result) {
@@ -29,8 +27,26 @@ if (isset($_GET['username'])) {
     } else {
         echo "Error al obtener datos del usuario.";
     }
-} else {
-    echo "Se requiere un nombre de usuario.";
+}else if(isset($_GET['shortUsername'])) {
+    $username = $mysqli->real_escape_string($_GET['shortUsername']);
+    $query = "SELECT users.user_id, users.user_name, userImages.image AS user_image
+          FROM users 
+          LEFT JOIN userImages ON users.user_id = userImages.user_id
+          WHERE users.user_name LIKE '%$username%'";
+    $result = $mysqli->query($query);
+
+    if ($result) {
+        $users=[];
+        while ($row = $result->fetch_assoc()) {
+            $users[] = $row;
+        }
+        header('Content-Type: application/json');
+
+        echo json_encode($users);
+    } else {
+        echo "Error al obtener datos del usuario.";
+    }
+    
 }
 
 $mysqli->close();

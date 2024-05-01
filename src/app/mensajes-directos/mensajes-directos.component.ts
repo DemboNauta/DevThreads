@@ -16,80 +16,106 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './mensajes-directos.component.html',
   styleUrl: './mensajes-directos.component.css'
 })
-export class MensajesDirectosComponent implements OnInit, AfterContentChecked{
+export class MensajesDirectosComponent implements OnInit, AfterContentChecked {
 
-  constructor(private userDataService: UserDataService, private directMessageService: DirectMessagesService, private cdr: ChangeDetectorRef){}
+  constructor(private userDataService: UserDataService, private directMessageService: DirectMessagesService, private cdr: ChangeDetectorRef) { }
   loggedInUser: User;
   userMessageConversations: DirectMessageUser[] = [];
   usersConversations: DirectMessage[] = [];
-  userConversationDetail: UserSmall={};
+  userConversationDetail: UserSmall = {};
   mostrar: boolean = false;
-  value: string=""
+  value: string = ""
   interval: any;
-  conversationDetail: boolean= false
+  conversationDetail: boolean = false
+
+  searchedUsersArray: UserSmall[];
+
+  buscaUsuarios: boolean = false;
 
 
 
   ngOnInit(): void {
     this.userDataService.loggedInUser.subscribe(
-      (user: User)=>{
-        this.userMessageConversations=[]
-        this.mostrar=false;
-        this.loggedInUser=user
+      (user: User) => {
+        this.userMessageConversations = []
+        this.mostrar = false;
+        this.loggedInUser = user
       }
     );
 
-    
+
   }
 
   ngAfterContentChecked(): void {
     this.cdr.detectChanges()
-    
+
   }
-  mostrarMensajes(): void{
-    this.conversationDetail=false
+  mostrarMensajes(): void {
+    this.conversationDetail = false
     this.mostrar = !this.mostrar;
     clearInterval(this.interval);
     this.directMessageService.getDirectMessages(this.loggedInUser.user_id).subscribe(
-      (response)=>{
-        this.userMessageConversations=response
+      (response) => {
+        this.userMessageConversations = response
       }
     )
-    
+
 
   }
 
-  onLoadConversation(sender_id: number, sender_name: string, sender_image: string){
-    this.userConversationDetail.user_name= sender_name;
-    this.userConversationDetail.user_image= sender_image;
-    this.userConversationDetail.user_id=sender_id
-    
+  onLoadConversation(sender_id: number, sender_name: string, sender_image: string) {
+    this.value='';
+    this.buscaUsuarios=false;
+    this.searchedUsersArray= [];
+
+    this.userConversationDetail.user_name = sender_name;
+    this.userConversationDetail.user_image = sender_image;
+    this.userConversationDetail.user_id = sender_id
+
     this.directMessageService.getConversation(this.loggedInUser.user_id, sender_id).subscribe(
-      (response)=>{        
-        this.usersConversations=response
-        this.conversationDetail= true;
-    
-        this.interval=setInterval(()=>{
+      (response) => {
+        this.usersConversations = response
+        this.conversationDetail = true;
+
+        this.interval = setInterval(() => {
           this.directMessageService.getConversation(this.loggedInUser.user_id, sender_id).subscribe(
-            (response)=>{        
-              this.usersConversations=response
-              this.conversationDetail= true;
+            (response) => {
+              this.usersConversations = response
+              this.conversationDetail = true;
             }
           );
         }, 1000)
-        
-        
+
+
       }
     )
-    }
+  }
+  onNuevaConversacion(){
+    this.buscaUsuarios=true
+  }
 
-  onSentMessage(){
-    if(this.value != ""){
-      this.directMessageService.sentMessage(this.loggedInUser.user_id, this.userConversationDetail.user_id, this.value).subscribe(()=>{
+  onBuscaUsuarios(){
+    if(this.value != ''){
+      this.directMessageService.getUserByUsername(this.value).subscribe(
+        res=>{
+          this.searchedUsersArray=res;
+          console.log(this.searchedUsersArray)
+
+        }
+      )
+
+    }
+    
+  }
+
+  onSentMessage() {
+    if (this.value != "") {
+      this.directMessageService.sentMessage(this.loggedInUser.user_id, this.userConversationDetail.user_id, this.value).subscribe(() => {
         this.directMessageService.getConversation(this.loggedInUser.user_id, this.userConversationDetail.user_id).subscribe(
-          (response)=>{        
-            this.usersConversations=response
-            this.value=""
+          (response) => {
+            this.usersConversations = response
+
+            this.value = ""
           }
         )
 
@@ -97,12 +123,18 @@ export class MensajesDirectosComponent implements OnInit, AfterContentChecked{
     }
   }
 
-  onOutOfConversation(){
+  onOutOfConversation() {
     clearInterval(this.interval);
-    this.conversationDetail=false;
+    this.directMessageService.getDirectMessages(this.loggedInUser.user_id).subscribe(
+      (response) => {
+        this.userMessageConversations = response
+        this.conversationDetail = false;
+      }
+    )
+    
   }
 
   ngOnDestroy(): void {
     clearInterval(this.interval);
-    }
+  }
 }

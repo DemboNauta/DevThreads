@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarsComponent } from './sidebars/sidebars.component';
 import { MensajesDirectosComponent } from './mensajes-directos/mensajes-directos.component';
@@ -12,7 +12,12 @@ import { MensajesDirectosComponent } from './mensajes-directos/mensajes-directos
 })
 export class AppComponent {
   title = 'DevThreads';
+  private shouldClearLocalStorage = true;
 
+ 
+
+  @HostListener("window:onbeforeunload",["$event"])
+    clearLocalStorage(event){
+        localStorage.clear();
+    }
 }
-
-

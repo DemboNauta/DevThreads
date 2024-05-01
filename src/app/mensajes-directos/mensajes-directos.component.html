@@ -4,9 +4,22 @@
     
         <div id="mensajes-directos" [ngStyle]="{'display': mostrar ? 'block' : 'none'}">
             @if (!conversationDetail) {
-                <ul>
+                <ul class="usersList">
+                        <button id="new-message-btn" class="text-white rounded-circle" type="button" (click)="onNuevaConversacion()"><i class="bi bi-envelope-plus-fill"></i></button>
+                        @if (buscaUsuarios) {
+                            <div class="searchUsers">
+                                <input type="text" name="searchUsersInput" id="searchUsersInput" placeholder="Escribe un usuario" class="bg-transparent text-white p-3 mensajeInput" [(ngModel)]="value" (keyup)="onBuscaUsuarios()">
+                            </div>
+                            <ul>
+                                @for (user of searchedUsersArray; track $index) {
+                                    <li class="text-white py-2"><a (click)="onLoadConversation(user.user_id, user.user_name, user.user_image)" class="text-white text-decoration-none" style="cursor: pointer;"><img [src]="'data:image/png;base64,'+ user.user_image" alt="" width="50px"  class="rounded-circle" style="height: 50px;"> <span> {{user.user_name}}</span></a></li>
+                                }
+                            </ul>
+                        }
+                        
                     @for (user of userMessageConversations; track $index) {
-                        <li class="text-white py-2"><a (click)="onLoadConversation(user.sender_id, user.sender_name, user.sender_image)" class="text-white text-decoration-none" style="cursor: pointer;"><img [src]="'data:image/png;base64,'+ user.sender_image" alt="" width="50px"  class="rounded-circle" style="height: 50px;"> <span> {{user.sender_name}}</span></a></li>
+                            <li class="text-white py-2"><a (click)="onLoadConversation(user.sender_id, user.sender_name, user.sender_image)" class="text-white text-decoration-none" style="cursor: pointer;"><img [src]="'data:image/png;base64,'+ user.sender_image" alt="" width="50px"  class="rounded-circle" style="height: 50px;"> <span> {{user.sender_name}}</span></a></li>
+                        
                     }
                 </ul>
             }@else {

@@ -4,6 +4,7 @@ import {TweetFormComponent} from './tweet-form/tweet-form.component';
 import { UserDataService } from "../services/user-data.service";
 import { User } from './interfaces/user.interface';
 import { Subscription } from 'rxjs';
+import { TweetsService } from '../services/tweets.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class MainComponent implements OnInit, OnDestroy{
   loggedInUser: User;
   userDataSubscription: Subscription;
 
-  constructor(private userDataService: UserDataService) {
+  constructor(private userDataService: UserDataService, private tweetsService: TweetsService) {
 
   }
   ngOnInit() {
@@ -27,6 +28,7 @@ export class MainComponent implements OnInit, OnDestroy{
         this.loggedInUser=user;
       }
     )
+
   }
   ngOnDestroy(): void {
       this.userDataSubscription.unsubscribe();

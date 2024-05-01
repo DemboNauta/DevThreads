@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DirectMessage } from '../main/interfaces/direct-message.interface';
 import { DirectMessageUser } from '../main/interfaces/direct.message-user.interface';
+import { UserSmall } from '../main/interfaces/userSmall.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,9 @@ export class DirectMessagesService {
     let apiUrl = `http://localhost/direct-messages.php?user_id=${user_id}&receiver_id=${receiver_id}`; 
     return this.http.post<any>(apiUrl, message);
 
+  }
+
+  getUserByUsername(username: string) {
+    return this.http.get<UserSmall[]>('http://localhost/getUserByUsername.php?shortUsername=' + username);
   }
 }
