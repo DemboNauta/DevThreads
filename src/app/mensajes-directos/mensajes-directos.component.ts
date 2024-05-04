@@ -1,4 +1,4 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserDataService } from '../services/user-data.service';
 import { User } from '../main/interfaces/user.interface';
@@ -50,8 +50,13 @@ export class MensajesDirectosComponent implements OnInit, AfterContentChecked {
     this.cdr.detectChanges()
 
   }
+
+
+
   mostrarMensajes(): void {
     this.conversationDetail = false
+    this.buscaUsuarios=false;
+
     this.mostrar = !this.mostrar;
     clearInterval(this.interval);
     this.directMessageService.getDirectMessages(this.loggedInUser.user_id).subscribe(

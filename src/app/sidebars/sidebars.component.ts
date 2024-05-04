@@ -21,7 +21,7 @@ import { ListaInterface } from '../main/interfaces/lista.interface';
   imports: [MainComponent, LoginComponent, UserProfileComponent, RouterOutlet, RouterLink, CommonModule, FormsModule],
   styleUrl: './sidebars.component.css'
 })
-export class SidebarsComponent implements AfterViewInit{
+export class SidebarsComponent {
   loggedInUser: User;
   @ViewChild('inputSearchRef') inputSearchRef: ElementRef;
 
@@ -34,9 +34,7 @@ export class SidebarsComponent implements AfterViewInit{
     this.modalService.dismissAll()
   }
 
-  ngAfterViewInit() {
-    this.inputSearchRef.nativeElement.focus();
-  }
+
 
 
   ngOnInit(): void {

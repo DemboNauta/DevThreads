@@ -7,14 +7,11 @@
             <a class="nav-link" routerLink="main" (click)="reloadTweets()"><i class="bi bi-house fs-4 me-2"></i><span>Para mí</span></a>
           </li>
           <li class="nav-item mb-4">
-            <a class="nav-link" (click)="onSearchModal(loginModal)" style="cursor: pointer;"><i class="bi bi-search fs-4 me-2"></i><span>Explorar</span></a>
+            <a class="nav-link" (click)="onSearchModal(searchModal)" style="cursor: pointer;"><i class="bi bi-search fs-4 me-2"></i><span>Explorar</span></a>
           </li>
           @if (this.loggedInUser) {
             <li class="nav-item mb-4">
               <a class="nav-link" routerLink="profile/{{this.loggedInUser.user_name}}"><i class="bi bi-person fs-4 me-2"></i><span>Perfil</span></a>
-            </li>
-            <li class="nav-item mb-4">
-              <a class="nav-link" ><i class="bi bi-gear fs-4 me-2"></i><span>Ajustes</span></a>
             </li>
           }
         </ul>
@@ -35,7 +32,7 @@
 
 
 
-<ng-template #loginModal let-c="close" let-d="dismiss">
+<ng-template #searchModal let-c="close" let-d="dismiss">
 	<div class="modal-header">
         
 		<h4 class="modal-title" id="modal-basic-title" class="text-white ">Buscar</h4>

@@ -9,17 +9,16 @@ import { ListaInterface } from '../main/interfaces/lista.interface';
 export class TweetsService {
   constructor(private http: HttpClient) {}
 
-  username: string;
   tweetList: ListaInterface[] = [];
   tweetListSubject: Subject<ListaInterface[]> = new Subject<ListaInterface[]>();
 
   favoriteTweetList: any = [];
   favoriteTweetListSubject: Subject<any> = new Subject<any>();
 
-  getTweets(): void{
+  getTweets(username?: string): void{
     let url = 'http://localhost/tweets-api.php';
-    if (this.username) {
-      url += `?username=${this.username}`;
+    if (username) {
+      url += `?username=${username}`;
     }
     this.http.get<ListaInterface[]>(url).subscribe((res)=>{
       this.tweetList=res;
@@ -51,16 +50,15 @@ export class TweetsService {
     });
   }
 
-  setFavoriteTweet(userId: number, tweetId: string){
+  setFavoriteTweet(userId: number, tweetId: string, username?: string) {
     const url = `http://localhost/favorite-tweets.php?user_id=${userId}&tweet_id=${tweetId}`;
     this.http.get<ListaInterface[]>(url).subscribe((res) => {
       this.favoriteTweetList = res;
-      this.emitFavoriteTweetListChange(); 
-      this.getTweets()
-      this.emitTweetListChange()
+      this.emitFavoriteTweetListChange();
+      this.getTweets(username);
     });
-
   }
+  
 
   private emitFavoriteTweetListChange(): void {
     this.favoriteTweetListSubject.next([...this.favoriteTweetList]); 

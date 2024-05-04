@@ -117,12 +117,32 @@
     -moz-box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
     box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
 }
+
+.searchusers{
+    -webkit-box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
+    -moz-box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
+    box-shadow: 1px 1px 5px -2px rgba(255,255,255,1);
+    border: 1px solid white;
+}
+
+#searchList{
+    overflow-y: scroll;
+}
+
+#searchList::-webkit-scrollbar {
+    display: none;
+}
 .mensajeInput{
     width: 90%;
     border: none;
     outline: none;
-
 }
+.userInput{
+    width: 90%;
+    border: none;
+    outline: none;
+}
+
 
 
 

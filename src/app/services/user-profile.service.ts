@@ -27,4 +27,15 @@ export class UserProfileService {
       }
     );
   }
+
+
+  followUser(follower_id: number, following_id: number){
+    return this.http.get(`http://localhost/followUser.php?follower_id=${follower_id}&following_id=${following_id}`);
+
+  }
+
+  getUserFollowing(user_id: number){
+    return this.http.get<number[]>(`http://localhost/get-followers.php?user_id=${user_id}`);
+
+  }
 }

@@ -18,6 +18,8 @@ import { UserDataService } from '../../services/user-data.service';
 export class ListaTweetsComponent implements OnInit, OnDestroy {
   tweetList: ListaInterface[] = [];
 
+  @Input() userProfileUserName: string;
+
   likedTweets: string[];
 
   userId: number;
@@ -31,10 +33,12 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscribeToTweetListChanges();
-    this.getTweets(); 
+    if(this.userProfileUserName){
+      this.getTweets(this.userProfileUserName); 
+    }else{
+      this.getTweets()
+    }
     this.subscribeToTweetListLikeChanges();
-
-
   }
 
   subscribeToTweetListChanges(): void {
@@ -52,8 +56,9 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     );
   }
 
-  getTweets(){
-    this.tweetsService.getTweets()
+  getTweets(username?:string){
+    
+    this.tweetsService.getTweets(username)
     this.userDataService.loggedInUser.subscribe(
       (user)=>{
         if(user){
@@ -69,7 +74,11 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
   }
 
   onSetLike(tweetId: string): void{
-    this.tweetsService.setFavoriteTweet(this.userId, tweetId);
+    if(this.userProfileUserName){
+      this.tweetsService.setFavoriteTweet(this.userId, tweetId, this.userProfileUserName);
+    }else{
+      this.tweetsService.setFavoriteTweet(this.userId, tweetId,);
+    }
   }
 
 
