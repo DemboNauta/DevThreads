@@ -1,12 +1,11 @@
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { User } from '../../main/interfaces/user.interface';
-import { ListaTweetsComponent } from '../../main/lista-tweets/lista-tweets.component';
+import { User } from '../interfaces/user.interface';
+import { ListaTweetsComponent } from '../lista-tweets/lista-tweets.component';
 import { UserDataService } from '../../services/user-data.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserProfileService } from '../../services/user-profile.service';
 import { TweetsService } from '../../services/tweets.service';
-import { MensajesDirectosComponent } from '../../mensajes-directos/mensajes-directos.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -46,12 +45,10 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, NgControl, ReactiveFo
     ) {}
   
     ngOnInit(): void {
-
-      
-  
       this.userSubscription = this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
         this.username = params.get('username');
         this.loadUserData();
+        this.tweetsService.getTweets(this.username)
       });
   
       this.userDataService.getLoggedInUser().subscribe(user => {

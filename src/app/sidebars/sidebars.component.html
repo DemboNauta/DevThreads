@@ -11,6 +11,9 @@
           </li>
           @if (this.loggedInUser) {
             <li class="nav-item mb-4">
+              <a class="nav-link" routerLink="seguidos"><i class="bi bi-person-walking fs-4 me-2"></i><span>Seguidos</span></a>
+            </li>
+            <li class="nav-item mb-4">
               <a class="nav-link" routerLink="profile/{{this.loggedInUser.user_name}}"><i class="bi bi-person fs-4 me-2"></i><span>Perfil</span></a>
             </li>
           }

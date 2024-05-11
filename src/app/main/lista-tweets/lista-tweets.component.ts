@@ -19,6 +19,7 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
   tweetList: ListaInterface[] = [];
 
   @Input() userProfileUserName: string;
+  @Input() userFollowingId: number;
 
   likedTweets: string[];
 
@@ -35,7 +36,10 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     this.subscribeToTweetListChanges();
     if(this.userProfileUserName){
       this.getTweets(this.userProfileUserName); 
-    }else{
+    }else if(this.userFollowingId){
+      this.getFollowingTweets(this.userFollowingId);
+    }
+    else{
       this.getTweets()
     }
     this.subscribeToTweetListLikeChanges();
@@ -73,6 +77,10 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     
   }
 
+  getFollowingTweets(userId: number){
+    this.tweetsService.getFollowingTweets(userId)
+  }
+
   onSetLike(tweetId: string): void{
     if(this.userProfileUserName){
       this.tweetsService.setFavoriteTweet(this.userId, tweetId, this.userProfileUserName);
@@ -86,6 +94,7 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
     if (this.tweetListSubscription) {
       this.tweetListSubscription.unsubscribe();
     }
+    this.tweetList=[]
   }
 
   getFavoriteTweets(userId: number): void {

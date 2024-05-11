@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MainComponent } from '../main/main.component';
 import { LoginComponent } from './login/login.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileComponent } from '../main/user-profile/user-profile.component';
 import { User } from '../main/interfaces/user.interface';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { UserDataService } from '../services/user-data.service';

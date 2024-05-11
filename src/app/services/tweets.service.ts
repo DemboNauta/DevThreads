@@ -13,6 +13,7 @@ export class TweetsService {
   tweetListSubject: Subject<ListaInterface[]> = new Subject<ListaInterface[]>();
 
   favoriteTweetList: any = [];
+  followingTweetList:ListaInterface[] = [];
   favoriteTweetListSubject: Subject<any> = new Subject<any>();
 
   getTweets(username?: string): void{
@@ -47,6 +48,14 @@ export class TweetsService {
     this.http.get<ListaInterface[]>(url).subscribe((res) => {
       this.favoriteTweetList = res;
       this.emitFavoriteTweetListChange(); 
+    });
+  }
+
+  getFollowingTweets(userId: number){
+    const url = `http://localhost/following-tweets.php?user_id=${userId}`;
+    this.http.get<ListaInterface[]>(url).subscribe((res) => {
+      this.tweetList=res;
+      this.emitTweetListChange(); 
     });
   }
 
