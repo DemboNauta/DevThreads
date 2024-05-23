@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class RegisterUserService {
 
-  private apiUrl = 'http://localhost/register-user.php'; 
+  private apiUrl = 'https://devthreads.es/backend/register-user.php'; 
 
   constructor(private http: HttpClient) { }
 

@@ -4,7 +4,7 @@
     header("Access-Control-Allow-Methods: GET");
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-    $mysqli = new mysqli("localhost", "root", "1234", "devthreads_db");
+    $mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
     if ($mysqli->connect_errno) {
         header('Content-Type: application/json');
         echo json_encode(array("error" => "Error en la conexión a MySQL: " . $mysqli->connect_error));
@@ -48,4 +48,4 @@
         header('Content-Type: application/json');
         echo json_encode(array("error" => "Los parámetros 'follower_id' y 'following_id' son necesarios."));
     }
-?>
+

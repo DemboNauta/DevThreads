@@ -15,23 +15,23 @@ export class DirectMessagesService {
   constructor(private http: HttpClient) { }
 
   getDirectMessages(user_id: number): Observable<DirectMessageUser[]> {
-    let apiUrl = `http://localhost/direct-messages.php?user_id=${user_id}`; 
+    let apiUrl = `https://devthreads.es/backend/direct-messages.php?user_id=${user_id}`; 
     return this.http.get<DirectMessageUser[]>(apiUrl);
 
   }
   
   getConversation(user_id: number, sender_id: number): Observable<DirectMessage[]> {
-      let apiUrl = `http://localhost/direct-messages.php?user_id=${user_id}&sender_id=${sender_id}`; 
+      let apiUrl = `https://devthreads.es/backend/direct-messages.php?user_id=${user_id}&sender_id=${sender_id}`; 
       return this.http.get<DirectMessage[]>(apiUrl);
   }
 
   sentMessage(user_id: number, receiver_id: number, message: string){
-    let apiUrl = `http://localhost/direct-messages.php?user_id=${user_id}&receiver_id=${receiver_id}`; 
+    let apiUrl = `https://devthreads.es/backend/direct-messages.php?user_id=${user_id}&receiver_id=${receiver_id}`; 
     return this.http.post<any>(apiUrl, message);
 
   }
 
   getUserByUsername(username: string) {
-    return this.http.get<UserSmall[]>('http://localhost/getUserByUsername.php?shortUsername=' + username);
+    return this.http.get<UserSmall[]>('https://devthreads.es/backend/getUserByUsername.php?shortUsername=' + username);
   }
 }

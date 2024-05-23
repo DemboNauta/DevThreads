@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost/login-verify.php'; 
+  private apiUrl = 'https://devthreads.es/backend/login-verify.php'; 
   private loggedInUser: any; 
 
   constructor(private http: HttpClient) { }

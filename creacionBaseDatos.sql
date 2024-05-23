@@ -357,6 +357,30 @@ END $$
 
 DELIMITER ;
 */
+
+DELIMITER $$
+
+CREATE TRIGGER aumentar_comments
+AFTER INSERT ON tweet_comments
+FOR EACH ROW
+BEGIN
+    UPDATE tweets 
+    SET num_comments = num_comments + 1 
+    WHERE tweet_id = NEW.tweet_id;
+END $$
+
+CREATE TRIGGER disminuir_comments
+AFTER DELETE ON tweet_comments
+FOR EACH ROW
+BEGIN
+    UPDATE tweets 
+    SET num_comments = num_comments - 1 
+    WHERE tweet_id = OLD.tweet_id;
+END $$
+
+DELIMITER ;
+
+
 SET SQL_SAFE_UPDATES = 0;
 CALL delete_user_and_related_data(17);
 

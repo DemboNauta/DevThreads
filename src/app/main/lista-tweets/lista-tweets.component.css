@@ -9,9 +9,32 @@
 
 .tweetText{
     word-wrap:break-word;
+    color: white;
 }
 
 .bi{
     cursor: pointer !important;
 }
 
+#tweetModal{
+    background-color: transparent !important;
+    color: white;
+}
+
+.tweetModal .modal-content{    
+    background-color: #000000bd !important;
+    border: 1px solid white;
+    backdrop-filter: blur(0.2px);
+    
+    
+}
+
+.tweetModal .modal-content .modal-header{
+    justify-content: space-between;
+}
+
+.btn-close {
+    border: none;
+    outline: none;
+    color: white;
+}

@@ -14,7 +14,7 @@ export class UserProfileService {
   constructor(private http: HttpClient) {}
 
   getUserByUsername(username: string) {
-    return this.http.get<User>('http://localhost/getUserByUsername.php?username=' + username);
+    return this.http.get<User>('https://devthreads.es/backend/getUserByUsername.php?username=' + username);
   }
 
   setUserByUsername(username: string) {
@@ -30,12 +30,12 @@ export class UserProfileService {
 
 
   followUser(follower_id: number, following_id: number){
-    return this.http.get(`http://localhost/followUser.php?follower_id=${follower_id}&following_id=${following_id}`);
+    return this.http.get(`https://devthreads.es/backend/followUser.php?follower_id=${follower_id}&following_id=${following_id}`);
 
   }
 
   getUserFollowing(user_id: number){
-    return this.http.get<number[]>(`http://localhost/get-followers.php?user_id=${user_id}`);
+    return this.http.get<number[]>(`https://devthreads.es/backend/get-followers.php?user_id=${user_id}`);
 
   }
 }

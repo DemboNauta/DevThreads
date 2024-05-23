@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { ListaInterface } from '../main/interfaces/lista.interface';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class TweetsService {
   constructor(private http: HttpClient) {}
 
   tweetList: ListaInterface[] = [];
+  tweetComments: ListaInterface[] = [];
   tweetListSubject: Subject<ListaInterface[]> = new Subject<ListaInterface[]>();
 
   favoriteTweetList: any = [];
@@ -17,7 +18,7 @@ export class TweetsService {
   favoriteTweetListSubject: Subject<any> = new Subject<any>();
 
   getTweets(username?: string): void{
-    let url = 'http://localhost/tweets-api.php';
+    let url = 'https://devthreads.es/backend/tweets-api.php';
     if (username) {
       url += `?username=${username}`;
     }
@@ -28,7 +29,7 @@ export class TweetsService {
   }
 
   getSearch(search: string): void{
-    let url = `http://localhost/tweets-api.php?search=${search}`;
+    let url = `https://devthreads.es/backend/tweets-api.php?search=${search}`;
     this.http.get<ListaInterface[]>(url).subscribe((res)=>{
       this.tweetList=res;
       this.emitTweetListChange(); 
@@ -44,7 +45,7 @@ export class TweetsService {
   }
 
   getFavoriteTweets(userId: number): void {
-    const url = `http://localhost/favorite-tweets.php?user_id=${userId}`;
+    const url = `https://devthreads.es/backend/favorite-tweets.php?user_id=${userId}`;
     this.http.get<ListaInterface[]>(url).subscribe((res) => {
       this.favoriteTweetList = res;
       this.emitFavoriteTweetListChange(); 
@@ -52,7 +53,7 @@ export class TweetsService {
   }
 
   getFollowingTweets(userId: number){
-    const url = `http://localhost/following-tweets.php?user_id=${userId}`;
+    const url = `https://devthreads.es/backend/following-tweets.php?user_id=${userId}`;
     this.http.get<ListaInterface[]>(url).subscribe((res) => {
       this.tweetList=res;
       this.emitTweetListChange(); 
@@ -60,12 +61,15 @@ export class TweetsService {
   }
 
   setFavoriteTweet(userId: number, tweetId: string, username?: string) {
-    const url = `http://localhost/favorite-tweets.php?user_id=${userId}&tweet_id=${tweetId}`;
-    this.http.get<ListaInterface[]>(url).subscribe((res) => {
-      this.favoriteTweetList = res;
-      this.emitFavoriteTweetListChange();
-      this.getTweets(username);
-    });
+    const url = `https://devthreads.es/backend/favorite-tweets.php?user_id=${userId}&tweet_id=${tweetId}`;
+    return this.http.get<ListaInterface[]>(url).pipe(
+      tap((res) => {
+        this.favoriteTweetList = res;
+        this.emitFavoriteTweetListChange();
+        this.getTweets(username);
+      })
+    )
+    
   }
   
 
@@ -78,7 +82,7 @@ export class TweetsService {
   }
 
   postTweet(tweetData: any): void {
-    const apiUrl= "http://localhost/tweet-upload-api.php";
+    const apiUrl= "https://devthreads.es/backend/tweet-upload-api.php";
 
     const headers = new HttpHeaders().set('Content-Type', 'text/html');
 
@@ -87,6 +91,19 @@ export class TweetsService {
       this.getTweets()
 
     });
+
+    
+  }
+
+  getCommentTweets(tweet_id: string){
+    let url = `https://devthreads.es/backend/getTweetComments.php?tweet_id=${tweet_id}`;
+
+    return this.http.get<ListaInterface[]>(url)
+  }
+
+  postComment(tweetData: any, tweet_id) {
+    const apiUrl= "https://devthreads.es/backend/postTweetComment.php";
+    return this.http.post<string>(apiUrl, tweetData)
 
     
   }

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 
 export class TweetsUploadService {
-  private apiUrl= "http://localhost/tweet-upload-api.php";
+  private apiUrl= "https://devthreads.es/backend/tweet-upload-api.php";
 
   constructor (private http: HttpClient) { }
 

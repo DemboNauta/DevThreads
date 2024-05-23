@@ -36,16 +36,14 @@
 
 
 <ng-template #searchModal let-c="close" let-d="dismiss">
-	<div class="modal-header">
-        
+	<div class="modal-header">        
 		<h4 class="modal-title" id="modal-basic-title" class="text-white ">Buscar</h4>
 		<button type="button" class="btn-Cerrar" (click)="closeModal()"><i class="bi bi-x-lg text-white "></i></button>
 	</div>
 	<div class="modal-body">
-			<div class="form-group">
-				<input type="text" class="form-control" id="searchInput" data-autofocus placeholder="Escribe tu búsqueda" required autocomplete="on" class="p-3" #inputSearchRef (keyup.enter)="onSearchClick(inputSearchRef.value)">
-        <i (click)="onSearchClick(inputSearchRef.value)" class="bi bi-search text-white ps-3" style="cursor: pointer;"></i>
-			</div>
-		
+		<div class="form-group">
+			<input type="text" class="form-control" id="searchInput" data-autofocus placeholder="Escribe tu búsqueda" required autocomplete="on" class="p-3" #inputSearchRef (keyup.enter)="onSearchClick(inputSearchRef.value)">
+      <i (click)="onSearchClick(inputSearchRef.value)" class="bi bi-search text-white ps-3" style="cursor: pointer;"></i>
+		</div>
 	</div>
 </ng-template>

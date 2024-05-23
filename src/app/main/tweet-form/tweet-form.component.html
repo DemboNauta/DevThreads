@@ -5,7 +5,7 @@
         <img [src]="'data:image/png;base64,' + this.loggedInUser.user_image" alt="userAvatar" class="avatar me-2 rounded-circle">
         <span id="nombreUsuario" class="text-white">{{this.loggedInUser.user_name}}</span>
     }@else{
-        <img [src]="'../../../assets/img/Default.webp'" alt="userAvatar" class="avatar me-2 rounded-circle">
+        <img [src]="'../../../frontend/assets/img/Default.webp'" alt="userAvatar" class="avatar me-2 rounded-circle">
         <span id="nombreUsuario" class="text-white">UsuarioNoRegistrado</span>
     }
 </div>
