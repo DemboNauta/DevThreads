@@ -52,6 +52,14 @@ export class LoginComponent implements OnInit{
 
 	  ngOnInit(): void {
 		this.autoLogin()
+		this.userDataService.getLoggedInUser().subscribe(
+			user=>{
+				if(user){
+					this.loggedIn=true;
+					this.user=user
+				}
+			}
+		)
 		
 		}
 		
@@ -108,10 +116,11 @@ export class LoginComponent implements OnInit{
 		sessionStorage.removeItem('userData')
 		this.notificationMessage= `Vuelve prontoo ${this.user.user_name}`;
 		this.notificacionVisible=true;
-		this.user=null;
-		this.userDataService.setLoggedInUser(this.user)
+		this.userDataService.setLoggedInUser(null)
 		this.loggedIn=false;
-		window.location.reload()
+		setTimeout(()=>{
+			window.location.reload()
+		}, 100)
 	}
 
 

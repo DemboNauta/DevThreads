@@ -1,5 +1,5 @@
 @if (loggedInUser) {
-    <div id="mensajes" style="right: 20px;">
+    <div id="mensajes" style="right: 0px;">
         <button id="boton-mensajes" class="text-white" (click)="mostrarMensajes()" type="button">Mensajes directos</button>
     
         <div id="mensajes-directos" [ngStyle]="{'display': mostrar ? 'block' : 'none'}">

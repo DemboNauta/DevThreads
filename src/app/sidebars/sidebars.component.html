@@ -1,5 +1,12 @@
 <div class="container-fluid">
   <div class="row">
+    @if (this.mostrarBotonOffcanvas) {
+      <div class="w-25 position-fixed burguer-menu">
+        <button class="btn d-md-none pruebaboton" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" (click)="toggleBotonOffcanvasVisibility()" (click)="openCanvas(offcanvas)"><i class="bi bi-list"></i></button>
+      </div>
+    }
+    
+    
     <nav class="col-md-2 d-none d-md-block bg-dark sidebar vh-100 pt-5 sticky-top">
       <div class="pt-5 sidebar-sticky d-flex justify-content-center">
         <ul class="nav flex-column">
@@ -20,6 +27,38 @@
         </ul>
       </div>
     </nav>
+
+    <div #offcanvas class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" data-bs-backdrop="false" autoClose="outside">
+      <div class="offcanvas-header">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" (click)="toggleBotonOffcanvasVisibility()"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="nav flex-column">
+    
+          <div class="login-sm">
+            <app-login (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"></app-login>
+          </div>
+          
+          <li class="nav-item mb-4 mt-4">
+            <a class="nav-link" routerLink="main" (click)="reloadTweets()" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-house fs-4 me-2"></i><span>Para mí</span></a>
+          </li>
+          <li class="nav-item mb-4">
+            <a class="nav-link" (click)="onSearchModal(searchModal)" style="cursor: pointer;" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-search fs-4 me-2"></i><span>Explorar</span></a>
+          </li>
+    
+          @if (this.loggedInUser) {
+            <li class="nav-item mb-4">
+              <a class="nav-link" routerLink="seguidos" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-person-walking fs-4 me-2"></i><span>Seguidos</span></a>
+            </li>
+            <li class="nav-item mb-4">
+              <a class="nav-link" [routerLink]="['profile', this.loggedInUser.user_name]" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-person fs-4 me-2"></i><span>Perfil</span></a>
+            </li>
+          }
+    
+        </ul>
+      </div>
+    </div>
+    
 
     <main role="main" class="col-md-8 ml-sm-auto col-lg-8 px-md-4">
       <router-outlet></router-outlet>

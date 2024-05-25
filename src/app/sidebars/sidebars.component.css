@@ -1,69 +1,106 @@
-.nav-link{
-    color: white;
-    transition: all 0.2s linear;
+.nav-link {
+  color: white;
+  transition: all 0.2s linear;
 }
-.nav-link:hover{
-    color: white;
-    transform: scale(1.1);
+.nav-link:hover {
+  color: white;
+  transform: scale(1.1);
 }
-.nav-link:focus{
-    color: white;
-    transform: scale(1.1);
+.nav-link:focus {
+  color: white;
+  transform: scale(1.1);
 }
 
-@media(max-width: 935px){
-    .nav-item a span{
-        display: none;
+@media(max-width: 935px) {
+  .nav-item a span {
+    display: none;
+  }
+}
+
+
+
+@media(max-width: 765px) {
+    .nav-item a span {
+      display: inline;
     }
+  }
+
+main {
+  background-color: #1d2124;
 }
 
-main{
-    background-color: #1d2124;
+
+#searchModal {
+  background-color: transparent !important;
 }
 
-#searchModal{
-    background-color: transparent !important;
+.searchModal .modal-content {
+  background-color: #000000bd !important;
+  border: 1px solid white;
+  backdrop-filter: blur(0.2px);
 }
 
-.searchModal .modal-content{    
-    background-color: #000000bd !important;
-    border: 1px solid white;
-    backdrop-filter: blur(0.2px);
-    
-    
-}
-
-.searchModal .modal-content .modal-header{
-    justify-content: space-between;
+.searchModal .modal-content .modal-header {
+  justify-content: space-between;
 }
 .btn-close {
-    border: none;
-    outline: none;
-    color: white;
+  border: none;
+  outline: none;
+  color: white;
 }
-::ng-deep .btn-close:active #searchModal  {
-    border: none;
-    outline: none;
+::ng-deep .btn-close:active #searchModal {
+  border: none;
+  outline: none;
 }
 
-#searchInput{
-    background-color: transparent;
-    color: white;
-    outline: none;
+#searchInput {
+  background-color: transparent;
+  color: white;
+  outline: none;
+  border: 1px solid white;
+  border-radius: 0.3rem;
+  width: 90%;
+}
+
+#searchInput::placeholder {
+  color: white;
+}
+
+.bi-search {
+  font-size: x-large;
+}
+
+.btn-Cerrar {
+  background-color: transparent;
+  border: none;
+}
+
+.pruebaboton{
     border: 1px solid white;
-    border-radius: 0.3rem;
-    width: 90%;
-}
-
-#searchInput::placeholder{
     color: white;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+.pruebaboton:hover{
+    border: 1px solid 1d2124;
+    background-color: white;
+    color: #1d2124;
+    margin-top: 20px;
+    -webkit-box-shadow: 0px 0px 29px -13px rgb(255, 255, 255);
+    -moz-box-shadow: 0px 0px 29px -13px rgb(255, 255, 255);
+    box-shadow: 0px 0px 29px -13px rgb(255, 255, 255);
 }
 
-.bi-search{
-    font-size: x-large;
+.login-sm{
+    margin-bottom: 90px;
 }
 
-.btn-Cerrar{
-    background-color: transparent;
-    border: none;
+.offcanvas{
+    background-color: #353f46d1;
+    max-width: 320px;
 }
+
+.offcanvas::-webkit-scrollbar {
+    display: none;
+}
+

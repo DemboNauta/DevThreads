@@ -1,91 +1,101 @@
 @if (cargado) {
-    <div class="text-white">
-        <div class="row justify-content-center">
-            <div class="col-2">
-                <img [src]="'data:image/png;base64,' + user.user_image" alt="" width="200px" height="200px" class="rounded-circle">
-            </div>
-            <div class="col-3 d-flex justify-content-center align-items-center ms-4">
-                <div class="row">
-                    <div class="col-12">
-                        <h3 class="mb-4">&#64;{{ user.user_name }}</h3>
-                        <p>Se unió el: {{ fechaUnion }}</p>
-                    </div>
-                    <div class="col-12">
-                        <p><span>Seguidores: {{ user.follower_count }}</span> <span class="ms-2">Siguiendo: {{ user.following_count }}</span></p>
-                    </div>
-                </div>
-                
-            </div>
+<div class="text-white">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-2 d-flex justify-content-center">
+          <img [src]="'data:image/png;base64,' + user.user_image" alt="" width="200px" height="200px" class="rounded-circle">
         </div>
-        <div class="row justify-content-center">
-            <div class="col-5 d-flex justify-content-center mt-4">
-                @if (loggedInUser) {
-                    @if (loggedInUser.user_id != user.user_id) {
-                        @if (followingUser) {
-                            <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons" type="button" (click)="onFollowUser()">Dejar de seguir</button>
-                        }@else{
-                            <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons" type="button" (click)="onFollowUser()">Seguir</button>
-                        }
-                        <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons" type="button"><i class="bi bi-envelope-fill"></i></button>
-                        <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons" type="button"><i class="bi bi-bell-fill"></i></button>
+        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center ms-lg-5">
+          <div class="row text-center text-lg-start">
+            <div class="col-12">
+              <h3 class="mb-4">&#64;{{ user.user_name }}</h3>
+              <p>Se unió el: {{ fechaUnion }}</p>
+            </div>
+            <div class="col-12">
+              <p>
+                <span>Seguidores: {{ user.follower_count }}</span>
+                <span class="ms-2">Siguiendo: {{ user.following_count }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <div class="row justify-content-center">
+        <div class="col-5 d-flex justify-content-center mt-4">
+            @if (loggedInUser) {
+                @if (loggedInUser.user_id != user.user_id) {
+                    @if (followingUser) {
+                    <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
+                        type="button" (click)="onFollowUser()">Dejar de seguir</button>
                     }@else{
-                        <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons" type="button" (click)="onEditModal(searchModal)">Editar perfil</button>
-    
+                    <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
+                        type="button" (click)="onFollowUser()">Seguir</button>
                     }
+                    <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
+                        type="button"><i class="bi bi-envelope-fill"></i></button>
+                    <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
+                        type="button"><i class="bi bi-bell-fill"></i></button>
+                    }@else{
+                <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
+                    type="button" (click)="onEditModal(editModal)">Editar perfil</button>
+
                 }
-                
-            </div>
-            
+            }
+
         </div>
-        
-    </div>
-    
-    <div class="" class="mt4 p-4">
-        <app-lista-tweets [userProfileUserName]="user.user_name"></app-lista-tweets>
+
     </div>
 
-    <ng-template #searchModal let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title" class="text-black">Editar Perfil</h4>
-            <button type="button" class="btn-Cerrar" (click)="closeModal()"><i class="bi bi-x-lg text-white"></i></button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group" [formGroup]="profileForm">
-                <div class="mb-3">
-                    <label for="user_name" class="form-label">Nombre de usuario</label>
-                    <input type="text" class="form-control" id="user_name" formControlName="user_name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="email" formControlName="email_address" required>
-                </div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <label for="firstName" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="firstName" formControlName="first_name">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <label for="lastName" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="lastName" formControlName="last_name">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">Número de teléfono</label>
-                    <input type="tel" class="form-control" id="phoneNumber" formControlName="phonenumber" pattern="[0-9]{9}">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" formControlName="password" autocomplete="new-password">
-                </div>             
-                <div class="mb-3">
-                    <label for="profileImage" class="form-label">Foto de perfil</label>
-                    <input type="file" class="form-control" id="user_image" formControlName="user_image" accept="image/*">
+</div>
+
+<div class="" class="mt4 p-4">
+    <app-lista-tweets [userProfileUserName]="user.user_name"></app-lista-tweets>
+</div>
+
+<ng-template #editModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" class="text-black">Editar Perfil</h4>
+        <button type="button" class="btn-Cerrar" (click)="closeModal()"><i class="bi bi-x-lg text-white"></i></button>
+    </div>
+    <div class="modal-body modal-sm">
+        <div class="form-group" [formGroup]="profileForm">
+            <div class="mb-3">
+                <label for="user_name" class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-control" id="user_name" formControlName="user_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" formControlName="email_address" required>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="firstName" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="firstName" formControlName="first_name">
                 </div>
             </div>
-            <button type="button" (click)="updateProfile()" class="btn btn-dark">Enviar</button>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="lastName" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="last_name">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Número de teléfono</label>
+                <input type="tel" class="form-control" id="phoneNumber" formControlName="phonenumber"
+                    pattern="[0-9]{9}">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" formControlName="password"
+                    autocomplete="new-password">
+            </div>
+            <div class="mb-3">
+                <label for="profileImage" class="form-label">Foto de perfil</label>
+                <input type="file" class="form-control" id="user_image" formControlName="user_image" accept="image/*">
+            </div>
         </div>
-    </ng-template>
-    
+        <button type="button" (click)="updateProfile()" class="btn btn-dark">Enviar</button>
+    </div>
+</ng-template>
+
 }
