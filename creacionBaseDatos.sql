@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     follower_count INT NOT NULL DEFAULT 0,
     following_count INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    user_image BLOB,
     password VARCHAR(255) NOT NULL, 
     PRIMARY KEY(user_id)
 );
@@ -40,12 +41,7 @@ CREATE TABLE IF NOT EXISTS followers (
 	PRIMARY KEY(follower_id, following_id)
 );
 
-CREATE TABLE IF NOT EXISTS userImages (
-    user_id INT NOT NULL,
-    image BLOB,
-    PRIMARY KEY (user_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
+
 /*
 SELECT follower_id, following_id FROM followers;
 SELECT COUNT(follower_id) FROM followers WHERE following_id = (SELECT user_id  FROM users WHERE user_name= 'edgarKNG');
@@ -70,10 +66,12 @@ CREATE TABLE IF NOT EXISTS tweets(
     num_likes INT DEFAULT 0,
     num_retweets INT DEFAULT 0,
     num_comments INT DEFAULT 0,
+    is_comment INT DEFAULT 0,
 	created_at TIMESTAMP NOT NULL DEFAULT (NOW()),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     PRIMARY KEY(tweet_id)
 );
+
 /*
 INSERT INTO tweets (user_id, tweet_text)
 VALUES
@@ -129,13 +127,14 @@ CREATE TABLE IF NOT EXISTS tweet_retweets(
     FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id),
     PRIMARY KEY (user_id, tweet_id)
 );
+
 CREATE TABLE IF NOT EXISTS tweet_comments(
-	user_id INT NOT NULL,
-    tweet_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id),
-    PRIMARY KEY (user_id, tweet_id)
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    tweet_id INT, 
+    FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id)
 );
+
+
 
 /*
 -- Obtener el número de likes para cada tuit
@@ -357,27 +356,26 @@ END $$
 
 DELIMITER ;
 */
-
 DELIMITER $$
-
 CREATE TRIGGER aumentar_comments
 AFTER INSERT ON tweet_comments
 FOR EACH ROW
 BEGIN
-    UPDATE tweets 
-    SET num_comments = num_comments + 1 
-    WHERE tweet_id = NEW.tweet_id;
+    UPDATE tweets SET 
+        num_comments = num_comments + 1 
+    WHERE 
+        tweet_id = NEW.tweet_id;
 END $$
 
 CREATE TRIGGER disminuir_comments
 AFTER DELETE ON tweet_comments
 FOR EACH ROW
 BEGIN
-    UPDATE tweets 
-    SET num_comments = num_comments - 1 
-    WHERE tweet_id = OLD.tweet_id;
+    UPDATE tweets SET 
+        num_comments = num_comments - 1 
+    WHERE 
+        tweet_id = OLD.tweet_id;
 END $$
-
 DELIMITER ;
 
 

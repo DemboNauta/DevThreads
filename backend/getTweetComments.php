@@ -12,13 +12,12 @@ if ($mysqli->connect_errno) {
 
 $tweet_id = $_GET['tweet_id'];
 
-$query = "SELECT t.*, u.user_name AS username, ui.image AS user_image, 
+$query = "SELECT t.*, u.user_name AS username, u.user_image AS user_image, 
               t.num_likes AS likes, t.num_retweets AS retweets, 
               t.created_at AS creacion, t.num_comments AS comments
           FROM tweet_comments tc
           JOIN tweets t ON tc.comment_id = t.tweet_id
           JOIN users u ON t.user_id = u.user_id
-          LEFT JOIN userImages ui ON u.user_id = ui.user_id
           WHERE tc.tweet_id = ?
           GROUP BY t.tweet_id
           ORDER BY t.tweet_id DESC";
@@ -41,4 +40,4 @@ echo json_encode($tweets);
 
 $stmt->close();
 $mysqli->close();
-
+?>

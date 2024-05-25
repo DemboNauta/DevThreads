@@ -18,33 +18,29 @@ $firstName = $_POST['firstName'];
 $lastName = $_POST['lastName'];
 $phoneNumber = $_POST['phoneNumber'];
 $password = md5($_POST['password']);
-
-
+$profileImage = $_POST['profileImage'];
 
 // Preparar la consulta SQL para insertar un nuevo usuario
-$query = "INSERT INTO users (user_name, email_address, first_name, last_name, phonenumber, password) 
-          VALUES (?, ?, ?, ?, ?, ?)";
+$query = "INSERT INTO users (user_name, email_address, first_name, last_name, phonenumber, password, user_image) 
+          VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt = $mysqli->prepare($query);
-$stmt->bind_param("ssssss", $username, $email, $firstName, $lastName, $phoneNumber, $password);
+$stmt->bind_param("sssssss", $username, $email, $firstName, $lastName, $phoneNumber, $password, $profileImage);
 
 // Ejecutar la consulta
 if ($stmt->execute()) {
-    // Obtener el user_id del usuario recién registrado
-    $userId = $mysqli->insert_id;
-    $profileImage = $_POST['profileImage'];
-    // Preparar la consulta SQL para insertar la imagen en la tabla userImages
-    $queryImage = "INSERT INTO userImages (user_id, image) VALUES (?, ?)";
-    $stmtImage = $mysqli->prepare($queryImage);
-    $stmtImage->bind_param("is", $userId, $profileImage);
+    // Se insertó el usuario y la imagen correctamente
+    $response = array("success" => true, "message" => "Usuario creado correctamente");
 
-    // Ejecutar la consulta para insertar la imagen
-    if ($stmtImage->execute()) {
-        // INSERT exitoso, enviar una respuesta de éxito
-        $response = array("success" => true, "message" => "Usuario creado correctamente");
-    } else {
-        // Error en el INSERT de la imagen, enviar una respuesta de error
-        $response = array("success" => false, "message" => "Error al crear usuario: " . $mysqli->error);
+    // Llamar a la URL especificada si se agrega correctamente un usuario
+    $url = "https://devthreads.es/backend/send-email.php?correo=" . urlencode($email);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    if ($result === false) {
+        // Error al llamar a la URL, enviar una respuesta de error
+        $response = array("success" => false, "message" => "Error al llamar a la URL de notificación");
     }
+    curl_close($ch);
 } else {
     // Error en el INSERT del usuario, enviar una respuesta de error
     $response = array("success" => false, "message" => "Error al crear usuario: " . $mysqli->error);
@@ -53,4 +49,6 @@ if ($stmt->execute()) {
 // Enviar la respuesta como JSON
 header('Content-Type: application/json');
 echo json_encode($response);
+
+$mysqli->close();
 

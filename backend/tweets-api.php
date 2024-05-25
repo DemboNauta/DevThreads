@@ -21,34 +21,31 @@ if (isset($_GET['username'])) {
         $user_id = $row['user_id'];
 
         // Consulta para obtener los tweets y los datos de los usuarios
-        $query = "SELECT tweets.*, users.user_name AS username, userImages.image AS user_image, 
+        $query = "SELECT tweets.*, users.user_name AS username, users.user_image, 
                   tweets.num_likes AS likes, tweets.num_retweets AS retweets, 
                   tweets.created_at AS creacion, tweets.num_comments as comments
                   FROM tweets
                   JOIN users ON tweets.user_id = users.user_id
-                  LEFT JOIN userImages ON users.user_id = userImages.user_id
                   WHERE users.user_id = '$user_id'
                   GROUP BY tweets.tweet_id
                   ORDER BY tweets.tweet_id DESC";
     }
 } else if (isset($_GET['search'])) {
     $search_query = $mysqli->real_escape_string($_GET['search']);
-    $query = "SELECT tweets.*, users.user_name AS username, userImages.image AS user_image, 
+    $query = "SELECT tweets.*, users.user_name AS username, users.user_image, 
               tweets.num_likes AS likes, tweets.num_retweets AS retweets, 
               tweets.created_at AS creacion, tweets.num_comments as comments
               FROM tweets
               JOIN users ON tweets.user_id = users.user_id
-              LEFT JOIN userImages ON users.user_id = userImages.user_id
               WHERE tweets.tweet_text LIKE '%$search_query%' OR users.user_name LIKE '%$search_query%'
               GROUP BY tweets.tweet_id
               ORDER BY tweets.tweet_id DESC";
 } else {
-    $query = "SELECT tweets.*, users.user_name AS username, userImages.image AS user_image, 
+    $query = "SELECT tweets.*, users.user_name AS username, users.user_image, 
               tweets.num_likes AS likes, tweets.num_retweets AS retweets, 
               tweets.created_at AS creacion, tweets.num_comments as comments
               FROM tweets
               JOIN users ON tweets.user_id = users.user_id
-              LEFT JOIN userImages ON users.user_id = userImages.user_id
               WHERE tweets.is_comment = 0
               GROUP BY tweets.tweet_id
               ORDER BY tweets.tweet_id DESC";

@@ -77,15 +77,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="passwordRegister" formControlName="passwordRegister" autocomplete="new-password" required>
-                </div>
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
-                    <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" autocomplete="new-password" required>
-                </div>                
+                    <input type="password" class="form-control" id="password" formControlName="password" autocomplete="new-password">
+                </div>             
                 <div class="mb-3">
                     <label for="profileImage" class="form-label">Foto de perfil</label>
-                    <input type="file" class="form-control" id="profileImage" formControlName="profileImage" accept="image/*">
+                    <input type="file" class="form-control" id="user_image" formControlName="user_image" accept="image/*">
                 </div>
             </div>
             <button type="button" (click)="updateProfile()" class="btn btn-dark">Enviar</button>

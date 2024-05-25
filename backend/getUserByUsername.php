@@ -5,7 +5,6 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 $mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
 
-
 if ($mysqli->connect_errno) {
     echo "Falló la conexión a MySQL: " . $mysqli->connect_error;
     exit();
@@ -13,11 +12,10 @@ if ($mysqli->connect_errno) {
 
 if (isset($_GET['username'])) {
     $username = $mysqli->real_escape_string($_GET['username']);
-    $query = "SELECT users.user_id, users.user_name, userImages.image AS user_image, 
-          users.follower_count, users.following_count, users.created_at 
-          FROM users 
-          LEFT JOIN userImages ON users.user_id = userImages.user_id
-          WHERE users.user_name = '$username'";
+    $query = "SELECT users.user_id, users.user_name, users.user_image, 
+              users.follower_count, users.following_count, users.created_at 
+              FROM users 
+              WHERE users.user_name = '$username'";
     $result = $mysqli->query($query);
 
     if ($result) {
@@ -27,26 +25,23 @@ if (isset($_GET['username'])) {
     } else {
         echo "Error al obtener datos del usuario.";
     }
-}else if(isset($_GET['shortUsername'])) {
+} else if (isset($_GET['shortUsername'])) {
     $username = $mysqli->real_escape_string($_GET['shortUsername']);
-    $query = "SELECT users.user_id, users.user_name, userImages.image AS user_image
-          FROM users 
-          LEFT JOIN userImages ON users.user_id = userImages.user_id
-          WHERE users.user_name LIKE '%$username%'";
+    $query = "SELECT users.user_id, users.user_name, users.user_image
+              FROM users 
+              WHERE users.user_name LIKE '%$username%'";
     $result = $mysqli->query($query);
 
     if ($result) {
-        $users=[];
+        $users = [];
         while ($row = $result->fetch_assoc()) {
             $users[] = $row;
         }
         header('Content-Type: application/json');
-
         echo json_encode($users);
     } else {
         echo "Error al obtener datos del usuario.";
     }
-    
 }
 
 $mysqli->close();

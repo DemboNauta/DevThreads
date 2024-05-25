@@ -16,13 +16,12 @@ if ($mysqli->connect_errno) {
 // Consulta para obtener los mensajes directos recibidos por el usuario logueado
 if(isset($_GET['sender_id'])){
     $sender_id = $_GET['sender_id'];
-    $query = "SELECT dm.message_id, dm.sender_id, u.user_name AS sender_name, ui.image AS sender_image, dm.sent_at, dm.message_text
-          FROM direct_messages AS dm
-          INNER JOIN users AS u ON dm.sender_id = u.user_id
-          LEFT JOIN userImages AS ui ON dm.sender_id = ui.user_id
-          WHERE (dm.sender_id = '$user_id' AND dm.receiver_id = '$sender_id')
-          OR (dm.sender_id = '$sender_id' AND dm.receiver_id = '$user_id')
-          ORDER BY dm.sent_at ASC";
+    $query = "SELECT dm.message_id, dm.sender_id, u.user_name AS sender_name, u.user_image AS sender_image, dm.sent_at, dm.message_text
+    FROM direct_messages AS dm
+    INNER JOIN users AS u ON dm.sender_id = u.user_id
+    WHERE (dm.sender_id = '$user_id' AND dm.receiver_id = '$sender_id')
+    OR (dm.sender_id = '$sender_id' AND dm.receiver_id = '$user_id')
+    ORDER BY dm.sent_at ASC";
 
         $result = $mysqli->query($query);
 
@@ -48,21 +47,19 @@ if(isset($_GET['sender_id'])){
 }else{
     
     $query = "SELECT sender_id, sender_name, sender_image, MAX(sent_at) AS sent_at
-    FROM (
-        SELECT dm.sender_id, u.user_name AS sender_name, ui.image AS sender_image, dm.sent_at
-        FROM direct_messages AS dm
-        INNER JOIN users AS u ON dm.sender_id = u.user_id
-        LEFT JOIN userImages AS ui ON dm.sender_id = ui.user_id
-        WHERE dm.receiver_id = '$user_id'
-        UNION
-        SELECT dm.receiver_id, u.user_name AS sender_name, ui.image AS sender_image, dm.sent_at
-        FROM direct_messages AS dm
-        INNER JOIN users AS u ON dm.receiver_id = u.user_id
-        LEFT JOIN userImages AS ui ON dm.receiver_id = ui.user_id
-        WHERE dm.sender_id = '$user_id'
-    ) AS conversations
-    GROUP BY sender_id, sender_name, sender_image
-    ORDER BY MAX(sent_at) DESC";
+              FROM (
+                  SELECT dm.sender_id, u.user_name AS sender_name, u.user_image AS sender_image, dm.sent_at
+                  FROM direct_messages AS dm
+                  INNER JOIN users AS u ON dm.sender_id = u.user_id
+                  WHERE dm.receiver_id = '$user_id'
+                  UNION
+                  SELECT dm.receiver_id, u.user_name AS sender_name, u.user_image AS sender_image, dm.sent_at
+                  FROM direct_messages AS dm
+                  INNER JOIN users AS u ON dm.receiver_id = u.user_id
+                  WHERE dm.sender_id = '$user_id'
+              ) AS conversations
+              GROUP BY sender_id, sender_name, sender_image
+              ORDER BY MAX(sent_at) DESC";
 
 
 

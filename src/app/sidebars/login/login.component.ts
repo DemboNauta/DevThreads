@@ -167,7 +167,7 @@ export class LoginComponent implements OnInit{
 		const firstName = (document.getElementById('firstName') as HTMLInputElement).value;
 		const lastName = (document.getElementById('lastName') as HTMLInputElement).value;
 		const phoneNumber = (document.getElementById('phoneNumber') as HTMLInputElement).value;
-		const passwordRegister = (document.getElementById('passwordRegister') as HTMLInputElement).value;
+		const password = (document.getElementById('password') as HTMLInputElement).value;
 		const confirmPassword = (document.getElementById('confirmPassword') as HTMLInputElement).value;
 		const profileImage = (document.getElementById('profileImage') as HTMLInputElement);
 	
@@ -177,7 +177,7 @@ export class LoginComponent implements OnInit{
 		registerData.append('firstName', firstName);
 		registerData.append('lastName', lastName);
 		registerData.append('phoneNumber', phoneNumber);
-		registerData.append('password', passwordRegister);
+		registerData.append('password', password);
 		registerData.append('confirmPassword', confirmPassword);
 		const imageFile = profileImage?.files ? profileImage.files[0] : null;
 		if (imageFile) {
