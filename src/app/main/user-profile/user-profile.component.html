@@ -32,9 +32,7 @@
                         type="button" (click)="onFollowUser()">Seguir</button>
                     }
                     <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
-                        type="button"><i class="bi bi-envelope-fill"></i></button>
-                    <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
-                        type="button"><i class="bi bi-bell-fill"></i></button>
+                        type="button" (click)="onDirectMessages()"><i class="bi bi-envelope-fill"></i></button>
                     }@else{
                 <button class="btn border border-1 border-white rounded-pill px-4 text-white mx-1 pillsButtons"
                     type="button" (click)="onEditModal(editModal)">Editar perfil</button>

@@ -43,7 +43,9 @@ export class MensajesDirectosComponent implements OnInit, AfterContentChecked {
       }
     );
 
-
+    this.directMessageService.clickEvent$.subscribe((click)=>{
+      this.mostrarMensajes()
+    })
   }
 
   ngAfterContentChecked(): void {

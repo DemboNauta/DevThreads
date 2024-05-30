@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { DirectMessage } from '../main/interfaces/direct-message.interface';
 import { DirectMessageUser } from '../main/interfaces/direct.message-user.interface';
 import { UserSmall } from '../main/interfaces/userSmall.interface';
@@ -10,6 +10,13 @@ import { UserSmall } from '../main/interfaces/userSmall.interface';
 })
 export class DirectMessagesService {
 
+  private clickSubject = new Subject<void>();
+
+  clickEvent$ = this.clickSubject.asObservable();
+
+  emitOpenMessages() {
+    this.clickSubject.next();
+  }
  
 
   constructor(private http: HttpClient) { }

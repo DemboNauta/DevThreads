@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterUserService } from '../../services/register-user.service';
+import { DirectMessagesService } from '../../services/direct-messages.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -38,6 +39,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private modalService: NgbModal,
     private registerUserService: RegisterUserService,
+    private directMessageService: DirectMessagesService,
     private fb: FormBuilder
   ) {}
 
@@ -101,7 +103,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   checkFollowing() {
-    this.followingUser = this.followingList.includes(this.user.user_id);
+    this.followingUser=false;
+    for(let followingId of this.followingList){
+      if(this.user.user_id==followingId){
+        this.followingUser=true;
+      }
+    }
     this.changeDetectorRef.detectChanges();
   }
 
@@ -160,7 +167,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     const touchedFields: any = {};
     for (const controlName in this.profileForm.controls) {
       if (this.profileForm.controls[controlName].touched && this.profileForm.controls[controlName].value !== '') {
-        touchedFields[controlName] = this.profileForm.value[controlName];
+        if(this.profileForm.value[controlName]!=''){
+          touchedFields[controlName] = this.profileForm.value[controlName];
+        }
       }
     }
 
@@ -188,5 +197,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.ngOnInit()
       this.modalService.dismissAll()
     });
+  }
+
+  onDirectMessages(){
+    this.directMessageService.emitOpenMessages()
   }
 }
