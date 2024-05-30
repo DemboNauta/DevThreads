@@ -5,6 +5,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
+function is_md5($string) {
+    return preg_match('/^[a-f0-9]{32}$/i', $string);
+}
+
 // Obtener el cuerpo de la solicitud
 $request_body = file_get_contents('php://input');
 
@@ -30,7 +34,11 @@ $phonenumber = $data['phonenumber'];
 $follower_count = $data['follower_count'];
 $following_count = $data['following_count'];
 $created_at = $data['created_at'];
-$password = md5($data['password']);
+if(is_md5($data['password'])){
+    $password = ($data['password']);
+}else{
+    $password = md5($data['password']);
+}
 $user_image = $data['user_image'];
 
 // Aquí puedes agregar la lógica para actualizar el usuario en la base de datos
