@@ -8,6 +8,7 @@ import { DirectMessage } from '../main/interfaces/direct-message.interface';
 import { DirectMessageUser } from '../main/interfaces/direct.message-user.interface';
 import { UserSmall } from '../main/interfaces/userSmall.interface';
 import { FormsModule } from '@angular/forms';
+import { UserProfileService } from '../services/user-profile.service';
 
 @Component({
   selector: 'app-mensajes-directos',
@@ -18,7 +19,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class MensajesDirectosComponent implements OnInit, AfterContentChecked {
 
-  constructor(private userDataService: UserDataService, private directMessageService: DirectMessagesService, private cdr: ChangeDetectorRef) { }
+  constructor(private userDataService: UserDataService, private directMessageService: DirectMessagesService, private cdr: ChangeDetectorRef, private userProfileService: UserProfileService) { }
   loggedInUser: User;
   userMessageConversations: DirectMessageUser[] = [];
   usersConversations: DirectMessage[] = [];
@@ -44,7 +45,9 @@ export class MensajesDirectosComponent implements OnInit, AfterContentChecked {
     );
 
     this.directMessageService.clickEvent$.subscribe((click)=>{
-      this.mostrarMensajes()
+      this.ngOnDestroy()
+      this.onLoadConversation(this.userProfileService.userProfileLoaded.user_id, this.userProfileService.userProfileLoaded.user_name, this.userProfileService.userProfileLoaded.user_image)
+      this.mostrar=true
     })
   }
 

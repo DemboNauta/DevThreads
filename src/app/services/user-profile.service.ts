@@ -8,7 +8,7 @@ import { User } from '../main/interfaces/user.interface';
 })
 export class UserProfileService {
   private userSubject = new Subject<User>();
-
+  userProfileLoaded: User;
   user$ = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -21,6 +21,7 @@ export class UserProfileService {
     this.getUserByUsername(username).subscribe(
       (user: User) => {
         this.userSubject.next(user);
+        this.userProfileLoaded=user;
       },
       (error) => {
         console.error('Error al obtener datos del usuario:', error);

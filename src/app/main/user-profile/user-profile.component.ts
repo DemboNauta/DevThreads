@@ -53,7 +53,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.userDataService.getLoggedInUser().subscribe(user => {
       this.loggedInUser = user;
       this.getFollowing();
-
+      
       this.profileForm = this.fb.group({
         user_name: [this.loggedInUser.user_name],
         email_address: [this.loggedInUser.email_address, Validators.email],
@@ -82,6 +82,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   loadUserData(): void {
     this.userProfileService.getUserByUsername(this.username).subscribe(
       (user: User) => {
+        this.userProfileService.userProfileLoaded=user;
         this.user = user;
         const dateObject: Date = new Date(user.created_at);
         const mes = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
