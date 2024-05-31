@@ -12,7 +12,6 @@
 	</div>
     <form method="POST" (submit)="login($event)">
 	<div class="modal-body">
-		
             <p id="errorLogin">{{ errorLogin }}</p>
 			<div class="form-group">
 				<label for="username">Nombre de usuario</label>
@@ -33,49 +32,90 @@
 
 <ng-template #registerModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Regístrate en Devthreads</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+      <h4 class="modal-title" id="modal-basic-title">Regístrate en Devthreads</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <form (submit)="register($event)">
-            <div class="mb-3">
-                <label for="userName" class="form-label">Nombre de usuario</label>
-                <input type="text" class="form-control" id="userNameRegister" name="userNameRegister" required>
+      <form [formGroup]="registerForm" (ngSubmit)="register($event)">
+        <div class="mb-3">
+            @if(errorUsuarioEmail){
+                <div class="text-danger">{{errorUsuarioEmailMessage}}</div>
+            }
+          <label for="userName" class="form-label">Nombre de usuario</label>
+          <input type="text" class="form-control" id="userNameRegister" formControlName="userNameRegister" required>
+          @if (registerForm.get('userNameRegister').invalid && registerForm.get('userNameRegister').touched) {
+            <div class="text-danger">
+                Nombre de usuario es requerido.
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+          }
+        
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" formControlName="email" required>
+        @if (registerForm.get('email').invalid && registerForm.get('email').touched) {
+            <div class="text-danger">
+                Correo electrónico no es válido.
             </div>
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="firstName" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" required >
+        }
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="firstName" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName" required >
+            @if (registerForm.get('firstName').invalid && registerForm.get('firstName').touched) {
+                <div class="text-danger">
+                Nombre es requerido.
                 </div>
-                <div class="col">
-                    <label for="lastName" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" required >
+            }
+          </div>
+          <div class="col">
+            <label for="lastName" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName" required >
+            @if (registerForm.get('lastName').invalid && registerForm.get('lastName').touched) {
+                <div class="text-danger">
+                Apellido es requerido.
                 </div>
+            }
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="phoneNumber" class="form-label">Número de teléfono</label>
+          <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" pattern="[0-9]{9}">
+            @if (registerForm.get('phoneNumber').invalid && registerForm.get('phoneNumber').touched) {
+                <div class="text-danger">
+                    Número de teléfono no es válido.
+                </div>
+            }
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="passwordRegister" formControlName="passwordRegister" required>
+          @if (registerForm.get('passwordRegister').invalid && registerForm.get('passwordRegister').touched) {
+
+          <div class="text-danger">
+            La contraseña debe tener al menos 8 caracteres y un número.
+          </div>
+        }
+        </div>
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+          <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" required>
+          @if (registerForm.hasError('mismatch') && registerForm.get('confirmPassword').touched) {
+            <div  class="text-danger">
+                Las contraseñas no coinciden.
             </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Número de teléfono</label>
-                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" pattern="[0-9]{9}">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="passwordRegister" name="passwordRegister" required>
-            </div>
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-            </div>
-            <div class="mb-3">
-                <label for="profileImage" class="form-label">Foto de perfil</label>
-                <input type="file" class="form-control" id="profileImage" name="profileImage" accept="image/*">
-            </div>
-            <input type="submit" class="btn btn-outline-dark" value="Registrarse"/>
-        </form>
+        }
+        </div>
+        <div class="mb-3">
+          <label for="profileImage" class="form-label">Foto de perfil</label>
+          <input type="file" class="form-control" id="profileImage" formControlName="profileImage" accept="image/*">
+        </div>
+        <input type="submit" class="btn btn-outline-dark" value="Registrarse" [disabled]="registerForm.invalid"/>
+      </form>
     </div>
-</ng-template>
+  </ng-template>
+  
 
 @if (!loggedIn) {
     <button id="btnIniciarSesion" class="btn" (click)="open(loginModal)">Iniciar sesión</button>

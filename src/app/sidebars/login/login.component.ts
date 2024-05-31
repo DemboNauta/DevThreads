@@ -4,6 +4,7 @@ import { AuthService } from '../../services/authentication.service';
 import { UserDataService } from '../../services/user-data.service';
 import { User } from '../../main/interfaces/user.interface';
 import { RegisterUserService } from '../../services/register-user.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 
 
@@ -11,7 +12,7 @@ import { RegisterUserService } from '../../services/register-user.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   providers: [NgbModalConfig, NgbModal],
@@ -22,6 +23,9 @@ export class LoginComponent implements OnInit{
 	notificacionVisible: boolean = false;
 	loggedIn:boolean=false;
 	errorLogin: string= " ";
+	registerForm: FormGroup;
+	errorUsuarioEmailMessage: string;
+	errorUsuarioEmail: boolean;
 
 
   constructor(
@@ -29,10 +33,22 @@ export class LoginComponent implements OnInit{
 		private modalService: NgbModal,
 		private authService: AuthService,
 		private userDataService: UserDataService,
-		private registerService: RegisterUserService
+		private registerService: RegisterUserService,
+		private fb: FormBuilder,
 	) {
 		config.backdrop = 'static';
 		config.keyboard = false;
+
+		this.registerForm = this.fb.group({
+			userNameRegister: ['', Validators.required],
+			email: ['', [Validators.required, Validators.email]],
+			firstName: ['', Validators.required],
+			lastName: ['', Validators.required],
+			phoneNumber: ['', [Validators.pattern('[0-9]{9}')]],
+			passwordRegister: ['', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/)]],
+			confirmPassword: ['', Validators.required],
+			profileImage: ['']
+		  }, { validator: this.passwordMatchValidator });
 	}
 
 	open(content: any) {
@@ -48,6 +64,11 @@ export class LoginComponent implements OnInit{
 			this.errorLogin = ''; 
 		  }
 		);
+	  }
+
+	  passwordMatchValidator(form: FormGroup) {
+		return form.get('passwordRegister')?.value === form.get('confirmPassword')?.value
+		  ? null : { mismatch: true };
 	  }
 
 	  ngOnInit(): void {
@@ -171,38 +192,43 @@ export class LoginComponent implements OnInit{
 	
 	register(ev: Event): void {
 		ev.preventDefault();
-		const userNameRegister = (document.getElementById('userNameRegister') as HTMLInputElement).value;
-		const email = (document.getElementById('email') as HTMLInputElement).value;
-		const firstName = (document.getElementById('firstName') as HTMLInputElement).value;
-		const lastName = (document.getElementById('lastName') as HTMLInputElement).value;
-		const phoneNumber = (document.getElementById('phoneNumber') as HTMLInputElement).value;
-		const password = (document.getElementById('password') as HTMLInputElement).value;
-		const confirmPassword = (document.getElementById('confirmPassword') as HTMLInputElement).value;
-		const profileImage = (document.getElementById('profileImage') as HTMLInputElement);
-	
+		
+		if (this.registerForm.invalid) {
+			// Marcar todos los controles como tocados para mostrar los mensajes de error
+			this.registerForm.markAllAsTouched();
+			return;
+		}
+		
 		const registerData = new FormData();
-		registerData.append('userName', userNameRegister);
-		registerData.append('email', email);
-		registerData.append('firstName', firstName);
-		registerData.append('lastName', lastName);
-		registerData.append('phoneNumber', phoneNumber);
-		registerData.append('password', password);
-		registerData.append('confirmPassword', confirmPassword);
+		const formValues = this.registerForm.value;
+		
+		registerData.append('userName', formValues.userNameRegister);
+		registerData.append('email', formValues.email);
+		registerData.append('firstName', formValues.firstName);
+		registerData.append('lastName', formValues.lastName);
+		registerData.append('phoneNumber', formValues.phoneNumber);
+		registerData.append('password', formValues.passwordRegister);
+		registerData.append('confirmPassword', formValues.confirmPassword);
+	
+		const profileImage = (document.getElementById('profileImage') as HTMLInputElement);
 		const imageFile = profileImage?.files ? profileImage.files[0] : null;
+		
 		if (imageFile) {
 			this.imageToBlob(imageFile, 200, 200)
 				.then((blob) => {
-					
 					registerData.append('profileImage', blob);
 	
-					// Aquí va la lógica de registro dentro del then
-					
+					// Enviar los datos de registro al servicio
 					this.registerService.registerUser(registerData).subscribe({
 						next: (response) => {
-							
 							if (response.success) {
-								
 								this.modalService.dismissAll();
+								// Manejar el éxito del registro (por ejemplo, mostrar un mensaje de éxito)
+							} else {
+								// Manejar el error del registro (por ejemplo, mostrar un mensaje de error)
+								console.error('Error en el registro de usuario:', response.message);
+								this.errorUsuarioEmailMessage = response.message;
+                    			this.errorUsuarioEmail = true;
 							}
 						},
 						error: (error) => {
@@ -215,6 +241,25 @@ export class LoginComponent implements OnInit{
 				});
 		} else {
 			console.warn('No se seleccionó ninguna imagen.');
+			
+			// Enviar los datos de registro al servicio sin imagen
+			this.registerService.registerUser(registerData).subscribe({
+				next: (response) => {
+					if (response.success) {
+						this.modalService.dismissAll();
+						// Manejar el éxito del registro (por ejemplo, mostrar un mensaje de éxito)
+					} else {
+						// Manejar el error del registro (por ejemplo, mostrar un mensaje de error)
+						console.error('Error en el registro de usuario:', response.message);
+						this.errorUsuarioEmailMessage = response.message;
+                    	this.errorUsuarioEmail = true;
+					}
+				},
+				error: (error) => {
+					console.error('Error en el registro de usuario', error);
+				}
+			});
 		}
 	}
+	
 }

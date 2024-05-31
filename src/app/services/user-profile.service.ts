@@ -21,7 +21,6 @@ export class UserProfileService {
     this.getUserByUsername(username).subscribe(
       (user: User) => {
         this.userSubject.next(user);
-        this.userProfileLoaded=user;
       },
       (error) => {
         console.error('Error al obtener datos del usuario:', error);
