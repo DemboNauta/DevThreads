@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit{
 	}
 
 	open(content: any) {
+		this.resetPassword=false;
 		this.modalService.dismissAll();
 		const modalRef = this.modalService.open(content);
 		modalRef.result.then(
@@ -103,7 +104,6 @@ export class LoginComponent implements OnInit{
 		
 		login(ev: Event): void {
 			ev.preventDefault();
-			this.resetPassword=false;
 			const username = (document.getElementById('username') as HTMLInputElement).value;
 			const password = (document.getElementById('password') as HTMLInputElement).value;
 			
