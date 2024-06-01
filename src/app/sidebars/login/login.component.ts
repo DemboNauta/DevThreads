@@ -103,6 +103,7 @@ export class LoginComponent implements OnInit{
 		
 		login(ev: Event): void {
 			ev.preventDefault();
+			this.resetPassword=false;
 			const username = (document.getElementById('username') as HTMLInputElement).value;
 			const password = (document.getElementById('password') as HTMLInputElement).value;
 			
