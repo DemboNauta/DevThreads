@@ -18,7 +18,11 @@ if ($mysqli->connect_errno) {
     http_response_code(500);
     die(json_encode(["message" => "Falló la conexión a MySQL: " . $mysqli->connect_error]));
 }
-
+$query = "DELETE FROM password_resets WHERE created_at <= NOW() - INTERVAL 1 HOUR";
+if ($mysqli->query($query) === TRUE) {
+} else {
+    echo "Error al eliminar los tokens expirados: " . $mysqli->error;
+}
 // Obtener el correo electrónico del POST
 $email = $_POST['email'] ?? null;
 
@@ -32,7 +36,7 @@ if ($email) {
 
     if ($result->num_rows == 1) {
         // Generar un token único
-        $token = bin2hex(random_bytes(6));
+        $token = bin2hex(random_bytes(3));
 
         // Insertar el token en la tabla password_resets
         $insertQuery = "INSERT INTO password_resets (email, token, created_at) VALUES (?, ?, NOW())";
