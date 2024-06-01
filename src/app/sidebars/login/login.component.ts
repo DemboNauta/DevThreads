@@ -5,6 +5,7 @@ import { UserDataService } from '../../services/user-data.service';
 import { User } from '../../main/interfaces/user.interface';
 import { RegisterUserService } from '../../services/register-user.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RecuperarContrasenaComponent } from './recuperar-contrasena/recuperar-contrasena.component';
 
 
 
@@ -12,7 +13,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RecuperarContrasenaComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   providers: [NgbModalConfig, NgbModal],
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit{
 	registerForm: FormGroup;
 	errorUsuarioEmailMessage: string;
 	errorUsuarioEmail: boolean;
+	resetPassword: boolean= false;
 
 
   constructor(
@@ -260,6 +262,10 @@ export class LoginComponent implements OnInit{
 				}
 			});
 		}
+	}
+
+	onResetPassword(){
+		this.resetPassword = !this.resetPassword;
 	}
 	
 }

@@ -1,0 +1,43 @@
+<!-- password-reset.component.html -->
+<div class="">
+    @if (!emailSent) {
+        
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <form [formGroup]="requestForm" (ngSubmit)="sendResetEmail()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico:</label>
+              <input id="email" formControlName="email" type="email" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-outline-dark">Enviar correo de restablecimiento</button>
+          </form>
+        </div>
+      </div>
+    }
+    @if (emailSent && !tokenVerified) {
+      <div class="card shadow-sm mt-4">
+        <div class="card-body">
+          <p>Si ese correo está en nuestro servidores, recibirás un correo electrónico</p>
+          <form [formGroup]="resetForm" (ngSubmit)="verifyResetToken()">
+            <div class="mb-3">
+              <label for="token" class="form-label">Código de restablecimiento:</label>
+              <input id="token" formControlName="token" type="text" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">Nueva contraseña:</label>
+              <input id="newPassword" formControlName="newPassword" type="password" class="form-control" />
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-dark">Restablecer contraseña</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    }
+    @if (tokenVerified) {
+      <div class="alert alert-success mt-4">
+        <p>Tu contraseña ha sido restablecida correctamente.</p>
+      </div>
+    }
+  </div>
+  

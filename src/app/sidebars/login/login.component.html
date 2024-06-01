@@ -5,6 +5,7 @@
 </div>
 
 <ng-template #loginModal let-c="close" let-d="dismiss">
+  @if (!this.resetPassword) {
 	<div class="modal-header">
         
 		<h4 class="modal-title" id="modal-basic-title">Bienvenido a Devthreads!!</h4>
@@ -23,11 +24,27 @@
 			</div>
 		
 	</div>
-	<div class="modal-footer">
-		<input type="submit" class="btn btn-outline-dark" value="Iniciar sesión"/>
-		<button id="btnRegistro" class="btn btn-outline-dark" (click)="open(registerModal)" type="button">Regístrate</button>
-	</div>
-    </form>
+	<div class="modal-footer d-flex flex-column">
+    <div class="d-flex justify-content-end w-100">
+      <input type="submit" value="Iniciar sesión" class="btn btn-outline-dark me-1">
+      <button id="btnRegistro" type="button" class="btn btn-outline-dark">Regístrate</button>
+    </div>
+    
+      <div class="d-flex justify-content-end w-100">
+        <p class="text-primary text-decoration-underline" style="cursor: pointer;" (click)="onResetPassword()">¿Has olvidado tu contraseña?</p>
+      </div>
+    </div>
+  </form>
+  }@else {
+    <div class="modal-header">
+        
+      <h4 class="modal-title" id="modal-basic-title">¿Olvidaste tu contraseña?</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+    <app-recuperar-contrasena (passwordChangeComplete)="onResetPassword()"></app-recuperar-contrasena>
+  }
+    
+  
 </ng-template>
 
 <ng-template #registerModal let-c="close" let-d="dismiss">
