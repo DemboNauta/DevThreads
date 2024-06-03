@@ -1,0 +1,48 @@
+.mt4 {
+    margin-top: 1.5rem;
+}
+
+.p-4 {
+    padding: 1.5rem;
+}
+
+.no-following-container {
+    border: 1px solid white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.no-following-title {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.no-following-message {
+    font-size: 1rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.btn-discover {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.btn-discover:hover {
+    background-color: white;
+    color: black;
+}
+

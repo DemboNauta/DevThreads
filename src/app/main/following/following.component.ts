@@ -4,24 +4,37 @@ import { UserDataService } from '../../services/user-data.service';
 import { User } from '../interfaces/user.interface';
 import { ListaTweetsComponent } from '../lista-tweets/lista-tweets.component';
 import { UserProfileService } from '../../services/user-profile.service';
+import { TweetsService } from '../../services/tweets.service';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-following',
   standalone: true,
-  imports: [TweetFormComponent, ListaTweetsComponent],
+  imports: [TweetFormComponent, ListaTweetsComponent, RouterOutlet, RouterLink],
   templateUrl: './following.component.html',
   styleUrl: './following.component.css'
 })
 export class FollowingComponent {
-  constructor(private userDataService: UserDataService, private userProfileService: UserProfileService){}
+  constructor(private userDataService: UserDataService, private userProfileService: UserProfileService, public tweetService: TweetsService){}
 
   loggedInUser: User;
   followingList: number[];
+  checkFollowing: boolean;
 
   ngOnInit(): void {
     this.userDataService.getLoggedInUser().subscribe(
       res=>{
         this.loggedInUser=res
+      }
+    )
+
+    this.tweetService.tweetListSubject.subscribe(
+      (res)=>{
+        if(res.length<=0){
+          this.checkFollowing=false;
+        }else{
+          this.checkFollowing=true;
+        }
       }
     )
   }

@@ -2,6 +2,21 @@
     <app-tweet-form></app-tweet-form>
 </div>
 
-<div class="" class="mt4 p-4">
-    <app-lista-tweets [userFollowingId]="loggedInUser.user_id"></app-lista-tweets>
+<div class="mt4 p-4">
+    @if(this.checkFollowing==false){
+        <div class="no-following-container">
+            <h2 class="no-following-title">¡Parece que no sigues a nadie!</h2>
+            <p class="no-following-message">
+                Empieza a seguir a personas para ver sus tweets en tu feed. Descubre nuevas personas y encuentra contenido interesante.
+            </p>
+            <a class="btn-discover" routerLink="../main">
+                <span>Vuelve a Para mi</span>
+            </a>
+        </div>
+    }@else{
+        <app-lista-tweets [userFollowingId]="loggedInUser.user_id"></app-lista-tweets>
+    }
 </div>
+
+
+

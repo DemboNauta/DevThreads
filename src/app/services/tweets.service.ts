@@ -13,6 +13,8 @@ export class TweetsService {
   tweetComments: ListaInterface[] = [];
   tweetListSubject: Subject<ListaInterface[]> = new Subject<ListaInterface[]>();
 
+  noFollowing: boolean= false;
+
   favoriteTweetList: any = [];
   followingTweetList:ListaInterface[] = [];
   favoriteTweetListSubject: Subject<any> = new Subject<any>();
@@ -55,7 +57,11 @@ export class TweetsService {
   getFollowingTweets(userId: number){
     const url = `https://devthreads.es/backend/following-tweets.php?user_id=${userId}`;
     this.http.get<ListaInterface[]>(url).subscribe((res) => {
+      if(res.length<=0){
+        this.noFollowing=true;
+      }
       this.tweetList=res;
+      console.log(this.tweetList)
       this.emitTweetListChange(); 
     });
   }
