@@ -61,7 +61,6 @@ export class TweetsService {
         this.noFollowing=true;
       }
       this.tweetList=res;
-      console.log(this.tweetList)
       this.emitTweetListChange(); 
     });
   }
