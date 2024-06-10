@@ -48,13 +48,6 @@ CREATE TABLE IF NOT EXISTS tweet_likes(
     PRIMARY KEY (user_id, tweet_id)
 );
 
-CREATE TABLE IF NOT EXISTS tweet_retweets(
-	user_id INT NOT NULL,
-    tweet_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id),
-    PRIMARY KEY (user_id, tweet_id)
-);
 
 CREATE TABLE IF NOT EXISTS tweet_comments(
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -73,14 +66,6 @@ CREATE TABLE IF NOT EXISTS direct_messages (
     PRIMARY KEY (message_id)
 );
 
-CREATE TABLE IF NOT EXISTS retweet_relationships (
-    retweet_id INT AUTO_INCREMENT,
-    original_tweet_id INT NOT NULL,
-    retweeter_id INT NOT NULL,
-    FOREIGN KEY (original_tweet_id) REFERENCES tweets(tweet_id),
-    FOREIGN KEY (retweeter_id) REFERENCES users(user_id),
-    PRIMARY KEY (retweet_id)
-);
 
 CREATE TABLE IF NOT EXISTS tweet_reports (
     report_id INT AUTO_INCREMENT,
@@ -144,25 +129,6 @@ BEGIN
 
 END $$
 
-CREATE TRIGGER aumentar_retweets
-AFTER INSERT ON tweet_retweets
-FOR EACH ROW
-BEGIN
-    UPDATE tweets SET 
-        num_retweets = num_retweets + 1 
-    WHERE 
-        tweet_id = NEW.tweet_id;
-END $$
-
-CREATE TRIGGER disminuir_retweets
-AFTER DELETE ON tweet_retweets
-FOR EACH ROW
-BEGIN
-    UPDATE tweets SET 
-        num_retweets = num_retweets - 1 
-    WHERE 
-        tweet_id = OLD.tweet_id;
-END $$
 
 CREATE TRIGGER aumentar_comments
 AFTER INSERT ON tweet_comments
@@ -210,9 +176,6 @@ CREATE PROCEDURE delete_user_and_related_data(IN user_id_to_delete INT)
 BEGIN
     -- Elimina los likes de los tweets del usuario
     DELETE FROM tweet_likes WHERE tweet_id IN (SELECT tweet_id FROM tweets WHERE user_id = user_id_to_delete);
-
-    -- Elimina los retweets del usuario
-    DELETE FROM tweet_retweets WHERE tweet_id IN (SELECT tweet_id FROM tweets WHERE user_id = user_id_to_delete);
 
     -- Elimina los comentarios del usuario
     DELETE FROM tweet_comments WHERE tweet_id IN (SELECT tweet_id FROM tweets WHERE user_id = user_id_to_delete);
