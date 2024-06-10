@@ -66,18 +66,6 @@ CREATE TABLE IF NOT EXISTS direct_messages (
     PRIMARY KEY (message_id)
 );
 
-
-CREATE TABLE IF NOT EXISTS tweet_reports (
-    report_id INT AUTO_INCREMENT,
-    tweet_id INT NOT NULL,
-    reporter_id INT NOT NULL,
-    report_reason VARCHAR(255) NOT NULL,
-    reported_at TIMESTAMP NOT NULL DEFAULT (NOW()),
-    FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id),
-    FOREIGN KEY (reporter_id) REFERENCES users(user_id),
-    PRIMARY KEY (report_id)
-);
-
 CREATE TABLE password_resets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
