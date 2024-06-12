@@ -195,16 +195,16 @@ export class LoginComponent implements OnInit{
 	
 	register(ev: Event): void {
 		ev.preventDefault();
-		
+	  
 		if (this.registerForm.invalid) {
 			// Marcar todos los controles como tocados para mostrar los mensajes de error
 			this.registerForm.markAllAsTouched();
 			return;
 		}
-		
+	  
 		const registerData = new FormData();
 		const formValues = this.registerForm.value;
-		
+	  
 		registerData.append('userName', formValues.userNameRegister);
 		registerData.append('email', formValues.email);
 		registerData.append('firstName', formValues.firstName);
@@ -212,58 +212,59 @@ export class LoginComponent implements OnInit{
 		registerData.append('phoneNumber', formValues.phoneNumber);
 		registerData.append('password', formValues.passwordRegister);
 		registerData.append('confirmPassword', formValues.confirmPassword);
-	
+	  
 		const profileImage = (document.getElementById('profileImage') as HTMLInputElement);
-		const imageFile = profileImage?.files ? profileImage.files[0] : null;
-		
-		if (imageFile) {
+		let imageFile = profileImage?.files ? profileImage.files[0] : null;
+	  
+		if (!imageFile) {
+			const defaultImagePath = '../../../../frontend/assets/img/Default.webp';
+			fetch(defaultImagePath)
+				.then(response => response.blob())
+				.then(blob => {
+					imageFile = new File([blob], 'Default.webp', { type: 'image/webp' });
+					this.imageToBlob(imageFile, 200, 200)
+						.then((blob) => {
+							registerData.append('profileImage', blob);
+							this.sendRegisterData(registerData);
+						})
+						.catch((error) => {
+							console.error('Error al convertir la imagen en Blob:', error);
+						});
+				})
+				.catch(error => {
+					console.error('Error fetching default image:', error);
+				});
+		} else {
 			this.imageToBlob(imageFile, 200, 200)
 				.then((blob) => {
 					registerData.append('profileImage', blob);
-	
-					// Enviar los datos de registro al servicio
-					this.registerService.registerUser(registerData).subscribe({
-						next: (response) => {
-							if (response.success) {
-								this.modalService.dismissAll();
-								// Manejar el éxito del registro (por ejemplo, mostrar un mensaje de éxito)
-							} else {
-								// Manejar el error del registro (por ejemplo, mostrar un mensaje de error)
-								console.error('Error en el registro de usuario:', response.message);
-								this.errorUsuarioEmailMessage = response.message;
-                    			this.errorUsuarioEmail = true;
-							}
-						},
-						error: (error) => {
-							console.error('Error en el registro de usuario', error);
-						}
-					});
+					this.sendRegisterData(registerData);
 				})
 				.catch((error) => {
 					console.error('Error al convertir la imagen en Blob:', error);
 				});
-		} else {
-			console.warn('No se seleccionó ninguna imagen.');
-			
-			// Enviar los datos de registro al servicio sin imagen
-			this.registerService.registerUser(registerData).subscribe({
-				next: (response) => {
-					if (response.success) {
-						this.modalService.dismissAll();
-						// Manejar el éxito del registro (por ejemplo, mostrar un mensaje de éxito)
-					} else {
-						// Manejar el error del registro (por ejemplo, mostrar un mensaje de error)
-						console.error('Error en el registro de usuario:', response.message);
-						this.errorUsuarioEmailMessage = response.message;
-                    	this.errorUsuarioEmail = true;
-					}
-				},
-				error: (error) => {
-					console.error('Error en el registro de usuario', error);
-				}
-			});
 		}
 	}
+	
+	sendRegisterData(registerData: FormData): void {
+		this.registerService.registerUser(registerData).subscribe({
+			next: (response) => {
+				if (response.success) {
+					this.modalService.dismissAll();
+					// Manejar el éxito del registro (por ejemplo, mostrar un mensaje de éxito)
+				} else {
+					// Manejar el error del registro (por ejemplo, mostrar un mensaje de error)
+					console.error('Error en el registro de usuario:', response.message);
+					this.errorUsuarioEmailMessage = response.message;
+					this.errorUsuarioEmail = true;
+				}
+			},
+			error: (error) => {
+				console.error('Error en el registro de usuario', error);
+			}
+		});
+	}
+	
 
 	onResetPassword(){
 		this.resetPassword = !this.resetPassword;
