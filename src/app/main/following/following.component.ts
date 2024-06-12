@@ -5,7 +5,7 @@ import { User } from '../interfaces/user.interface';
 import { ListaTweetsComponent } from '../lista-tweets/lista-tweets.component';
 import { UserProfileService } from '../../services/user-profile.service';
 import { TweetsService } from '../../services/tweets.service';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-following',
@@ -15,7 +15,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './following.component.css'
 })
 export class FollowingComponent {
-  constructor(private userDataService: UserDataService, private userProfileService: UserProfileService, public tweetService: TweetsService){}
+  constructor(private userDataService: UserDataService, private userProfileService: UserProfileService, public tweetService: TweetsService, private router: Router){}
 
   loggedInUser: User;
   followingList: number[];
@@ -25,6 +25,9 @@ export class FollowingComponent {
     this.userDataService.getLoggedInUser().subscribe(
       res=>{
         this.loggedInUser=res
+        if(!this.loggedInUser){
+          this.router.navigate(['main'])
+        }
       }
     )
 

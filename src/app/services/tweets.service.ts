@@ -65,13 +65,17 @@ export class TweetsService {
     });
   }
 
-  setFavoriteTweet(userId: number, tweetId: string, username?: string) {
+  setFavoriteTweet(userId: number, tweetId: string, username?: string, followerUserId?: number) {
     const url = `https://devthreads.es/backend/favorite-tweets.php?user_id=${userId}&tweet_id=${tweetId}`;
     return this.http.get<ListaInterface[]>(url).pipe(
       tap((res) => {
         this.favoriteTweetList = res;
         this.emitFavoriteTweetListChange();
-        this.getTweets(username);
+        if(followerUserId){
+          this.getFollowingTweets(followerUserId)
+        }else{
+          this.getTweets(username);
+        }
       })
     )
     

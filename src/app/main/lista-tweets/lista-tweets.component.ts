@@ -20,13 +20,14 @@ import { User } from '../interfaces/user.interface';
   styleUrl: './lista-tweets.component.css'
 })
 export class ListaTweetsComponent implements OnInit, OnDestroy {
+[x: string]: any;
   tweetList: ListaInterface[] = [];
   commentsTweet: ListaInterface[] = [];
   commentText: string;
 
   @Input() userProfileUserName: string;
   @Input() userFollowingId: number;
-
+  isLiked= false;
   likedTweets: string[];
   userId: number;
   tweetToComment: ListaInterface
@@ -105,11 +106,29 @@ export class ListaTweetsComponent implements OnInit, OnDestroy {
 
   getFollowingTweets(userId: number) {
     this.tweetsService.getFollowingTweets(userId)
+    this.userDataService.loggedInUser.subscribe(
+      (user) => {
+        if (user) {
+          this.tweetsService.getFavoriteTweets(user.user_id)
+          this.userId = user.user_id
+        }
+
+
+      }
+    )
   }
 
   onSetLike(tweetId: string): void {
     if (this.userProfileUserName) {
       this.tweetsService.setFavoriteTweet(this.userId, tweetId, this.userProfileUserName).subscribe(
+        () => {
+          if (this.modalService.hasOpenModals()) {
+            this.getCommentTweets(this.tweetToComment.tweet_id)
+          }
+        }
+      )
+    }else if(this.userFollowingId){
+      this.tweetsService.setFavoriteTweet(this.userId, tweetId, null, this.userFollowingId).subscribe(
         () => {
           if (this.modalService.hasOpenModals()) {
             this.getCommentTweets(this.tweetToComment.tweet_id)
