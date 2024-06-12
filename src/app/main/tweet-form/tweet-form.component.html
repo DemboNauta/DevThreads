@@ -2,10 +2,10 @@
 
 <div id="userdata" class=" d-flex justify-content-center align-items-center mt-4">
     @if(this.loggedInUser){
-        <img [src]="'data:image/png;base64,' + this.loggedInUser.user_image" alt="userAvatar" class="avatar me-2 rounded-circle">
+        <img [src]="'data:image/png;base64,' + this.loggedInUser.user_image" alt="Avatar de {{this.loggedInUser.user_name}}" class="avatar me-2 rounded-circle">
         <span id="nombreUsuario" class="text-white">{{this.loggedInUser.user_name}}</span>
     }@else{
-        <img [src]="'../../../frontend/assets/img/Default.webp'" alt="userAvatar" class="avatar me-2 rounded-circle">
+        <img [src]="'../../../frontend/assets/img/Default.webp'" alt="Avatar de usuario no registrado" class="avatar me-2 rounded-circle">
         <span id="nombreUsuario" class="text-white">UsuarioNoRegistrado</span>
     }
 </div>
@@ -14,6 +14,9 @@
     <form action="#" method="POST" class="w-100">
         <div class="w-100 d-flex justify-content-center">
             <div id="contenedorTextArea" class="mt-4" [style.border]="estiloBorde">
+                <label for="userPost" id="textarea-label" class="visually-hidden" style="color: rgb(255, 255, 255); background-color: rgb(26, 29, 31);">
+                    Publicación de usuario
+                </label>
                 <textarea name="userPost" id="userPost"  class="mt-4 mb-2 border-0" placeholder="¡¡ Angular > React !!"(keyup)="actualizaNumCar($event)" (focus)="focusTextArea()" (blur)="blurTextArea()" maxlength="219" minlength="0" [(ngModel)]="contenidoTweet"></textarea>
                 <br>
                 <div class="d-flex justify-content-end">

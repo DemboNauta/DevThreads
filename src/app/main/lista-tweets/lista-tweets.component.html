@@ -1,50 +1,56 @@
 <div class="text-white" id="contenido">
   @for(tweet of tweetList; track tweet.tweet_id){
     @if (this.likedTweets && this.checkLikes(tweet.tweet_id.toString())) {
-      <div class="border border-white mb-4 p-5 w-75 mx-auto">
-        <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar de {{tweet.username}}" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-        <span class="me-4"><a class="text-white" ><i class="bi bi-heart-fill text-danger" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
+      <div class="border border-white mb-4 p-5 w-75 mx-auto" role="article" attr.aria-labelledby="tweet-{{tweet.tweet_id}}">
+        <h4 id="tweet-{{tweet.tweet_id}}"><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="Avatar de {{tweet.username}}" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4>
+        <p class="tweetText">{{tweet.tweet_text}}</p>
+        <span class="me-4" role="button" aria-label="Like"><a class="text-white" role="button"><i class="bi bi-heart-fill text-danger" role="button" (click)="onSetLike(tweet.tweet_id)" aria-label="Liked tweet"></i></a> {{tweet.num_likes}}</span> 
+        <span (click)="openTweetComments(tweetModal, tweet)" class="text-white" role="button" aria-label="Comments"><i class="bi bi-chat-dots" role="button"></i> {{tweet.comments}}</span> 
       </div>
     }@else{
-      <div class="border border-white mb-4 p-5 w-75 mx-auto">
-        <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-        <span class="me-4"><a class="text-white"><i class="bi bi-heart" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
+      <div class="border border-white mb-4 p-5 w-75 mx-auto" role="article" attr.aria-labelledby="tweet-{{tweet.tweet_id}}">
+        <h4 id="tweet-{{tweet.tweet_id}}"><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="Avatar de {{tweet.username}}" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4>
+        <p class="tweetText">{{tweet.tweet_text}}</p>
+        <span class="me-4" role="button" aria-label="Like"><a class="text-white" role="button"><i class="bi bi-heart" role="button" (click)="onSetLike(tweet.tweet_id)" aria-label="Like tweet"></i></a> {{tweet.num_likes}}</span> 
+        <span (click)="openTweetComments(tweetModal, tweet)" class="text-white" role="button" aria-label="Comments"><i class="bi bi-chat-dots" role="button"></i> {{tweet.comments}}</span> 
       </div>
     }
-    
   }
-    <hr>
+  <hr>
 </div>
-
 
 <ng-template #tweetModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-white" id="modal-basic-title">Tweet</h4>
-		<button type="button" class="btn-Cerrar" (click)="closeModal()"><i class="bi bi-x-lg text-white"></i></button>
+    <button type="button" class="btn-Cerrar" (click)="closeModal()" aria-label="Close"><i class="bi bi-x-lg text-white"></i></button>
   </div>
   <div class="modal-body">
     <div class="tweet">
-      <h4><a routerLink="/profile/{{this.tweetToComment.username}}"><img [src]="'data:image/png;base64,' + this.tweetToComment.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{this.tweetToComment.username}}" class="text-white text-decoration-none">{{ this.tweetToComment.username }}</a></h4><p class="tweetText">{{this.tweetToComment.tweet_text}}</p>
+      <h4><a routerLink="/profile/{{this.tweetToComment.username}}"><img [src]="'data:image/png;base64,' + this.tweetToComment.user_image" alt="Avatar de {{this.tweetToComment.username}}" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{this.tweetToComment.username}}" class="text-white text-decoration-none">{{ this.tweetToComment.username }}</a></h4>
+      <p class="tweetText">{{this.tweetToComment.tweet_text}}</p>
     </div>
-    <input type="text" class="form-control mb-4" placeholder="Responde al tweet..." [(ngModel)]="commentText" (keyup.enter)="postComment($event)">
+    <input type="text" class="form-control mb-4" placeholder="Responde al tweet..." [(ngModel)]="commentText" (keyup.enter)="postComment($event)" aria-label="Responder al tweet">
 
     @for(tweet of commentsTweet; track tweet.tweet_id){
       @if (this.likedTweets && this.checkLikes(tweet.tweet_id.toString())) {
-        <div class="border border-white mb-4 p-5 w-75 mx-auto">
-          <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-          <span class="me-4 text-white"><a class="text-white"><i class="bi bi-heart-fill text-danger" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
+        <div class="border border-white mb-4 p-5 w-75 mx-auto" role="article" attr.aria-labelledby="comment-{{tweet.tweet_id}}">
+          <h4 id="comment-{{tweet.tweet_id}}"><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="Avatar de {{tweet.username}}" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4>
+          <p class="tweetText">{{tweet.tweet_text}}</p>
+          <span class="me-4 text-white" role="button" aria-label="Like"><a class="text-white" role="button"><i class="bi bi-heart-fill text-danger" (click)="onSetLike(tweet.tweet_id)" aria-label="Liked comment"></i></a> {{tweet.num_likes}}</span> 
+          <span (click)="openTweetComments(tweetModal, tweet)" class="text-white" role="button" aria-label="Comments"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
         </div>
       }@else{
-        <div class="border border-white mb-4 p-5 w-75 mx-auto">
-          <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-          <span class="me-4 text-white"><a class="text-white"><i class="bi bi-heart" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
+        <div class="border border-white mb-4 p-5 w-75 mx-auto" role="article" attr.aria-labelledby="comment-{{tweet.tweet_id}}">
+          <h4 id="comment-{{tweet.tweet_id}}"><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="Avatar de {{tweet.username}}" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4>
+          <p class="tweetText">{{tweet.tweet_text}}</p>
+          <span class="me-4 text-white" role="button" aria-label="Like"><a class="text-white" role="button"><i class="bi bi-heart" (click)="onSetLike(tweet.tweet_id)" aria-label="Like comment"></i></a> {{tweet.num_likes}}</span> 
+          <span (click)="openTweetComments(tweetModal, tweet)" class="text-white" role="button" aria-label="Comments"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
         </div>
       }
-      
     }
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="d('Cancel click')">Cerrar</button>
-    <button type="button" class="btn btn-primary" (click)="postComment($event)">Responder</button>
+    <button type="button" class="btn btn-secondary" (click)="d('Cancel click')" aria-label="Cerrar">Cerrar</button>
+    <button type="button" class="btn btn-primary" (click)="postComment($event)" aria-label="Responder">Responder</button>
   </div>
 </ng-template>

@@ -2,59 +2,64 @@
   <div class="row">
     @if (this.mostrarBotonOffcanvas) {
       <div class="w-25 position-fixed burguer-menu">
-        <button class="btn d-md-none pruebaboton" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" (click)="toggleBotonOffcanvasVisibility()" (click)="openCanvas(offcanvas)"><i class="bi bi-list"></i></button>
+        <button class="btn d-md-none pruebaboton" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" (click)="toggleBotonOffcanvasVisibility()" (click)="openCanvas(offcanvas)" aria-label="Abrir menú"><i class="bi bi-list" aria-hidden="true"></i></button>
       </div>
     }
     
-    
-    <nav class="col-md-2 d-none d-md-block bg-dark sidebar vh-100 pt-5 sticky-top">
+    <nav class="col-md-2 d-none d-md-block bg-dark sidebar vh-100 pt-5 sticky-top" role="navigation" aria-label="Menú lateral">
       <div class="pt-5 sidebar-sticky d-flex justify-content-center">
         <ul class="nav flex-column">
           <li class="nav-item mb-4">
-            <a class="nav-link" routerLink="main" (click)="reloadTweets()"><i class="bi bi-house fs-4 me-2"></i><span>Para mí</span></a>
+            <a class="nav-link" routerLink="main" (click)="reloadTweets()" role="button" aria-label="Para mí"><i class="bi bi-house fs-4 me-2" aria-hidden="true"></i><span>Para mí</span></a>
           </li>
           <li class="nav-item mb-4">
-            <a class="nav-link" (click)="onSearchModal(searchModal)" style="cursor: pointer;"><i class="bi bi-search fs-4 me-2"></i><span>Explorar</span></a>
+            <a class="nav-link" (click)="onSearchModal(searchModal)" style="cursor: pointer;" role="button" aria-label="Explorar"><i class="bi bi-search fs-4 me-2" aria-hidden="true"></i><span>Explorar</span></a>
           </li>
           @if (this.loggedInUser) {
             <li class="nav-item mb-4">
-              <a class="nav-link" routerLink="seguidos"><i class="bi bi-person-walking fs-4 me-2"></i><span>Seguidos</span></a>
+              <a class="nav-link" routerLink="seguidos" role="button" aria-label="Seguidos"><i class="bi bi-person-walking fs-4 me-2" aria-hidden="true"></i><span>Seguidos</span></a>
             </li>
             <li class="nav-item mb-4">
-              <a class="nav-link" routerLink="profile/{{this.loggedInUser.user_name}}"><i class="bi bi-person fs-4 me-2"></i><span>Perfil</span></a>
+              <a class="nav-link" routerLink="profile/{{this.loggedInUser.user_name}}" role="button" aria-label="Perfil"><i class="bi bi-person fs-4 me-2" aria-hidden="true"></i><span>Perfil</span></a>
             </li>
           }
         </ul>
       </div>
     </nav>
 
-    <div #offcanvas class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" data-bs-backdrop="false" autoClose="outside">
+    <div #offcanvas class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" data-bs-backdrop="false" autoClose="outside" role="navigation" aria-label="Menú offcanvas">
       <div class="offcanvas-header">
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" (click)="toggleBotonOffcanvasVisibility()"><span class="opacity-0">Boton cerrar</span></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar menú" (click)="toggleBotonOffcanvasVisibility()">
+          <span class="visually-hidden">Botón cerrar</span>
+        </button>
       </div>
       <div class="offcanvas-body">
         <ul class="nav flex-column">
-    
           <div class="login-sm">
             <app-login (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"></app-login>
           </div>
-          
           <li class="nav-item mb-4 mt-4">
-            <a class="nav-link" routerLink="main" (click)="reloadTweets()" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-house fs-4 me-2"></i><span>Para mí</span></a>
+            <a class="nav-link" routerLink="main" (click)="reloadTweets()" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas" role="button" aria-label="Para mí">
+              <i class="bi bi-house fs-4 me-2" aria-hidden="true"></i><span>Para mí</span>
+            </a>
           </li>
           <li class="nav-item mb-4">
-            <a class="nav-link" (click)="onSearchModal(searchModal)" style="cursor: pointer;" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-search fs-4 me-2"></i><span>Explorar</span></a>
+            <a class="nav-link" (click)="onSearchModal(searchModal)" style="cursor: pointer;" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas" role="button" aria-label="Explorar">
+              <i class="bi bi-search fs-4 me-2" aria-hidden="true"></i><span>Explorar</span>
+            </a>
           </li>
-    
           @if (this.loggedInUser) {
             <li class="nav-item mb-4">
-              <a class="nav-link" routerLink="seguidos" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-person-walking fs-4 me-2"></i><span>Seguidos</span></a>
+              <a class="nav-link" routerLink="seguidos" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas" role="button" aria-label="Seguidos">
+                <i class="bi bi-person-walking fs-4 me-2" aria-hidden="true"></i><span>Seguidos</span>
+              </a>
             </li>
             <li class="nav-item mb-4">
-              <a class="nav-link" [routerLink]="['profile', this.loggedInUser.user_name]" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas"><i class="bi bi-person fs-4 me-2"></i><span>Perfil</span></a>
+              <a class="nav-link" [routerLink]="['profile', this.loggedInUser.user_name]" (click)="toggleBotonOffcanvasVisibility()" data-bs-dismiss="offcanvas" role="button" aria-label="Perfil">
+                <i class="bi bi-person fs-4 me-2" aria-hidden="true"></i><span>Perfil</span>
+              </a>
             </li>
           }
-    
         </ul>
       </div>
     </div>
@@ -62,27 +67,23 @@
 
     <main role="main" class="col-md-8 ml-sm-auto col-lg-8 px-md-4">
       <router-outlet></router-outlet>
-      
-      
     </main>
 
-    <aside class="col-md-2 d-none d-md-block bg-dark vh-100 pt-5 sticky-top">
-        <app-login></app-login>
+    <aside class="col-md-2 d-none d-md-block bg-dark vh-100 pt-5 sticky-top" role="complementary" aria-label="Panel de inicio de sesión">
+      <app-login></app-login>
     </aside>
   </div>
 </div>
 
-
-
 <ng-template #searchModal let-c="close" let-d="dismiss">
-	<div class="modal-header">        
-		<h4 class="modal-title" id="modal-basic-title" class="text-white ">Buscar</h4>
-		<button type="button" class="btn-Cerrar" (click)="closeModal()"><i class="bi bi-x-lg text-white "></i></button>
-	</div>
-	<div class="modal-body">
-		<div class="form-group">
-			<input type="text" class="form-control" id="searchInput" data-autofocus placeholder="Escribe tu búsqueda" required autocomplete="on" class="p-3" #inputSearchRef (keyup.enter)="onSearchClick(inputSearchRef.value)">
-      <i (click)="onSearchClick(inputSearchRef.value)" class="bi bi-search text-white ps-3" style="cursor: pointer;"></i>
-		</div>
-	</div>
+  <div class="modal-header">
+    <h4 class="modal-title text-white" id="modal-basic-title">Buscar</h4>
+    <button type="button" class="btn-Cerrar" (click)="closeModal()" aria-label="Cerrar"><i class="bi bi-x-lg text-white"></i></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <input type="text" class="form-control" id="searchInput" data-autofocus placeholder="Escribe tu búsqueda" required autocomplete="on" class="p-3" #inputSearchRef (keyup.enter)="onSearchClick(inputSearchRef.value)" aria-label="Campo de búsqueda">
+      <i (click)="onSearchClick(inputSearchRef.value)" class="bi bi-search text-white ps-3" style="cursor: pointer;" aria-label="Buscar"></i>
+    </div>
+  </div>
 </ng-template>
