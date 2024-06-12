@@ -3,13 +3,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-$mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
+include('../../bbdd.php');
 
-// Verificar la conexión
-if ($mysqli->connect_errno) {
-    echo "Falló la conexión a MySQL: " . $mysqli->connect_error;
-    exit();
-}
 
 $user_id = $_GET['user_id'];
 

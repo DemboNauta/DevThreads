@@ -3,16 +3,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-$mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
-
+include('../../bbdd.php');
 $user_id = $_GET['user_id'];
-
-
-if ($mysqli->connect_errno) {
-    echo "Falló la conexión a MySQL: " . $mysqli->connect_error;
-    exit();
-}
-
 // Consulta para obtener los mensajes directos recibidos por el usuario logueado
 if(isset($_GET['sender_id'])){
     $sender_id = $_GET['sender_id'];

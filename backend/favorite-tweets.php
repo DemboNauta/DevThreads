@@ -6,11 +6,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 $user_id = $_GET['user_id'];
 
-$mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
-if ($mysqli->connect_errno) {
-    echo "Error en la conexión a MySQL: " . $mysqli->connect_error;
-    exit();
-}
+include('../../bbdd.php');
 
 if (isset($_GET['tweet_id'])) {
     $tweet_id = $_GET['tweet_id'];

@@ -3,14 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-// Configuración de la base de datos
-$mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
-
-// Verificar la conexión
-if ($mysqli->connect_errno) {
-    http_response_code(500);
-    die(json_encode(["message" => "Falló la conexión a MySQL: " . $mysqli->connect_error]));
-}
+include('../../bbdd.php');
 
 // Obtener datos del POST
 $token = $_POST['token'] ?? null;

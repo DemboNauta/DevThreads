@@ -3,13 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-$mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
-
-// Verificar la conexión
-if ($mysqli->connect_errno) {
-    echo json_encode(array("success" => false, "message" => "Falló la conexión a MySQL: " . $mysqli->connect_error));
-    exit();
-}
+include('../../bbdd.php');
 
 // Obtener los datos del formulario
 $username = $_POST['userName'];

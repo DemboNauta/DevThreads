@@ -3,12 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-$mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
-
-if ($mysqli->connect_errno) {
-    echo "Falló la conexión a MySQL: " . $mysqli->connect_error;
-    exit();
-}
+include('../../bbdd.php');
 
 $tweet_id = $_GET['tweet_id'];
 

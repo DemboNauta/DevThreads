@@ -41,17 +41,8 @@ if(is_md5($data['password'])){
 }
 $user_image = $data['user_image'];
 
-// Aquí puedes agregar la lógica para actualizar el usuario en la base de datos
-// Ejemplo: actualización en la base de datos
 
-// Conexión a la base de datos
-
-
-$mysqli = new mysqli("localhost", "u645142794_edgar", "Edgarana1", "u645142794_devthreads");
-
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
+include('../../bbdd.php');
 
 $sql = "UPDATE users SET
     user_name = ?,
