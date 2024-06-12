@@ -2,13 +2,13 @@
   @for(tweet of tweetList; track tweet.tweet_id){
     @if (this.likedTweets && this.checkLikes(tweet.tweet_id.toString())) {
       <div class="border border-white mb-4 p-5 w-75 mx-auto">
-        <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-        <span class="me-4"><a class="text-white"><i class="bi bi-heart-fill text-danger" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> <span><a href="" class="text-white"><i class="bi bi-share ms-4"></i></a></span>
+        <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar de {{tweet.username}}" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
+        <span class="me-4"><a class="text-white" ><i class="bi bi-heart-fill text-danger" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
       </div>
     }@else{
       <div class="border border-white mb-4 p-5 w-75 mx-auto">
         <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-        <span class="me-4"><a class="text-white"><i class="bi bi-heart" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> <span><a href="" class="text-white"><i class="bi bi-share ms-4"></i></a></span>
+        <span class="me-4"><a class="text-white"><i class="bi bi-heart" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
       </div>
     }
     
@@ -32,12 +32,12 @@
       @if (this.likedTweets && this.checkLikes(tweet.tweet_id.toString())) {
         <div class="border border-white mb-4 p-5 w-75 mx-auto">
           <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-          <span class="me-4 text-white"><a class="text-white"><i class="bi bi-heart-fill text-danger" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> <span><a href="" class="text-white"><i class="bi bi-share ms-4"></i></a></span>
+          <span class="me-4 text-white"><a class="text-white"><i class="bi bi-heart-fill text-danger" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
         </div>
       }@else{
         <div class="border border-white mb-4 p-5 w-75 mx-auto">
           <h4><a routerLink="/profile/{{tweet.username}}"><img [src]="'data:image/png;base64,' + tweet.user_image" alt="userAvatar" class="avatar me-2 rounded-circle"></a><a routerLink="/profile/{{tweet.username}}" class="text-white text-decoration-none">{{ tweet.username }}</a></h4><p class="tweetText">{{tweet.tweet_text}}</p>
-          <span class="me-4 text-white"><a class="text-white"><i class="bi bi-heart" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> <span><a href="" class="text-white"><i class="bi bi-share ms-4"></i></a></span>
+          <span class="me-4 text-white"><a class="text-white"><i class="bi bi-heart" (click)="onSetLike(tweet.tweet_id)"></i></a> {{tweet.num_likes}}</span> <span (click)="openTweetComments(tweetModal, tweet)" class="text-white"><i class="bi bi-chat-dots"></i> {{tweet.comments}}</span> 
         </div>
       }
       
