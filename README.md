@@ -2,7 +2,7 @@
 ![image](https://github.com/DemboNauta/DevThreads/assets/126664376/028baccd-853e-4826-8105-e3f96bd3ffca)
 
 
-Este proyecto está siendo realizado con Angular17 como framework frontend
+Este proyecto está siendo realizado con Angular17 como framework frontend y PHP como lenguaje backend
 
 ## Development server
 
