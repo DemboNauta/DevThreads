@@ -1,7 +1,8 @@
 # DevThreads
-![image](https://github.com/DemboNauta/DevThreads/assets/126664376/f4b0d63b-239e-4af6-90b9-634a02a07012)
+![image](https://github.com/DemboNauta/DevThreads/assets/126664376/028baccd-853e-4826-8105-e3f96bd3ffca)
 
-Este proyecto está siendo realizado con Angular17 como framework frontend
+
+Este proyecto está siendo realizado con Angular17 como framework frontend y PHP como lenguaje backend
 
 ## Development server
 
@@ -18,15 +19,4 @@ Ejecuta `ng generate component nombre-del-componente` para generar un nuevo comp
 
 Ejecuta `ng build` para compilar el proyecto. Los artefactos de compilación se almacenarán en el directorio dist/.
 
-## Running unit tests
 
-Ejecuta `ng test` para ejecutar las pruebas unitarias a través de Karma.
-
-## Running end-to-end tests
-
-Ejecuta `ng e2e` para ejecutar las pruebas end-to-end a través de una plataforma de tu elección. Para usar este comando, primero debes agregar un paquete que implemente capacidades de pruebas end-to-end.
-
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
